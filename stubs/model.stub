@@ -1,0 +1,40 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Traits\UUID;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class {{ class }} extends Model
+{
+    use HasFactory, UUID;
+
+    /**
+     * fillable attributes
+     */
+    protected $fillable = [
+        'id',
+    ];
+
+
+    /**
+     * hidden attributes
+     */
+    protected $hidden = [];
+
+
+    /**
+     * cast attributes
+     */
+    protected $casts = [];
+
+    /**
+     * relationships
+    */
+
+
+    /**
+     * functions
+     */
+}
