@@ -35,11 +35,7 @@ jobs:
         run: vendor/bin/phpunit
 
       - name: Deploy to server
-        uses: appleboy/ssh-action@master
+        uses: deployphp/action@v1
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: 22
-          script_stop: true
-          script: ls -all
-          key: ${{ secrets.SSH_KEY }}
+          private-key: ${{ secrets.SSH_KEY }}
+          dep: deploy -vvv
