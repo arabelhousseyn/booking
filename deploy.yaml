@@ -3,14 +3,14 @@ import:
 - contrib/php-fpm.php
 
 config:
-  application: 'ASDI'
+  application: 'booking'
   repository: 'git@github.com:arabelhousseyn/booking.git'
   php_fpm_version: '8.1'
 
 hosts:
   development:
     stage: development
-    hostname: 134.122.76.210
+    hostname: 165.22.94.119
     branch: develop
     remote_user: deployer
     deploy_path: '/var/www/{{hostname}}'
