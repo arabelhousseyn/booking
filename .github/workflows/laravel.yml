@@ -39,7 +39,19 @@ jobs:
       - name: Setup SSH KEYS
         uses: webfactory/ssh-agent@v0.7.0
         with:
-          ssh-private-key: ${{ secrets.SSH_DEV_PRIVATE_KEY }}
+          ssh-private-key: "-----BEGIN RSA PRIVATE KEY-----
+ssh-rsaAAAAB3NzaC1yc2EAAAADAQABAAABgQCtZ8eGaXhN/Pc0RPH5KT04BMIIR
+IQEkqfZ33HN36LUSttlnNO7WfL2tZrVUAXeLXfEvE+jbfKZJVXavQPbPvRiqjLZ0
+FRLMmt4p5/eirEn08Yh/HtgBzX04spUfK7DeiCVdzlpPJv4FlhcYGGsp/L6nH2j0
+xdrc1snpA67EB7vwAy5lzqDNHUc2UNrtfZBaXKy2dbpnXSxmh6L3LKRJ5YxkyqNm
+DwZbosV0MgiGSkiBw1B2HZl0Ki5IcIY624kXhhQ1D+8QcNMbhCZP7RH6gUEAr4wv
+c0l+WWc8wD9CS3m86xNQIv2GRra1J7DDYKab86HGHzHdciwaeHwbhZGLNXbHRTyQ
+WsGDLszc4A3MCEWpF7RFLeNrx4KWNWvnyjBQPkYbkq92oO6t0eJ0S/dIiWh5bq3D
+g+QoTk5SHs2d+TxCsSLyc12/iPO5kWlyW1gWOQ+lG6xN6tQTGNahr/DcaFL6x4JI
+uIjF6+o+u1vNrxseuR9DCDEwrxTTG7DBHlb+90=elhousseyn@elhousseyn-Len
+ovo-YOGA-510-14IKB
+-----END RSA PRIVATE KEY-----
+"
 
       # The steps below include a workaround to fake the hosts IP addresses
       # using Github secrets.
