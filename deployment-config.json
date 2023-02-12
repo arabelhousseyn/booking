@@ -1,0 +1,12 @@
+[
+    {
+        "name": "server1",
+        "ip": "134.122.76.210",
+        "username": "root",
+        "password": "hOcin12e",
+        "port": "22",
+        "beforeHooks": "",
+        "afterHooks": "",
+        "path": "/var/www/html"
+    }
+]
