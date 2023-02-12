@@ -34,8 +34,22 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: vendor/bin/phpunit
 
-      - name: Deploy to server
-        uses: deployphp/action@v1
+      # Make sure the @v0.4.1 matches the current version of the
+      # action
+      - name: Setup SSH KEYS
+        uses: webfactory/ssh-agent@v0.4.1
         with:
-          private-key: ${{ secrets.SSH_KEY }}
-          dep: deploy -vvv
+          ssh-private-key: ${{ secrets.SSH_DEV_PRIVATE_KEY }}
+
+      # The steps below include a workaround to fake the hosts IP addresses
+      # using Github secrets.
+      - name: Setup SSH KNOWN_HOSTS
+        run: |
+          sudo echo "${{ secrets.SSH_DEV_IP }} ${{ secrets.SSH_DEV_DOMAIN }}" | sudo tee -a /etc/hosts
+          sudo ssh-keyscan -H ${{ secrets.SSH_DEV_DOMAIN }} > $HOME/.ssh/known_hosts
+
+      # Deploy code to development server
+      # using laravel-deployer https://github.com/lorisleiva/laravel-deployer.
+      - name: Deploy
+        run: |
+          dep deploy development
