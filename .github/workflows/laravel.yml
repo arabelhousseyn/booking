@@ -34,22 +34,10 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: vendor/bin/phpunit
 
-      - name: deploy
-        uses: actions/checkout@master
-      - name: Setup Enviroment
-        uses: shivammathur/setup-php@v2
+      - name: test
+        uses: yankewei/laravel-deploy-action@main
         with:
-          php-version: '7.4'
-      - name: Speed up the packages installation process
-        run: composer global require hirak/prestissimo
-      - name: Install Packages
-        run: composer install --no-dev
-      - name: Deploy to Server
-        uses: ngocquyhoang/deploy@laravel
-        with:
-          user: "root"
-          host: "165.22.94.119"
-          port: "22"
-          path: "/var/www/html"
-        env:
-          DEPLOY_KEY: ${{ secrets.SSH_DEV_PRIVATE_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          app_env_data: ${{ secrets.APP_ENV_DATA }}
