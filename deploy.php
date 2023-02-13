@@ -18,7 +18,7 @@ $env       = getenv('APP_ENV');
 $env_array = explode("\n", $env);
 
 // Put the env data into .env file
-$cmd = 'cd /var/www/site;cat /dev/null > .env;';
+$cmd = 'cd /var/www/html;cat /dev/null > .env;';
 foreach ($env_array as $value) {
     $value = addslashes($value); // The environment value may contain the double quote string
     $cmd .= "echo $value >> .env;";
@@ -26,9 +26,9 @@ foreach ($env_array as $value) {
 
 // Run command and deploy application
 $cmd .= 'php artisan down;';
-$cmd .= 'git pull origin main;';
+$cmd .= 'git pull origin develop;';
 $cmd .= 'composer install --no-dev;';
-$cmd .= 'php artisan migrate --force;';
+$cmd .= 'php artisan migrate --seed;';
 $cmd .= 'php artisan optimize;';
 $cmd .= 'php artisan up;';
 

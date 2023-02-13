@@ -34,7 +34,7 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: vendor/bin/phpunit
 
-      - name: test
+      - name: deploy
         uses: yankewei/laravel-deploy-action@main
         with:
           host: ${{ secrets.SSH_HOST }}
