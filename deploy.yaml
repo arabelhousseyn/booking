@@ -12,6 +12,7 @@ hosts:
     stage: development
     hostname: 164.90.237.14
     branch: develop
+    remote_user: root
     deploy_path: '/var/www/html'
 
 tasks:
