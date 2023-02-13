@@ -41,3 +41,5 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           app_env_data: ${{ secrets.APP_ENV_DATA }}
+          shell: bash
+          run: php ${{ github.workspace }}/deploy.php
