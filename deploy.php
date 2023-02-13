@@ -18,7 +18,7 @@ $env       = getenv('APP_ENV');
 $env_array = explode("\n", $env);
 
 // Put the env data into .env file
-$cmd = 'cd /var/www/html;cat /dev/null > .env;';
+$cmd = 'cd /var/www;cat /dev/null > .env;';
 foreach ($env_array as $value) {
     $value = addslashes($value); // The environment value may contain the double quote string
     $cmd .= "echo $value >> .env;";
