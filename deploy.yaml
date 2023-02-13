@@ -12,7 +12,7 @@ hosts:
     stage: development
     hostname: 164.90.237.14
     branch: develop
-    remote_user: deployer
+    remote_user: hocine
     deploy_path: '/var/www/html'
 
 tasks:
