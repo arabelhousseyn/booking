@@ -11,7 +11,7 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, RefreshDatabase;
 
-    private User $user;
+    protected User $user;
 
     protected function setUp(): void
     {
