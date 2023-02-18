@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class ResetPasswordRequest extends FormRequest
@@ -25,7 +26,7 @@ class ResetPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['bail', 'required', 'email:rfc,dns,filter'],
+            'email' => ['bail', 'required', 'email:rfc,dns,filter', Rule::unique('users', 'email')],
             'token' => ['bail', 'required', 'max:60'],
             'password' => ['bail', 'required', 'confirmed', Password::default()],
         ];
