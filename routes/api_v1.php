@@ -18,7 +18,7 @@ Route::prefix('/v1/users')->group(function () {
     });
 
 
-    Route::middleware('auth:web')->group(function () {
+    Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('users.logout');
         Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('users.forgot-password');
         Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('users.reset-password');
