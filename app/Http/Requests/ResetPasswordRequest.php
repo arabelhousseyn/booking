@@ -26,7 +26,7 @@ class ResetPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['bail', 'required', 'email:rfc,dns,filter', Rule::unique('users', 'email')],
+            'email' => ['bail', 'required', 'email:rfc,dns,filter', Rule::exists('users', 'email')],
             'token' => ['bail', 'required', 'max:60'],
             'password' => ['bail', 'required', 'confirmed', Password::default()],
         ];
