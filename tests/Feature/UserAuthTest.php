@@ -220,10 +220,12 @@ class UserAuthTest extends TestCase
 
     public function test_forgot_password__case01() // standard case
     {
-        $this->authenticated()
-            ->json('get', "$this->endpoint/forgot-password")
-            ->assertOk()
-            ->assertJsonStructure(['data' => ['token']]);
+        $inputs = [
+            'email' => $this->user->email,
+        ];
+
+        $this->json('post', "$this->endpoint/forgot-password",$inputs)
+            ->assertNoContent();
     }
 
     public function test_forgot_password__case02() // case when already the user has been forgotten the password
@@ -235,55 +237,15 @@ class UserAuthTest extends TestCase
             'created_at' => now(),
         ]);
 
-        $this->authenticated()
-            ->json('get', "$this->endpoint/forgot-password")
-            ->assertOk()
-            ->assertJsonStructure(['data' => ['token']]);
+        $inputs = [
+            'email' => $this->user->email,
+        ];
+
+        $this->json('post', "$this->endpoint/forgot-password",$inputs)
+            ->assertNoContent();
 
         // check the database count of password resets
 
         $this->assertDatabaseCount('password_resets', 1);
-    }
-
-    public function test_reset_password__case01() // standard case
-    {
-        $this->user->update(['email' => 'potency.football@gmail.com']);
-
-        $token = Str::random(60);
-        DB::table('password_resets')->updateOrInsert([
-            'email' => $this->user->email,
-            'token' => $token,
-            'created_at' => now(),
-        ]);
-
-        $inputs = [
-            'email' => $this->user->email,
-            'token' => $token,
-            'password' => 'password',
-            'password_confirmation' => 'password',
-        ];
-
-        $this->authenticated()
-            ->json('post', "$this->endpoint/reset-password", $inputs)
-            ->assertNoContent();
-
-        // check if the count of password resets if empty
-
-        $this->assertDatabaseCount('password_resets',0);
-    }
-
-    public function test_reset_password__case02() // case when there's no forgotten password found
-    {
-        $inputs = [
-            'email' => $this->user->email,
-            'token' => Str::random(60),
-            'password' => 'password',
-            'password_confirmation' => 'password',
-        ];
-
-        $this->authenticated()
-            ->json('post', "$this->endpoint/reset-password", $inputs)
-            ->assertBadRequest()
-            ->assertJson(['message' => trans('exceptions.session_expired')]);
     }
 }

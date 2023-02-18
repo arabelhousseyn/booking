@@ -15,12 +15,11 @@ Route::prefix('/v1/users')->group(function () {
         Route::post('/signup', [AuthController::class, 'signup'])->name('users.signup');
         Route::post('/otp/{user}', [AuthController::class, 'otpPhoneNumber'])->name('users.otp');
         Route::post('/verify-phone-number/{user}', [AuthController::class, 'verifyPhoneNumber'])->name('users.verify-phone-number');
+        Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('users.forgot-password');
     });
 
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('users.logout');
-        Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('users.forgot-password');
-        Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('users.reset-password');
     });
 });

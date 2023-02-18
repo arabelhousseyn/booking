@@ -7,12 +7,14 @@ use App\Exceptions\SessionExpiredException;
 use App\Exceptions\UserLoginException;
 use App\Exceptions\WrongOtpException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\OtpPhoneNumberRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserSignupRequest;
 use App\Http\Resources\UserResource;
 use App\Mail\PasswordChanged;
+use App\Mail\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -74,17 +76,21 @@ class AuthController extends Controller
         throw new WrongOtpException();
     }
 
-    public function forgotPassword(): JsonResponse
+    public function forgotPassword(ForgotPasswordRequest $request): Response
     {
         $token = Str::random(60);
         DB::table('password_resets')->updateOrInsert([
-            'email' => request()->user()->email,
+            'email' => $request->input('email'),
         ], [
             'token' => $token,
             'created_at' => now(),
         ]);
 
-        return response()->json(['data' => ['token' => $token]]);
+        $user = User::where('email', '=', $request->input('email'))->first();
+
+        Mail::to($user->email)->send(new PasswordReset($user, $token));
+
+        return response()->noContent();
     }
 
     public function resetPassword(ResetPasswordRequest $request): Response
@@ -93,9 +99,12 @@ class AuthController extends Controller
 
         DB::table('password_resets')->where($request->safe()->only(['email', 'token']))->delete();
 
-        $request->user()->update(['password' => Hash::make($request->input('password'))]);
+        $user = User::where('email', '=', $request->input('email'))->first();
+        $user->update(['password' => Hash::make($request->input('password'))]);
 
-        Mail::to($request->user()->email)->send(new PasswordChanged($request->user()));
+        session()->put('user_password_changed', true);
+
+        Mail::to($user->email)->send(new PasswordChanged($user));
 
         return response()->noContent();
     }
