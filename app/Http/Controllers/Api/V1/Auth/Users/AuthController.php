@@ -49,6 +49,7 @@ class AuthController extends Controller
             $user->addMediaFromRequest('avatar')->toMediaCollection('avatar');
         }
 
+        $user->refresh();
         $token = $user->createToken(filter_var($request->headers->get('device_name') ?? config('app.name')));
         $user['token'] = $token->plainTextToken;
 

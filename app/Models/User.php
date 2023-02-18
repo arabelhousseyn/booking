@@ -102,11 +102,6 @@ class User extends Authenticatable implements HasMedia
         return $this->getFirstMedia('avatar')?->getFullUrl('thumb');
     }
 
-    public function getValidatedAttribute(): bool
-    {
-        return !blank($this->validated_at);
-    }
-
 
     /**
      * functions
