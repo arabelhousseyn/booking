@@ -17,7 +17,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create(['email' => 'test@gmail.com']);
+        $this->user = User::factory()->create(['email' => 'test12@gmail.com']);
 
         $this->seed(DatabaseSeeder::class);
     }
