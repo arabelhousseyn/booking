@@ -117,7 +117,9 @@ class AuthController extends Controller
 
         try {
             foreach ($documents as $document) {
-                $image = $document['document_image']->storeAs('documents', uniqid().'.jpg');
+                $unique = uniqid().'.jpg';
+                $document['document_image']->storeAs('public/documents', $unique);
+                $image = env('APP_URL') . '/storage/documents/' . $unique;
                 $user->documents()->create(['document_type' => $document['document_type'], 'document_url' => $image]);
             }
         } catch (\Exception $exception) {
