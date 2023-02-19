@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UserDocumentType;
 use App\Models\User;
+use App\Models\UserDocument;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -220,7 +222,7 @@ class UserAuthTest extends TestCase
             'email' => $this->user->email,
         ];
 
-        $this->json('post', "$this->endpoint/forgot-password",$inputs)
+        $this->json('post', "$this->endpoint/forgot-password", $inputs)
             ->assertNoContent();
     }
 
@@ -237,11 +239,35 @@ class UserAuthTest extends TestCase
             'email' => $this->user->email,
         ];
 
-        $this->json('post', "$this->endpoint/forgot-password",$inputs)
+        $this->json('post', "$this->endpoint/forgot-password", $inputs)
             ->assertNoContent();
 
         // check the database count of password resets
 
         $this->assertDatabaseCount('password_resets', 1);
+    }
+
+    public function test_upload_documents()
+    {
+        UserDocument::query()->delete();
+        Storage::fake('public');
+        $inputs = [
+            'documents' => [
+                [
+                    'document_type' => UserDocumentType::ID,
+                    'document_image' => UploadedFile::fake()->image('image.png'),
+                ],
+                [
+                    'document_type' => UserDocumentType::PASSPORT,
+                    'document_image' => UploadedFile::fake()->image('image.png'),
+                ],
+            ],
+        ];
+        $this->json('post', "$this->endpoint/documents/{$this->userTest->id}", $inputs)
+            ->assertNoContent();
+
+        // check the number of documents uploaded
+
+        $this->assertDatabaseCount('user_documents', 2);
     }
 }

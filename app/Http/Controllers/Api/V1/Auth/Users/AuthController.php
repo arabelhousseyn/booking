@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Auth\Users;
 
+use App\Exceptions\FileUploadedException;
 use App\Exceptions\OtpValidatedException;
 use App\Exceptions\SessionExpiredException;
 use App\Exceptions\UserLoginException;
@@ -10,13 +11,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\OtpPhoneNumberRequest;
 use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Requests\UserDocumentRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserSignupRequest;
 use App\Http\Resources\UserResource;
 use App\Mail\PasswordChanged;
 use App\Mail\PasswordReset;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -106,6 +107,22 @@ class AuthController extends Controller
         session()->put('user_password_changed', true);
 
         Mail::to($user->email)->send(new PasswordChanged($user));
+
+        return response()->noContent();
+    }
+
+    public function uploadDocuments(UserDocumentRequest $request, User $user): Response
+    {
+        $documents = $request->validated('documents');
+
+        try {
+            foreach ($documents as $document) {
+                $image = $document['document_image']->storeAs('documents', uniqid().'.jpg');
+                $user->documents()->create(['document_type' => $document['document_type'], 'document_url' => $image]);
+            }
+        } catch (\Exception $exception) {
+            throw new FileUploadedException();
+        }
 
         return response()->noContent();
     }
