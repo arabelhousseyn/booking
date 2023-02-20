@@ -20,5 +20,9 @@ Route::get('/user-password-reset',function (){
     return view('emails.passwords.user-password-reset');
 });
 
+Route::get('/seller-password-reset',function (){
+    return view('emails.passwords.seller-password-reset');
+});
+
 Route::post('/user-password-reset', [AuthController::class, 'resetPassword'])->name('user-password-reset');
 Route::post('/seller-password-reset', [SellerAuthController::class, 'resetPassword'])->name('seller-password-reset');
