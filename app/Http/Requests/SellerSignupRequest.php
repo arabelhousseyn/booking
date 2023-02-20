@@ -29,8 +29,8 @@ class SellerSignupRequest extends FormRequest
         return [
             'first_name' => ['bail', 'required', 'max:255'],
             'last_name' => ['bail', 'required', 'max:255'],
-            'email' => ['bail', 'required', 'email:rfc,dns,filter', Rule::unique('users', 'email')],
-            'phone' => ['bail', 'required', 'digits:10', Rule::unique('users', 'phone')],
+            'email' => ['bail', 'required', 'email:rfc,dns,filter', Rule::unique('sellers', 'email')],
+            'phone' => ['bail', 'required', 'digits:10', Rule::unique('sellers', 'phone')],
             'password' => ['bail', 'required', Password::default()],
             'avatar' => ['bail', 'nullable', 'image', 'mimes:jpg,jpeg,png'],
         ];
