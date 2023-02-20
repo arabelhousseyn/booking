@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
-class UserLoginException extends Exception
+class LoginException extends Exception
 {
     public function report(): bool
     {

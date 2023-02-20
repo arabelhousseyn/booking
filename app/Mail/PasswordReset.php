@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,7 +18,7 @@ class PasswordReset extends Mailable
 
     public string $url;
 
-    public function __construct(public User $user, private string $token)
+    public function __construct(public User|Seller $user, private string $token)
     {
         $this->generateUrl();
     }
@@ -50,6 +51,8 @@ class PasswordReset extends Mailable
 
     private function generateUrl(): void
     {
-        $this->url = env('APP_URL').'/'.'user-password-reset'."?email={$this->user->email}&token={$this->token}";
+        $this->url = ($this->user instanceof User) ?
+            env('APP_URL').'/'.'user-password-reset'."?email={$this->user->email}&token={$this->token}" :
+            env('APP_URL').'/'.'seller-password-reset'."?email={$this->user->email}&token={$this->token}";
     }
 }

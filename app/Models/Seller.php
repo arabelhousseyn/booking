@@ -89,7 +89,7 @@ class Seller extends Authenticatable implements HasMedia
     {
         $this->addMediaCollection('avatar')
             ->singleFile()
-            ->useDisk('photos')
+            ->useDisk('public')
             ->registerMediaConversions(function (Media $media) {
                 {
                     $this->addMediaConversion('thumb')

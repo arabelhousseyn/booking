@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Auth\Users\AuthController;
+use App\Http\Controllers\Api\V1\Auth\Sellers\AuthController as SellerAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,4 @@ Route::get('/user-password-reset',function (){
 });
 
 Route::post('/user-password-reset', [AuthController::class, 'resetPassword'])->name('user-password-reset');
+Route::post('/seller-password-reset', [SellerAuthController::class, 'resetPassword'])->name('seller-password-reset');

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V1\Auth\Users;
 use App\Exceptions\FileUploadedException;
 use App\Exceptions\OtpValidatedException;
 use App\Exceptions\SessionExpiredException;
-use App\Exceptions\UserLoginException;
+use App\Exceptions\LoginException;
 use App\Exceptions\WrongOtpException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ForgotPasswordRequest;
@@ -37,7 +37,7 @@ class AuthController extends Controller
             return UserResource::make($user);
         }
 
-        throw new UserLoginException();
+        throw new LoginException();
     }
 
     public function signup(UserSignupRequest $request): UserResource
