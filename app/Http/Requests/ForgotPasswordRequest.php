@@ -25,7 +25,7 @@ class ForgotPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['bail', 'required', 'email:dns,rfc,filter', Rule::exists('sellers', 'email')],
+            'email' => ['bail', 'required', 'email:dns,rfc,filter', /*Rule::exists('sellers', 'email')*/],
         ];
     }
 }
