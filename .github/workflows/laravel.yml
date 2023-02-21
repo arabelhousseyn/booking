@@ -69,6 +69,7 @@ jobs:
       - name: Setup SSH KNOWN_HOSTS
         run: |
           sudo echo "${{ secrets.SSH_DEV_IP }} ${{ secrets.SSH_DEV_DOMAIN }}" | sudo tee -a /etc/hosts
+          sudo ssh-keyscan -H ${{ secrets.SSH_DEV_DOMAIN }} > $HOME/.ssh/known_hosts
 
       # Deploy code to development server
       # using laravel-deployer https://github.com/lorisleiva/laravel-deployer.
