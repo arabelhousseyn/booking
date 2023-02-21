@@ -31,6 +31,7 @@ class House extends Model implements HasMedia
         'seller_id',
         'title',
         'description',
+        'coordinates',
         'price',
         'rooms',
         'has_wifi',
@@ -98,7 +99,7 @@ class House extends Model implements HasMedia
      */
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('photos')
+        $this->addMediaCollection('house')
             ->singleFile()
             ->useDisk('photos')
             ->registerMediaConversions(function (Media $media) {

@@ -21,6 +21,8 @@ return new class() extends Migration {
                 ->on('admins')
                 ->references('id');
 
+            $table->string('KM')->default(50);
+
             $table->timestamps();
         });
     }

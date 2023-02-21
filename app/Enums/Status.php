@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
@@ -10,7 +11,7 @@ use BenSampo\Enum\Enum;
  * @method static static DECLINED()
  * @method static static BOOKED()
  */
-final class Status extends Enum
+final class Status extends Enum implements LocalizedEnum
 {
     const PENDING = 'pending';
     const PUBLISHED = 'published';

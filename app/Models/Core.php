@@ -19,6 +19,7 @@ class Core extends Model
         'id',
         'commission',
         'commission_updated_by',
+        'KM',
     ];
 
 
@@ -31,7 +32,9 @@ class Core extends Model
     /**
      * cast attributes
      */
-    protected $casts = [];
+    protected $casts = [
+        'KM' => 'integer',
+    ];
 
     /**
      * relationships

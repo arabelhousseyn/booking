@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      *
@@ -25,7 +24,8 @@ return new class() extends Migration
 
             $table->string('title');
             $table->text('description');
-            $table->float('price',8,2);
+            $table->string('coordinates');
+            $table->float('price', 8, 2);
             $table->integer('rooms');
             $table->boolean('has_wifi');
             $table->boolean('parking_station');

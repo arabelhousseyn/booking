@@ -24,6 +24,7 @@ return new class() extends Migration {
 
             $table->string('title');
             $table->text('description');
+            $table->string('coordinates');
             $table->float('price', 8, 2);
             $table->integer('places');
             $table->string('motorisation');

@@ -29,19 +29,20 @@ class VehicleFactory extends Factory
             'seller_id' => Seller::factory(),
             'title' => $this->faker->title,
             'description' => $this->faker->sentence,
-            'price' => $this->faker->randomFloat(8,1000,100000),
-            'places' => $this->faker->numberBetween(1,10),
-            'motorisation' => $this->faker->randomElement([Motorisation::DIESEL,Motorisation::GASOLINE,Motorisation::MATZOT]),
-            'gearbox' => $this->faker->randomElement([GearBox::AUTOMATIC,GearBox::MANUAL]),
-            'is_full' => $this->faker->randomElement([false,true]),
+            'coordinates' => '36.7538,3.0588',
+            'price' => $this->faker->randomFloat(8, 1000, 100000),
+            'places' => $this->faker->numberBetween(1, 10),
+            'motorisation' => $this->faker->randomElement([Motorisation::DIESEL, Motorisation::GASOLINE, Motorisation::MATZOT]),
+            'gearbox' => $this->faker->randomElement([GearBox::AUTOMATIC, GearBox::MANUAL]),
+            'is_full' => $this->faker->randomElement([false, true]),
             'payments_accepted' => json_encode($data),
         ];
     }
 
     public function configure(): self
     {
-        return $this->afterCreating(function (Vehicle $vehicle){
-            $vehicle->update(['status' => $this->faker->randomElement([Status::PENDING,Status::BOOKED,Status::DECLINED,Status::PUBLISHED])]);
+        return $this->afterCreating(function (Vehicle $vehicle) {
+            $vehicle->update(['status' => $this->faker->randomElement([Status::PENDING, Status::BOOKED, Status::DECLINED, Status::PUBLISHED])]);
         });
     }
 }

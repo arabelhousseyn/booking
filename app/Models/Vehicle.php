@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Vehicle extends Model implements HasMedia
@@ -34,6 +33,8 @@ class Vehicle extends Model implements HasMedia
         'seller_id',
         'title',
         'description',
+        'coordinates',
+        'price',
         'places',
         'motorisation',
         'gearbox',
@@ -56,6 +57,7 @@ class Vehicle extends Model implements HasMedia
         'status' => Status::class,
         'motorisation' => Motorisation::class,
         'gearbox' => GearBox::class,
+        'payments_accepted' => 'json',
     ];
 
     /**
@@ -76,9 +78,9 @@ class Vehicle extends Model implements HasMedia
      * Accessors & mutators
      */
 
-    public function getPhotosAttribute(): MediaCollection
+    public function getPhotosAttribute(): array
     {
-        return $this->getMedia('photos');
+        return $this->getMedia('photos')->map(fn ($image) => env('APP_URL')."$image->original_url")->toArray();
     }
 
     public function getPhotoAttribute(): ?string
@@ -102,9 +104,9 @@ class Vehicle extends Model implements HasMedia
      */
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('photos')
+        $this->addMediaCollection('vehicle')
             ->singleFile()
-            ->useDisk('photos')
+            ->useDisk('public')
             ->registerMediaConversions(function (Media $media) {
                 {
                     $this->addMediaConversion('thumb')

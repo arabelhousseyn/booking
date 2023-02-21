@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
@@ -9,7 +10,7 @@ use BenSampo\Enum\Enum;
  * @method static static GASOLINE()
  * @method static static MATZOT()
  */
-final class Motorisation extends Enum
+final class Motorisation extends Enum implements LocalizedEnum
 {
     const DIESEL = 'diesel';
     const GASOLINE = 'gasoline';

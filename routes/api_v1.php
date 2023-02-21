@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Auth\Users\AuthController;
 use App\Http\Controllers\Api\V1\Auth\Sellers\AuthController as SellerAuthController;
+use App\Http\Controllers\Api\V1\SellerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,5 +46,11 @@ Route::prefix('/v1/sellers')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('sellers.logout');
+
+        Route::controller(SellerController::class)->group(function () {
+            Route::post('/vehicle/{seller}', 'storeVehicle')->name('sellers.vehicle');
+            Route::post('/vehicle/{seller}/{vehicle}', 'storeVehicleDocuments')->name('sellers-vehicle-documents')->scopeBindings();
+            Route::get('/vehicle/{seller}', 'vehicles')->name('sellers.get-vehicles');
+        });
     });
 });

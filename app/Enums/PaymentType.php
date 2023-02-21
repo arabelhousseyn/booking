@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
@@ -9,7 +10,7 @@ use BenSampo\Enum\Enum;
  * @method static static VISA()
  * @method static static MASTER_CARD()
  */
-final class PaymentType extends Enum
+final class PaymentType extends Enum implements LocalizedEnum
 {
     const DAHABIA = 'dahabia';
     const VISA = 'visa';

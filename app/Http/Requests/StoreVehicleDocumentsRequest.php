@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\VehicleDocumentType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ForgotPasswordRequest extends FormRequest
+class StoreVehicleDocumentsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +25,11 @@ class ForgotPasswordRequest extends FormRequest
      */
     public function rules(): array
     {
-        $tableName = (filled($this->route('seller'))) ? 'sellers' : 'users';
         return [
-            'email' => ['bail', 'required', 'email:dns,rfc,filter', Rule::exists($tableName, 'email')],
+            'documents' => ['bail', 'required'],
+            'documents.*.document_type' => ['bail', 'required', Rule::in(VehicleDocumentType::TECHNICAL_CONTROL, VehicleDocumentType::GREY_CARD, VehicleDocumentType::INSURANCE)],
+            'documents.*.document_image' => ['bail', 'required', 'image', 'mimes:jpg,jpeg,png'],
+            'documents.*.expiry_date' => ['bail', 'required', 'date'],
         ];
     }
 }

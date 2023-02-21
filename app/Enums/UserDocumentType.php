@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
@@ -11,7 +12,7 @@ use BenSampo\Enum\Enum;
  * @method static static DOCUMENT_LICENSE_BACK()
  * @method static static FACE()
  */
-final class UserDocumentType extends Enum
+final class UserDocumentType extends Enum implements LocalizedEnum
 {
     const PASSPORT = 'passport';
     const ID = 'id';

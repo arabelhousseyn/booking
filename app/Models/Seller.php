@@ -57,7 +57,7 @@ class Seller extends Authenticatable implements HasMedia
      * relationships
      */
 
-    public function documents(): HasMany
+    public function houses(): HasMany
     {
         return $this->hasMany(House::class, 'seller_id', 'id');
     }
