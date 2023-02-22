@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\GearBox;
 use App\Enums\Motorisation;
 use App\Enums\VehicleDocumentType;
+use App\Models\House;
 use App\Models\Seller;
 use App\Models\Vehicle;
 use App\Models\VehicleDocument;
@@ -140,6 +141,54 @@ class SellerTest extends TestCase
         $this->authenticated()
             ->json('get', "$this->endpoint/vehicle/{$this->seller->id}")
             ->assertOk()
-            ->assertJsonCount(5,'data');
+            ->assertJsonCount(5, 'data');
+    }
+
+    public function test_store_house()
+    {
+        Storage::fake('public');
+        $inputs = [
+            'title' => $this->faker->title,
+            'description' => $this->faker->sentence,
+            'coordinates' => '36.7538,3.0588',
+            'price' => 5000.00,
+            'rooms' => $this->faker->numberBetween(1, 5),
+            'has_wifi' => $this->faker->boolean,
+            'parking_station' => $this->faker->boolean,
+            'photos' => [
+                UploadedFile::fake()->image('image.png'),
+                UploadedFile::fake()->image('image1.png'),
+                UploadedFile::fake()->image('image2.png'),
+            ],
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/house/{$this->seller->id}", $inputs)
+            ->assertCreated()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'title',
+                    'description',
+                    'status',
+                    'price',
+                    'rooms',
+                    'has_wifi',
+                    'parking_station',
+                    'photo',
+                    'photo_thumb',
+                    'photos',
+                ],
+            ]);
+    }
+
+    public function test_get_houses()
+    {
+        $house = House::factory()->count(5)->create(['seller_id' => $this->seller->id]);
+
+        $this->authenticated()
+            ->json('get', "$this->endpoint/house/{$this->seller->id}")
+            ->assertOk()
+            ->assertJsonCount(5, 'data');
     }
 }

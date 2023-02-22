@@ -48,9 +48,14 @@ Route::prefix('/v1/sellers')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('sellers.logout');
 
         Route::controller(SellerController::class)->group(function () {
+            // vehicle
             Route::post('/vehicle/{seller}', 'storeVehicle')->name('sellers.vehicle');
             Route::post('/vehicle/{seller}/{vehicle}', 'storeVehicleDocuments')->name('sellers-vehicle-documents')->scopeBindings();
             Route::get('/vehicle/{seller}', 'vehicles')->name('sellers.get-vehicles');
+
+            // house
+            Route::post('/house/{seller}','storeHouse')->name('sellers.house');
+            Route::get('/house/{seller}','houses')->name('sellers.get-houses');
         });
     });
 });

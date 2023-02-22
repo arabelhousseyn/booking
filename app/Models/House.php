@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class House extends Model implements HasMedia
@@ -51,6 +50,9 @@ class House extends Model implements HasMedia
      */
     protected $casts = [
         'status' => Status::class,
+        'parking_station' => 'boolean',
+        'has_wifi' => 'boolean',
+        'rooms' => 'integer',
     ];
 
     /**
@@ -74,9 +76,9 @@ class House extends Model implements HasMedia
      * Accessors & mutators
      */
 
-    public function getPhotosAttribute(): MediaCollection
+    public function getPhotosAttribute(): array
     {
-        return $this->getMedia('photos');
+        return $this->getMedia('photos')->map(fn ($image) => env('APP_URL')."$image->original_url")->toArray();
     }
 
     public function getPhotoAttribute(): ?string

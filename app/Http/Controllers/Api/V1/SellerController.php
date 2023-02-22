@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Exceptions\FileUploadedException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreHouseRequest;
 use App\Http\Requests\StoreVehicleDocumentsRequest;
 use App\Http\Requests\StoreVehicleRequest;
+use App\Http\Resources\HouseResource;
 use App\Http\Resources\VehicleResource;
 use App\Models\Seller;
 use App\Models\Vehicle;
@@ -49,5 +51,24 @@ class SellerController extends Controller
         $vehicles = $seller->vehicles;
 
         return VehicleResource::collection($vehicles);
+    }
+
+    public function storeHouse(StoreHouseRequest $request, Seller $seller): HouseResource
+    {
+        $house = $seller->houses()->create($request->validated());
+
+        $house->addMultipleMediaFromRequest(['photos'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('photos');
+            });
+
+        return HouseResource::make($house);
+    }
+
+    public function houses(Seller $seller): JsonResource
+    {
+        $houses = $seller->houses;
+
+        return HouseResource::collection($houses);
     }
 }
