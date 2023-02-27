@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Auth\Users\AuthController;
 use App\Http\Controllers\Api\V1\Auth\Sellers\AuthController as SellerAuthController;
 use App\Http\Controllers\Api\V1\SellerController;
+use App\Http\Controllers\Api\V1\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::prefix('/v1/users')->group(function () {
 
 
     Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/store-favorites', [UserController::class, 'StoreFavorite'])->name('users.store-favorites');
         Route::post('/logout', [AuthController::class, 'logout'])->name('users.logout');
     });
 });
@@ -54,8 +56,8 @@ Route::prefix('/v1/sellers')->group(function () {
             Route::get('/vehicle/{seller}', 'vehicles')->name('sellers.get-vehicles');
 
             // house
-            Route::post('/house/{seller}','storeHouse')->name('sellers.house');
-            Route::get('/house/{seller}','houses')->name('sellers.get-houses');
+            Route::post('/house/{seller}', 'storeHouse')->name('sellers.house');
+            Route::get('/house/{seller}', 'houses')->name('sellers.get-houses');
         });
     });
 });
