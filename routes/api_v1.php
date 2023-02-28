@@ -24,7 +24,9 @@ Route::prefix('/v1/users')->group(function () {
 
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('/store-favorites', [UserController::class, 'StoreFavorite'])->name('users.store-favorites');
+        Route::post('/store-favorite', [UserController::class, 'StoreFavorite'])->name('users.store-favorites');
+        Route::get('/get-favorites', [UserController::class, 'getFavorites'])->name('users.get-favorites');
+        Route::delete('/destroy-favorite/{user}/{favorite}',[UserController::class,'destroyFavorite'])->name('users.destroy-favorite')->scopeBindings();
         Route::post('/logout', [AuthController::class, 'logout'])->name('users.logout');
     });
 });
