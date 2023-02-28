@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\Auth\Users\AuthController;
+use App\Http\Controllers\Api\V1\Auth\Users\AuthController as UserAuthController;
 use App\Http\Controllers\Api\V1\Auth\Sellers\AuthController as SellerAuthController;
 use App\Http\Controllers\Api\V1\SellerController;
 use App\Http\Controllers\Api\V1\UserController;
@@ -14,12 +14,12 @@ use App\Http\Controllers\Api\V1\UserController;
 */
 Route::prefix('/v1/users')->group(function () {
     Route::middleware('guest')->group(function () {
-        Route::post('/login', [AuthController::class, 'login'])->name('users.login');
-        Route::post('/signup', [AuthController::class, 'signup'])->name('users.signup');
-        Route::post('/otp/{user}', [AuthController::class, 'otpPhoneNumber'])->name('users.otp');
-        Route::post('/verify-phone-number/{user}', [AuthController::class, 'verifyPhoneNumber'])->name('users.verify-phone-number');
-        Route::post('/documents/{user}', [AuthController::class, 'uploadDocuments'])->name('users.documents');
-        Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('users.forgot-password');
+        Route::post('/login', [UserAuthController::class, 'login'])->name('users.login');
+        Route::post('/signup', [UserAuthController::class, 'signup'])->name('users.signup');
+        Route::post('/otp/{user}', [UserAuthController::class, 'otpPhoneNumber'])->name('users.otp');
+        Route::post('/verify-phone-number/{user}', [UserAuthController::class, 'verifyPhoneNumber'])->name('users.verify-phone-number');
+        Route::post('/documents/{user}', [UserAuthController::class, 'uploadDocuments'])->name('users.documents');
+        Route::post('/forgot-password', [UserAuthController::class, 'forgotPassword'])->name('users.forgot-password');
     });
 
 
@@ -27,7 +27,7 @@ Route::prefix('/v1/users')->group(function () {
         Route::post('/store-favorite', [UserController::class, 'StoreFavorite'])->name('users.store-favorites');
         Route::get('/get-favorites', [UserController::class, 'getFavorites'])->name('users.get-favorites');
         Route::delete('/destroy-favorite/{user}/{favorite}',[UserController::class,'destroyFavorite'])->name('users.destroy-favorite')->scopeBindings();
-        Route::post('/logout', [AuthController::class, 'logout'])->name('users.logout');
+        Route::post('/logout', [UserAuthController::class, 'logout'])->name('users.logout');
     });
 });
 
@@ -49,7 +49,7 @@ Route::prefix('/v1/sellers')->group(function () {
 
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('/logout', [AuthController::class, 'logout'])->name('sellers.logout');
+        Route::post('/logout', [UserAuthController::class, 'logout'])->name('sellers.logout');
 
         Route::controller(SellerController::class)->group(function () {
             // vehicle
