@@ -71,7 +71,7 @@ class UserTest extends TestCase
         ]);
 
         $this->authenticated()
-            ->json('get', "$this->endpoint/get-favorites")
+            ->json('get', "$this->endpoint/favorites")
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
