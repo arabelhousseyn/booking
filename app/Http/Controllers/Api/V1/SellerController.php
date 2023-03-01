@@ -16,9 +16,9 @@ use Illuminate\Http\Response;
 
 class SellerController extends Controller
 {
-    public function storeVehicle(StoreVehicleRequest $request, Seller $seller): VehicleResource
+    public function storeVehicle(StoreVehicleRequest $request): VehicleResource
     {
-        $vehicle = $seller->vehicles()->create($request->validated());
+        $vehicle = auth()->user()->vehicles()->create($request->validated());
 
         $vehicle->addMultipleMediaFromRequest(['photos'])
             ->each(function ($fileAdder) {
@@ -46,16 +46,16 @@ class SellerController extends Controller
         return response()->noContent();
     }
 
-    public function vehicles(Seller $seller): JsonResource
+    public function vehicles(): JsonResource
     {
-        $vehicles = $seller->vehicles;
+        $vehicles = auth()->user()->vehicles()->get();
 
         return VehicleResource::collection($vehicles);
     }
 
-    public function storeHouse(StoreHouseRequest $request, Seller $seller): HouseResource
+    public function storeHouse(StoreHouseRequest $request): HouseResource
     {
-        $house = $seller->houses()->create($request->validated());
+        $house = auth()->user()->houses()->create($request->validated());
 
         $house->addMultipleMediaFromRequest(['photos'])
             ->each(function ($fileAdder) {
@@ -65,9 +65,9 @@ class SellerController extends Controller
         return HouseResource::make($house);
     }
 
-    public function houses(Seller $seller): JsonResource
+    public function houses(): JsonResource
     {
-        $houses = $seller->houses;
+        $houses = auth()->user()->houses()->get();
 
         return HouseResource::collection($houses);
     }

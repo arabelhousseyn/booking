@@ -10,19 +10,20 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function StoreFavorite(UserFavoriteRequest $request): Response
     {
-        auth('web')->user()->favorites()->create($request->validated());
+        auth()->user()->favorites()->create($request->validated());
 
         return response()->noContent();
     }
 
     public function getFavorites(): JsonResource
     {
-        $favorites = auth('web')->user()->favorites()->get();
+        $favorites = auth()->user()->favorites()->get();
 
         $favorites->loadMissing(['favorable']);
 

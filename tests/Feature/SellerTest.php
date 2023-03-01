@@ -26,7 +26,12 @@ class SellerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seller = Seller::factory()->create();
+        $this->seller = Seller::factory()->create(['email' => 'hello@gmail.com']);
+    }
+
+    public function authenticated(): TestCase
+    {
+        return $this->actingAs($this->seller);
     }
 
     public function test_store_vehicle()
@@ -50,7 +55,7 @@ class SellerTest extends TestCase
         ];
 
         $this->authenticated()
-            ->json('post', "$this->endpoint/vehicle/{$this->seller->id}", $inputs)
+            ->json('post', "$this->endpoint/vehicle", $inputs)
             ->assertCreated()
             ->assertJsonStructure([
                 'data' => [
@@ -109,7 +114,7 @@ class SellerTest extends TestCase
 
         Storage::fake('public');
 
-        $vehicle = Vehicle::factory()->has(VehicleDocument::factory(), 'documents')->create();
+        $vehicle = Vehicle::factory()->has(VehicleDocument::factory(), 'documents')->create(['seller_id' => $this->seller->id]);
 
         $inputs = [
             'documents' => [
@@ -139,7 +144,7 @@ class SellerTest extends TestCase
         $vehicle = Vehicle::factory()->count(5)->create(['seller_id' => $this->seller->id]);
 
         $this->authenticated()
-            ->json('get', "$this->endpoint/vehicle/{$this->seller->id}")
+            ->json('get', "$this->endpoint/vehicle")
             ->assertOk()
             ->assertJsonCount(5, 'data');
     }
@@ -163,7 +168,7 @@ class SellerTest extends TestCase
         ];
 
         $this->authenticated()
-            ->json('post', "$this->endpoint/house/{$this->seller->id}", $inputs)
+            ->json('post', "$this->endpoint/house", $inputs)
             ->assertCreated()
             ->assertJsonStructure([
                 'data' => [
@@ -187,7 +192,7 @@ class SellerTest extends TestCase
         $house = House::factory()->count(5)->create(['seller_id' => $this->seller->id]);
 
         $this->authenticated()
-            ->json('get', "$this->endpoint/house/{$this->seller->id}")
+            ->json('get', "$this->endpoint/house")
             ->assertOk()
             ->assertJsonCount(5, 'data');
     }
