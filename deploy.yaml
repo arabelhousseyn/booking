@@ -16,6 +16,8 @@ hosts:
     multiplexing: true
 
 tasks:
+  composer:
+    - composer:install
   cp:
     - cp:.env.example .env
   deploy:
