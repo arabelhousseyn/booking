@@ -18,6 +18,7 @@ class SellerController extends Controller
 {
     public function storeVehicle(StoreVehicleRequest $request): VehicleResource
     {
+        // todo : add authorization here for seller can rent vehicle
         $vehicle = auth()->user()->vehicles()->create($request->validated());
 
         $vehicle->addMultipleMediaFromRequest(['photos'])
