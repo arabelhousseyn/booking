@@ -33,7 +33,7 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit
-      
+
   deploy-to-development:
     name: Deploy To Development Server
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
@@ -41,7 +41,7 @@ jobs:
 
     environment:
       name: development
-      url: https://dev.api.asdi.tesymo.com
+      url: http://159.89.108.44
 
     steps:
       - uses: actions/checkout@v3
