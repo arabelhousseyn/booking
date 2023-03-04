@@ -15,12 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return [];
+});
 
-Route::get('/user-password-reset',function (){
+Route::get('/user-password-reset', function () {
     return view('emails.passwords.user-password-reset');
 });
 
-Route::get('/seller-password-reset',function (){
+Route::get('/seller-password-reset', function () {
     return view('emails.passwords.seller-password-reset');
 });
 
