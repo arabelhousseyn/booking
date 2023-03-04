@@ -7,5 +7,6 @@ return [
     'otp_wrong' => 'You have a wrong otp code please verify your code then retry.',
     'session_expired' => 'Session expired.',
     'password_changed' => 'Password Changed.',
-    'file_uploaded' => 'File already uploaded.'
+    'file_uploaded' => 'File already uploaded.',
+    'wrong_password' => 'The :state password is wrong.',
 ];

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Exceptions\WrongPasswordException;
 use App\Models\Favorite;
 use App\Models\House;
 use App\Models\User;
@@ -113,5 +114,52 @@ class UserTest extends TestCase
         $this->authenticated()
             ->json('delete', "$this->endpoint/destroy-favorite/{$user->id}/{$favorite->id}")
             ->assertNotFound();
+    }
+
+    public function test_update_profile()
+    {
+        $inputs = [
+            'first_name' => $this->faker->firstName,
+        ];
+
+        $this->authenticated()
+            ->json('put', "$this->endpoint/profile", $inputs)
+            ->assertNoContent();
+
+        // check if the input has been update in the database
+
+        $this->assertDatabaseHas('users', [
+            'id' => $this->user->id,
+            'first_name' => $inputs['first_name'],
+        ]);
+    }
+
+    public function test_update_password__case01() // standard case
+    {
+        $inputs = [
+            'old_password' => 'password',
+            'password' => 'hocine.12',
+            'password_confirmation' => 'hocine.12',
+        ];
+
+        $this->authenticated()
+            ->json('put', "$this->endpoint/password", $inputs)
+            ->assertNoContent();
+    }
+
+    public function test_update_password__case02() // when the old password is wrong
+    {
+        $inputs = [
+            'old_password' => 'password1',
+            'password' => 'hocine.12',
+            'password_confirmation' => 'hocine.12',
+        ];
+
+        $this->authenticated()
+            ->json('put', "$this->endpoint/password", $inputs)
+            ->assertBadRequest()
+            ->assertJson([
+                'message' => trans('exceptions.wrong_password', ['state' => trans("nominations.old")]),
+            ]);
     }
 }

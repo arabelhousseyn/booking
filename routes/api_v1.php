@@ -24,10 +24,16 @@ Route::prefix('/v1/users')->group(function () {
 
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('/store-favorite', [UserController::class, 'StoreFavorite'])->name('users.store-favorites');
-        Route::get('/favorites', [UserController::class, 'getFavorites'])->name('users.get-favorites');
-        Route::delete('/destroy-favorite/{user}/{favorite}',[UserController::class,'destroyFavorite'])->name('users.destroy-favorite')->scopeBindings();
         Route::post('/logout', [UserAuthController::class, 'logout'])->name('users.logout');
+
+
+        Route::controller(UserController::class)->group(function () {
+            Route::post('/store-favorite', 'StoreFavorite')->name('users.store-favorites');
+            Route::get('/favorites', 'getFavorites')->name('users.get-favorites');
+            Route::delete('/destroy-favorite/{user}/{favorite}', 'destroyFavorite')->name('users.destroy-favorite')->scopeBindings();
+            Route::put('/profile', 'updateProfile')->name('update-profile');
+            Route::put('/password', 'updatePassword')->name('update-password');
+        });
     });
 });
 
@@ -52,6 +58,11 @@ Route::prefix('/v1/sellers')->group(function () {
         Route::post('/logout', [UserAuthController::class, 'logout'])->name('sellers.logout');
 
         Route::controller(SellerController::class)->group(function () {
+            //profile
+            Route::put('/profile', 'updateProfile')->name('update-profile');
+            Route::put('/password', 'updatePassword')->name('update-password');
+
+
             // vehicle
             Route::post('/vehicle', 'storeVehicle')->name('sellers.vehicle');
             Route::post('/vehicle/{seller}/{vehicle}', 'storeVehicleDocuments')->name('sellers-vehicle-documents')->scopeBindings();

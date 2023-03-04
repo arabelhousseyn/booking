@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Exceptions\FileUploadedException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SellerUpdateProfileRequest;
 use App\Http\Requests\StoreHouseRequest;
 use App\Http\Requests\StoreVehicleDocumentsRequest;
 use App\Http\Requests\StoreVehicleRequest;
@@ -11,11 +12,14 @@ use App\Http\Resources\HouseResource;
 use App\Http\Resources\VehicleResource;
 use App\Models\Seller;
 use App\Models\Vehicle;
+use App\Traits\PasswordCanBeUpdated;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
 class SellerController extends Controller
 {
+    use PasswordCanBeUpdated;
+
     public function storeVehicle(StoreVehicleRequest $request): VehicleResource
     {
         // todo : add authorization here for seller can rent vehicle
@@ -71,5 +75,12 @@ class SellerController extends Controller
         $houses = auth()->user()->houses()->get();
 
         return HouseResource::collection($houses);
+    }
+
+    public function updateProfile(SellerUpdateProfileRequest $request): Response
+    {
+        auth()->user()->update($request->validated());
+
+        return response()->noContent();
     }
 }
