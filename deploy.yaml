@@ -9,7 +9,6 @@ config:
 
 hosts:
   development:
-    stage: development
     hostname: 159.89.108.44
     branch: develop
     remote_user: root
