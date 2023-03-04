@@ -12,7 +12,7 @@ hosts:
     stage: development
     hostname: 159.89.108.44
     branch: develop
-    remote_user: deployer
+    remote_user: root
     deploy_path: '/var/www/html'
     multiplexing: true
 
