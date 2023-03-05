@@ -41,12 +41,11 @@ class UserController extends Controller
 
     public function updateProfile(UserUpdateProfileRequest $request): Response
     {
-        $user = auth()->user();
-        $user->update($request->validated());
+        auth()->user()->update($request->validated());
 
         if($request->hasFile('avatar'))
         {
-            $user->addMediaFromRequest('avatar')->toMediaCollection('avatar');
+            auth()->user()->addMediaFromRequest('avatar')->toMediaCollection('avatar');
         }
 
         return response()->noContent();
