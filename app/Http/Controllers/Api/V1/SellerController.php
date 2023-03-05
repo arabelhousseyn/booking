@@ -79,7 +79,11 @@ class SellerController extends Controller
 
     public function updateProfile(SellerUpdateProfileRequest $request): Response
     {
-        auth()->user()->update($request->validated());
+        $seller = auth()->user()->update($request->validated());
+
+        if ($request->hasFile('avatar')) {
+            $seller->addMediaFromRequest('avatar')->toMediaCollection('avatar');
+        }
 
         return response()->noContent();
     }
