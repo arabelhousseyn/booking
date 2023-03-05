@@ -123,7 +123,7 @@ class UserTest extends TestCase
         ];
 
         $this->authenticated()
-            ->json('put', "$this->endpoint/profile", $inputs)
+            ->json('post', "$this->endpoint/profile", $inputs)
             ->assertNoContent();
 
         // check if the input has been update in the database

@@ -31,8 +31,8 @@ Route::prefix('/v1/users')->group(function () {
             Route::post('/store-favorite', 'StoreFavorite')->name('users.store-favorites');
             Route::get('/favorites', 'getFavorites')->name('users.get-favorites');
             Route::delete('/destroy-favorite/{user}/{favorite}', 'destroyFavorite')->name('users.destroy-favorite')->scopeBindings();
-            Route::put('/profile', 'updateProfile')->name('update-profile');
-            Route::put('/password', 'updatePassword')->name('update-password');
+            Route::post('/profile', 'updateProfile')->name('users-update-profile');
+            Route::put('/password', 'updatePassword')->name('users-update-password');
         });
     });
 });
@@ -59,8 +59,8 @@ Route::prefix('/v1/sellers')->group(function () {
 
         Route::controller(SellerController::class)->group(function () {
             //profile
-            Route::put('/profile', 'updateProfile')->name('update-profile');
-            Route::put('/password', 'updatePassword')->name('update-password');
+            Route::post('/profile', 'updateProfile')->name('sellers-update-profile');
+            Route::put('/password', 'updatePassword')->name('sellers-update-password');
 
 
             // vehicle
