@@ -5,18 +5,78 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserFavoriteRequest;
 use App\Http\Requests\UserUpdateProfileRequest;
+use App\Http\Resources\HouseResource;
 use App\Http\Resources\UserFavoriteResource;
+use App\Http\Resources\VehicleResource;
 use App\Models\Favorite;
 use App\Models\User;
 use App\Traits\PasswordCanBeUpdated;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
     use PasswordCanBeUpdated;
 
-    public function StoreFavorite(UserFavoriteRequest $request): Response
+    public function listVehicles(Request $request): JsonResource
+    {
+        $vehicles = QueryBuilder::for(User::nearByVehicles())
+            ->defaultSort('price')
+            ->allowedFilters([
+                'title',
+                'description',
+                'price',
+                'places',
+                'motorisation',
+                'gearbox',
+                'is_full',
+                'status',
+            ])
+            ->allowedSorts(
+                'title',
+                'description',
+                'price',
+                'places',
+                'motorisation',
+                'gearbox',
+                'is_full',
+                'status',
+            )
+            ->paginate();
+
+        return VehicleResource::collection($vehicles);
+    }
+
+    public function listHouses(): JsonResource
+    {
+        $houses = QueryBuilder::for(User::nearByHouses())
+            ->defaultSort('price')
+            ->allowedFilters([
+                'title',
+                'description',
+                'price',
+                'rooms',
+                'has_wifi',
+                'parking_station',
+                'status',
+            ])
+            ->allowedSorts(
+                'title',
+                'description',
+                'price',
+                'rooms',
+                'has_wifi',
+                'parking_station',
+                'status',
+            )
+            ->paginate();
+
+        return HouseResource::collection($houses);
+    }
+
+    public function storeFavorite(UserFavoriteRequest $request): Response
     {
         auth()->user()->favorites()->create($request->validated());
 
@@ -43,8 +103,7 @@ class UserController extends Controller
     {
         auth()->user()->update($request->validated());
 
-        if($request->hasFile('avatar'))
-        {
+        if ($request->hasFile('avatar')) {
             auth()->user()->addMediaFromRequest('avatar')->toMediaCollection('avatar');
         }
 

@@ -28,7 +28,9 @@ Route::prefix('/v1/users')->group(function () {
 
 
         Route::controller(UserController::class)->group(function () {
-            Route::post('/store-favorite', 'StoreFavorite')->name('users.store-favorites');
+            Route::get('/list-vehicles', 'listVehicles')->name("users.list-vehicles");
+            Route::get('/list-houses','listHouses')->name('users.list-houses');
+            Route::post('/store-favorite', 'storeFavorite')->name('users.store-favorites');
             Route::get('/favorites', 'getFavorites')->name('users.get-favorites');
             Route::delete('/destroy-favorite/{user}/{favorite}', 'destroyFavorite')->name('users.destroy-favorite')->scopeBindings();
             Route::post('/profile', 'updateProfile')->name('users-update-profile');

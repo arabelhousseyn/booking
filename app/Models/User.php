@@ -4,12 +4,17 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Traits\UUID;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
+use KMLaravel\GeographicalCalculator\Classes\Geo;
+use KMLaravel\GeographicalCalculator\Facade\GeoFacade;
 use Laravel\Sanctum\HasApiTokens;
+use PHPUnit\Exception;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -123,5 +128,61 @@ class User extends Authenticatable implements HasMedia
                         ->height(80);
                 }
             });
+    }
+
+    public static function nearByVehicles(): Builder
+    {
+        $nearVehicleIds = [];
+        $core = Core::select('KM')->first();
+
+        $vehicles = Vehicle::all();
+
+        foreach ($vehicles as $vehicle) {
+            try {
+                $km = self::calculateDistance($vehicle->coordinates, User::find(auth()->id())->coordinates);
+
+                if ($km['1-2']['km'] <= $core->KM) {
+                    $nearVehicleIds[] = $vehicle->id;
+                }
+            } catch (Exception $exception) {
+                continue;
+            }
+        }
+
+        return Vehicle::query()->whereIn('id', $nearVehicleIds);
+    }
+
+    public static function nearByHouses(): Builder
+    {
+        $nearHouseIds = [];
+        $core = Core::select('KM')->first();
+
+        $houses = House::all();
+
+        foreach ($houses as $house) {
+            try {
+                $km = self::calculateDistance($house->coordinates, User::find(auth()->id())->coordinates);
+
+                if ($km['1-2']['km'] <= $core->KM) {
+                    $nearHouseIds[] = $house->id;
+                }
+            } catch (Exception $exception) {
+                continue;
+            }
+        }
+
+        return House::query()->whereIn('id', $nearHouseIds);
+    }
+
+    private static function calculateDistance(string $location1, string $location2): array
+    {
+        $distance = GeoFacade::setOptions(['units' => ['km']])
+            ->setPoint([explode(',', $location1)[0], explode(',', $location1)[1]])
+            ->setPoint([explode(',', $location2)[0], explode(',', $location2)[1]])
+            ->getDistance();
+
+        GeoFacade::clearResult();
+
+        return $distance;
     }
 }

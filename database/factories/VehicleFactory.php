@@ -29,7 +29,7 @@ class VehicleFactory extends Factory
             'seller_id' => Seller::factory(),
             'title' => $this->faker->title,
             'description' => $this->faker->sentence,
-            'coordinates' => '36.7538,3.0588',
+            'coordinates' => '36.1580,1.3373',
             'price' => $this->faker->randomFloat(8, 1000, 100000),
             'places' => $this->faker->numberBetween(1, 10),
             'motorisation' => $this->faker->randomElement([Motorisation::DIESEL, Motorisation::GASOLINE, Motorisation::MATZOT]),

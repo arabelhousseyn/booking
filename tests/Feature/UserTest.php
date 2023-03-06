@@ -2,12 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Exceptions\WrongPasswordException;
 use App\Models\Favorite;
 use App\Models\House;
 use App\Models\User;
 use App\Models\Vehicle;
+use Database\Seeders\CoreSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -18,6 +19,8 @@ class UserTest extends TestCase
     private string $endpoint = '/api/v1/users';
     private Vehicle $vehicle;
     private House $house;
+    private Collection $vehicles;
+    private Collection $houses;
 
     protected function setUp(): void
     {
@@ -25,6 +28,10 @@ class UserTest extends TestCase
 
         $this->vehicle = Vehicle::factory()->create();
         $this->house = House::factory()->create();
+        $this->vehicles = Vehicle::factory()->count(10)->create();
+        $this->houses = House::factory()->count(10)->create();
+
+        $this->seed(CoreSeeder::class);
     }
 
     public function test_store_favorites__case01() // standard case
@@ -161,5 +168,67 @@ class UserTest extends TestCase
             ->assertJson([
                 'message' => trans('exceptions.wrong_password', ['state' => trans("nominations.old")]),
             ]);
+    }
+
+    public function test_list_vehicles__case01() // same point between the user and the vehicles
+    {
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-vehicles")
+            ->assertJsonCount(15,'data');
+    }
+
+    public function test_list_vehicles__case02() // test less than the KM of core
+    {
+        Vehicle::query()->delete();
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-vehicles")
+            ->assertJsonCount(3,'data');
+    }
+
+    public function test_list_vehicles__case03() // test greater than the KM of core
+    {
+        Vehicle::query()->delete();
+        Vehicle::factory()->create(['coordinates' => '36.7538,3.0588']);
+        Vehicle::factory()->create(['coordinates' => '36.7538,3.0588']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-vehicles")
+            ->assertJsonCount(1,'data');
+    }
+
+    public function test_list_houses__case01() // same point between the user and the houses
+    {
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-houses")
+            ->assertJsonCount(15,'data');
+    }
+
+    public function test_list_houses__case02() // test less than the KM of core
+    {
+        House::query()->delete();
+        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-houses")
+            ->assertJsonCount(3,'data');
+    }
+
+    public function test_list_house__case03() // test greater than the KM of core
+    {
+        House::query()->delete();
+        House::factory()->create(['coordinates' => '36.7538,3.0588']);
+        House::factory()->create(['coordinates' => '36.7538,3.0588']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-houses")
+            ->assertJsonCount(1,'data');
     }
 }
