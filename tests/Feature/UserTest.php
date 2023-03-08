@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\Status;
 use App\Models\Favorite;
 use App\Models\House;
 use App\Models\User;
@@ -30,6 +31,9 @@ class UserTest extends TestCase
         $this->house = House::factory()->create();
         $this->vehicles = Vehicle::factory()->count(10)->create();
         $this->houses = House::factory()->count(10)->create();
+
+        House::query()->update(['status' => Status::PUBLISHED]);
+        Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
         $this->seed(CoreSeeder::class);
     }
@@ -184,6 +188,8 @@ class UserTest extends TestCase
         Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
         Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
 
+        Vehicle::query()->update(['status' => Status::PUBLISHED]);
+
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles")
             ->assertJsonCount(3,'data');
@@ -195,6 +201,8 @@ class UserTest extends TestCase
         Vehicle::factory()->create(['coordinates' => '36.7538,3.0588']);
         Vehicle::factory()->create(['coordinates' => '36.7538,3.0588']);
         Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+
+        Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles")
@@ -215,6 +223,8 @@ class UserTest extends TestCase
         House::factory()->create(['coordinates' => '36.5081,1.3078']);
         House::factory()->create(['coordinates' => '36.5081,1.3078']);
 
+        House::query()->update(['status' => Status::PUBLISHED]);
+
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses")
             ->assertJsonCount(3,'data');
@@ -226,6 +236,8 @@ class UserTest extends TestCase
         House::factory()->create(['coordinates' => '36.7538,3.0588']);
         House::factory()->create(['coordinates' => '36.7538,3.0588']);
         House::factory()->create(['coordinates' => '36.5081,1.3078']);
+
+        House::query()->update(['status' => Status::PUBLISHED]);
 
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses")

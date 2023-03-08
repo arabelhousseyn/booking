@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserFavoriteRequest;
 use App\Http\Requests\UserUpdateProfileRequest;
@@ -44,6 +45,8 @@ class UserController extends Controller
                 'is_full',
                 'status',
             )
+            ->whereNot('status',Status::PENDING)
+            ->whereNot('status', Status::DECLINED)
             ->paginate();
 
         return VehicleResource::collection($vehicles);
@@ -71,6 +74,8 @@ class UserController extends Controller
                 'parking_station',
                 'status',
             )
+            ->whereNot('status',Status::PENDING)
+            ->whereNot('status', Status::DECLINED)
             ->paginate();
 
         return HouseResource::collection($houses);

@@ -37,6 +37,9 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_title_filter()
     {
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles?filter[title]=a")
             ->assertJsonCount(1, 'data');
@@ -44,6 +47,9 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_description_filter()
     {
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles?filter[description]=a")
             ->assertJsonCount(1, 'data');
@@ -51,6 +57,9 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_price_filter()
     {
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles?filter[price]=10,20")
             ->assertJsonCount(2, 'data');
@@ -58,6 +67,9 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_places_filter()
     {
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles?filter[places]=1")
             ->assertJsonCount(1, 'data');
@@ -65,6 +77,9 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_motorisation_filter()
     {
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles?filter[motorisation]=" . Motorisation::MATZOT)
             ->assertJsonCount(1, 'data');
@@ -72,6 +87,9 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_gearbox_filter()
     {
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles?filter[gearbox]=" . GearBox::AUTOMATIC)
             ->assertJsonCount(2, 'data');
@@ -79,6 +97,9 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_is_full_filter()
     {
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles?filter[is_full]=true")
             ->assertJsonCount(2, 'data');
@@ -86,11 +107,11 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_status_filter()
     {
-        $this->vehicles[0]->update(['status' => Status::PENDING]);
-        $this->vehicles[1]->update(['status' => Status::PENDING]);
-        $this->vehicles[2]->update(['status' => Status::PENDING]);
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-vehicles?filter[status]=" . Status::PENDING)
+            ->json('get', "$this->endpoint/list-vehicles?filter[status]=" . Status::PUBLISHED)
             ->assertJsonCount(3, 'data');
     }
 
@@ -98,6 +119,9 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_title_sort()
     {
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles?sort=title")
             ->assertJsonCount(3, 'data')
@@ -111,6 +135,9 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_description_sort()
     {
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles?sort=description")
             ->assertJsonCount(3, 'data')
@@ -124,6 +151,9 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_price_sort()
     {
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles?sort=price")
             ->assertJsonCount(3, 'data')
@@ -137,6 +167,9 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_places_sort()
     {
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles?sort=places")
             ->assertJsonCount(3, 'data')
@@ -150,6 +183,9 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
     public function test_motorisation_sort()
     {
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles?sort=motorisation")
             ->assertJsonCount(3, 'data')

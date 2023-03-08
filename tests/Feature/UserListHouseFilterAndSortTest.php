@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\Status;
 use App\Models\House;
 use Database\Seeders\CoreSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -34,6 +35,9 @@ class UserListHouseFilterAndSortTest extends TestCase
 
     public function test_title_filter()
     {
+        $this->houses[0]->update(['status' => Status::PUBLISHED]);
+        $this->houses[1]->update(['status' => Status::PUBLISHED]);
+        $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses?filter[title]=a")
             ->assertJsonCount(1, 'data');
@@ -41,6 +45,9 @@ class UserListHouseFilterAndSortTest extends TestCase
 
     public function test_description_filter()
     {
+        $this->houses[0]->update(['status' => Status::PUBLISHED]);
+        $this->houses[1]->update(['status' => Status::PUBLISHED]);
+        $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses?filter[description]=a")
             ->assertJsonCount(1, 'data');
@@ -48,6 +55,9 @@ class UserListHouseFilterAndSortTest extends TestCase
 
     public function test_price_filter()
     {
+        $this->houses[0]->update(['status' => Status::PUBLISHED]);
+        $this->houses[1]->update(['status' => Status::PUBLISHED]);
+        $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses?filter[price]=10,20")
             ->assertJsonCount(2, 'data');
@@ -55,6 +65,9 @@ class UserListHouseFilterAndSortTest extends TestCase
 
     public function test_rooms_filter()
     {
+        $this->houses[0]->update(['status' => Status::PUBLISHED]);
+        $this->houses[1]->update(['status' => Status::PUBLISHED]);
+        $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses?filter[rooms]=1")
             ->assertJsonCount(1, 'data');
@@ -62,6 +75,9 @@ class UserListHouseFilterAndSortTest extends TestCase
 
     public function test_has_wifi_filter()
     {
+        $this->houses[0]->update(['status' => Status::PUBLISHED]);
+        $this->houses[1]->update(['status' => Status::PUBLISHED]);
+        $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses?filter[has_wifi]=true")
             ->assertJsonCount(2, 'data');
@@ -69,6 +85,9 @@ class UserListHouseFilterAndSortTest extends TestCase
 
     public function test_parking_station_filter()
     {
+        $this->houses[0]->update(['status' => Status::PUBLISHED]);
+        $this->houses[1]->update(['status' => Status::PUBLISHED]);
+        $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses?filter[parking_station]=true")
             ->assertJsonCount(2, 'data');
@@ -78,6 +97,9 @@ class UserListHouseFilterAndSortTest extends TestCase
 
     public function test_title_sort()
     {
+        $this->houses[0]->update(['status' => Status::PUBLISHED]);
+        $this->houses[1]->update(['status' => Status::PUBLISHED]);
+        $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses?sort=title")
             ->assertJsonCount(3, 'data')
@@ -91,6 +113,9 @@ class UserListHouseFilterAndSortTest extends TestCase
 
     public function test_description_sort()
     {
+        $this->houses[0]->update(['status' => Status::PUBLISHED]);
+        $this->houses[1]->update(['status' => Status::PUBLISHED]);
+        $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses?sort=description")
             ->assertJsonCount(3, 'data')
@@ -104,6 +129,9 @@ class UserListHouseFilterAndSortTest extends TestCase
 
     public function test_price_sort()
     {
+        $this->houses[0]->update(['status' => Status::PUBLISHED]);
+        $this->houses[1]->update(['status' => Status::PUBLISHED]);
+        $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses?sort=price")
             ->assertJsonCount(3, 'data')
@@ -117,6 +145,9 @@ class UserListHouseFilterAndSortTest extends TestCase
 
     public function test_rooms_sort()
     {
+        $this->houses[0]->update(['status' => Status::PUBLISHED]);
+        $this->houses[1]->update(['status' => Status::PUBLISHED]);
+        $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses?sort=rooms")
             ->assertJsonCount(3, 'data')
