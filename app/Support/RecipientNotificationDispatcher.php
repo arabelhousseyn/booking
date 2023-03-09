@@ -11,14 +11,14 @@ class RecipientNotificationDispatcher implements NotificationDispatcher
     private string $title;
     private string $body;
     private string $to;
-    private User|Seller $recipient;
+    private mixed $data;
 
-    public function __construct(string $title, string $body, string $to, User|Seller $recipient)
+    public function __construct(string $title, string $body, string $to, mixed $data)
     {
         $this->title = $title;
         $this->body = $body;
         $this->to = $to;
-        $this->recipient = $recipient;
+        $this->data = $data;
     }
 
     public function configure(): array
@@ -34,11 +34,12 @@ class RecipientNotificationDispatcher implements NotificationDispatcher
             'badge' => '1',
             "data" => [
                 "click_action" => "FLUTTER_NOTIFICATION_CLICK",
-                "id" => $this->recipient->id,
+                "id" => uniqid(),
                 "status" => "done",
                 "info" => [
                     "body" => $this->body,
                     "title" => $this->title,
+                    'data' => $this->data,
                     'image' => '',
                 ],
             ],
