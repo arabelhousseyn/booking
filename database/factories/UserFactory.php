@@ -26,11 +26,12 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'phone' => $this->faker->unique()->phoneNumber,
             'phone_verified_at' => now(),
-            'can_rent_vehicle' => $this->faker->randomElement([true,false]),
+            'can_rent_vehicle' => $this->faker->randomElement([true, false]),
             'coordinates' => '36.1580,1.3373',
             'validated_at' => now(),
             'validated_by' => Admin::factory(),
             'password' => Hash::make('password'),
+            'firebase_registration_token' => Str::random(60),
         ];
     }
 

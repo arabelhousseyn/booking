@@ -43,7 +43,7 @@ class AuthController extends Controller
     {
         $password = ['password' => Hash::make($request->input('password'))];
 
-        $seller = Seller::create(array_merge($password, $request->safe()->only(['first_name', 'last_name', 'phone', 'email'])));
+        $seller = Seller::create(array_merge($password, $request->safe()->only(['first_name', 'last_name', 'phone', 'email','firebase_registration_token'])));
 
         if ($request->hasFile('avatar')) {
             $seller->addMediaFromRequest('avatar')->toMediaCollection('avatar');

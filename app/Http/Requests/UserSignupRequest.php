@@ -34,6 +34,7 @@ class UserSignupRequest extends FormRequest
             'coordinates' => ['bail', 'required', new Coordinates()],
             'password' => ['bail', 'required', Password::default()],
             'avatar' => ['bail', 'nullable', 'image', 'mimes:jpg,jpeg,png'],
+            'firebase_registration_token' => ['bail', 'required'],
         ];
     }
 }

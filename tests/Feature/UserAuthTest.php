@@ -97,6 +97,7 @@ class UserAuthTest extends TestCase
             'coordinates' => '36.1580,1.3373',
             'password' => 'password',
             'avatar' => null,
+            'firebase_registration_token' => Str::random(60),
         ];
 
         $this->json('post', "$this->endpoint/signup", $inputs)
@@ -126,6 +127,7 @@ class UserAuthTest extends TestCase
             'coordinates' => '36.1580,1.3373',
             'password' => 'password',
             'avatar' => UploadedFile::fake()->image('avatar.jpg'),
+            'firebase_registration_token' => Str::random(60),
         ];
 
         $this->json('post', "$this->endpoint/signup", $inputs)

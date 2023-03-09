@@ -44,7 +44,7 @@ class AuthController extends Controller
     {
         $password = ['password' => Hash::make($request->input('password'))];
 
-        $user = User::create(array_merge($password, $request->safe()->only(['first_name', 'last_name', 'phone', 'email', 'coordinates'])));
+        $user = User::create(array_merge($password, $request->safe()->only(['first_name', 'last_name', 'phone', 'email', 'coordinates', 'firebase_registration_token'])));
 
         if ($request->hasFile('avatar')) {
             $user->addMediaFromRequest('avatar')->toMediaCollection('avatar');
@@ -119,7 +119,7 @@ class AuthController extends Controller
             foreach ($documents as $document) {
                 $unique = uniqid().'.jpg';
                 $document['document_image']->storeAs('public/documents', $unique);
-                $image = env('APP_URL') . '/storage/documents/' . $unique;
+                $image = env('APP_URL').'/storage/documents/'.$unique;
                 $user->documents()->create(['document_type' => $document['document_type'], 'document_url' => $image]);
             }
         } catch (\Exception $exception) {

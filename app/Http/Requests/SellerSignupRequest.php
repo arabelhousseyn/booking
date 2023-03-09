@@ -33,6 +33,7 @@ class SellerSignupRequest extends FormRequest
             'phone' => ['bail', 'required', 'digits:10', Rule::unique('sellers', 'phone')],
             'password' => ['bail', 'required', Password::default()],
             'avatar' => ['bail', 'nullable', 'image', 'mimes:jpg,jpeg,png'],
+            'firebase_registration_token' => ['bail', 'required'],
         ];
     }
 }

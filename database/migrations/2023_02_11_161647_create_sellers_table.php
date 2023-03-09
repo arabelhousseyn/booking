@@ -23,6 +23,9 @@ return new class() extends Migration
             $table->string('phone_verified_at')->nullable();
             $table->string('otp')->nullable();
             $table->string('password');
+
+            $table->firebaseToken();
+
             $table->timestamps();
         });
     }

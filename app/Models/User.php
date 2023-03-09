@@ -41,6 +41,7 @@ class User extends Authenticatable implements HasMedia
         'validated_at',
         'validated_by',
         'password',
+        'firebase_registration_token',
     ];
 
     /**

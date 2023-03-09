@@ -13,5 +13,4 @@ final class GearBox extends Enum implements LocalizedEnum
 {
     const MANUAL = 'manual';
     const AUTOMATIC = 'automatic';
-
 }
