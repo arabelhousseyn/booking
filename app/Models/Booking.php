@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BookingStatus;
 use App\Enums\ModelType;
 use App\Enums\PaymentType;
 use App\Traits\UUID;
@@ -13,6 +14,13 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Booking extends Model
 {
     use HasFactory, UUID;
+
+    protected static function booted()
+    {
+        static::creating(function (self $model) {
+            $model->status = BookingStatus::PENDING;
+        });
+    }
 
     /**
      * fillable attributes
@@ -29,6 +37,7 @@ class Booking extends Model
         'has_caution',
         'start_date',
         'end_date',
+        'status',
     ];
 
 
@@ -44,6 +53,7 @@ class Booking extends Model
     protected $casts = [
         'bookable_type' => ModelType::class,
         'payment_type' => PaymentType::class,
+        'status' => BookingStatus::class,
         'start_date' => 'datetime',
         'end_date' => 'datetime',
     ];

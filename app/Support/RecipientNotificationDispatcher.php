@@ -2,8 +2,6 @@
 
 namespace App\Support;
 
-use App\Models\Seller;
-use App\Models\User;
 use App\Support\Contracts\NotificationDispatcher;
 
 class RecipientNotificationDispatcher implements NotificationDispatcher

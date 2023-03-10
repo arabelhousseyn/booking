@@ -23,8 +23,8 @@ Route::prefix('/v1/users')->group(function () {
     });
 
     // special case: so this two endpoints work both in guest and auth mode
-    Route::get('/list-vehicles', [UserController::class, 'listVehicles']);
-    Route::get('/list-houses', [UserController::class, 'listHouses']);
+    Route::get('/list-vehicles', [UserController::class, 'listVehicles'])->name('users.list-vehicles');
+    Route::get('/list-houses', [UserController::class, 'listHouses'])->name('users.list-houses');
 
 
     Route::middleware('auth:sanctum')->group(function () {
@@ -37,6 +37,9 @@ Route::prefix('/v1/users')->group(function () {
             Route::delete('/destroy-favorite/{user}/{favorite}', 'destroyFavorite')->name('users.destroy-favorite')->scopeBindings();
             Route::post('/profile', 'updateProfile')->name('users-update-profile');
             Route::put('/password', 'updatePassword')->name('users-update-password');
+            Route::post('/booking', 'storeBooking')->name('users.store-booking');
+            Route::get('/booking/{booking}', 'viewBooking')->name('users.view-booking');
+            Route::get('/bookings', 'bookings')->name('users.bookings');
         });
     });
 });

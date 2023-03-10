@@ -30,6 +30,7 @@ return new class() extends Migration {
             $table->boolean('has_caution')->default(false);
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->string('status');
 
             $table->timestamps();
         });

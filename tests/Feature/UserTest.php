@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Enums\PaymentType;
 use App\Enums\Status;
+use App\Models\Booking;
 use App\Models\Favorite;
 use App\Models\House;
 use App\Models\User;
@@ -277,7 +279,7 @@ class UserTest extends TestCase
 
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->json('get', "$this->endpoint/list-vehicles",$inputs)
+        $this->json('get', "$this->endpoint/list-vehicles", $inputs)
             ->assertOk()
             ->assertJsonCount(3, 'data');
     }
@@ -295,7 +297,7 @@ class UserTest extends TestCase
 
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->json('get', "$this->endpoint/list-vehicles",$inputs)
+        $this->json('get', "$this->endpoint/list-vehicles", $inputs)
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
@@ -306,7 +308,7 @@ class UserTest extends TestCase
             'coordinates' => '36.1580,1.3373',
         ];
 
-        $this->json('get', "$this->endpoint/list-houses",$inputs)
+        $this->json('get', "$this->endpoint/list-houses", $inputs)
             ->assertOk()
             ->assertJsonCount(15, 'data');
     }
@@ -324,7 +326,7 @@ class UserTest extends TestCase
 
         House::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->json('get', "$this->endpoint/list-houses",$inputs)
+        $this->json('get', "$this->endpoint/list-houses", $inputs)
             ->assertOk()
             ->assertJsonCount(3, 'data');
     }
@@ -342,7 +344,7 @@ class UserTest extends TestCase
 
         House::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->json('get', "$this->endpoint/list-houses",$inputs)
+        $this->json('get', "$this->endpoint/list-houses", $inputs)
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
@@ -359,5 +361,154 @@ class UserTest extends TestCase
         $this->json('get', "$this->endpoint/list-houses")
             ->assertStatus(422)
             ->assertJsonValidationErrors(['coordinates']);
+    }
+
+    public function test_booking__case01() // when the price is 40000 or less
+    {
+        $vehicle = Vehicle::factory()->create(['price' => '20000']);
+
+        $inputs = [
+            'bookable_type' => $vehicle->getMorphClass(),
+            'bookable_id' => $vehicle->getKey(),
+            'payment_type' => PaymentType::DAHABIA,
+            'start_date' => '2023-03-10 00:00:00',
+            'end_date' => '2023-03-12 00:00:00',
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking", $inputs)
+            ->assertCreated()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'bookable_type',
+                    'bookable_id',
+                    'bookable',
+                    'payment_type',
+                    'net_price',
+                    'total_price',
+                    'has_caution',
+                    'start_date',
+                    'end_date',
+                    'status',
+                    'created_at',
+                ],
+            ]);
+    }
+
+    public function test_booking__case02() // when the price is 40000 or more
+    {
+        $vehicle = Vehicle::factory()->create(['price' => '40000']);
+
+        $inputs = [
+            'bookable_type' => $vehicle->getMorphClass(),
+            'bookable_id' => $vehicle->getKey(),
+            'payment_type' => PaymentType::DAHABIA,
+            'start_date' => '2023-03-10 00:00:00',
+            'end_date' => '2023-03-12 00:00:00',
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking", $inputs)
+            ->assertCreated()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'bookable_type',
+                    'bookable_id',
+                    'bookable',
+                    'payment_type',
+                    'net_price',
+                    'total_price',
+                    'has_caution',
+                    'start_date',
+                    'end_date',
+                    'status',
+                    'created_at',
+                ],
+            ]);
+    }
+
+    public function test_view_booking()
+    {
+        $booking = Booking::factory()->create(['user_id' => $this->user->id]);
+        $this->authenticated()
+            ->json('get', "$this->endpoint/booking/{$booking->id}")
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'bookable_type',
+                    'bookable_id',
+                    'bookable',
+                    'payment_type',
+                    'net_price',
+                    'total_price',
+                    'has_caution',
+                    'start_date',
+                    'end_date',
+                    'status',
+                    'created_at',
+                ],
+            ]);
+    }
+
+    public function test_view_booking__case01() // when the user belongs to booking
+    {
+        $booking = Booking::factory()->create(['user_id' => $this->user->id]);
+        $this->authenticated()
+            ->json('get', "$this->endpoint/booking/{$booking->id}")
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'bookable_type',
+                    'bookable_id',
+                    'bookable',
+                    'payment_type',
+                    'net_price',
+                    'total_price',
+                    'has_caution',
+                    'start_date',
+                    'end_date',
+                    'status',
+                    'created_at',
+                ],
+            ]);
+    }
+
+    public function test_view_booking__case02() // when the user doesn't belong to booking
+    {
+        $booking = Booking::factory()->create();
+        $this->authenticated()
+            ->json('get', "$this->endpoint/booking/{$booking->id}")
+            ->assertStatus(403);
+    }
+
+    public function test_list_bookings()
+    {
+        $booking = Booking::factory()->count(4)->create(['user_id' => $this->user->id]);
+        $this->authenticated()
+            ->json('get', "$this->endpoint/bookings")
+            ->assertOk()
+            ->assertJsonCount(4, 'data')
+            ->assertJsonStructure([
+                'data' => [
+                    [
+                        'id',
+                        'bookable_type',
+                        'bookable_id',
+                        'bookable',
+                        'payment_type',
+                        'net_price',
+                        'total_price',
+                        'has_caution',
+                        'start_date',
+                        'end_date',
+                        'status',
+                        'created_at',
+                    ],
+                ],
+            ]);
     }
 }

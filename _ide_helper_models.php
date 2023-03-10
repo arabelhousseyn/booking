@@ -57,6 +57,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon $end_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \BenSampo\Enum\Enum|null $status
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $bookable
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])

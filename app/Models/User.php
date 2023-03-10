@@ -3,14 +3,18 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\ModelType;
 use App\Traits\UUID;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use KMLaravel\GeographicalCalculator\Classes\Geo;
 use KMLaravel\GeographicalCalculator\Facade\GeoFacade;
 use Laravel\Sanctum\HasApiTokens;
@@ -185,5 +189,51 @@ class User extends Authenticatable implements HasMedia
         GeoFacade::clearResult();
 
         return $distance;
+    }
+
+    public function CalculateBookingPrice(array $data): ?array
+    {
+        try {
+            DB::beginTransaction();
+            $has_caution = false;
+
+            $days = Carbon::parse($data['end_date'])->diffInDays($data['start_date']);
+            $commission = Core::select('commission')->first()->commission;
+
+            /** @var House|Vehicle $bookable */
+            $bookable = Relation::$morphMap[$data['bookable_type']]::find($data['bookable_id']);
+
+            $net_price = $bookable->price * $days;
+
+            if ($net_price <= 40000) {
+                $total_price = $net_price;
+                $amount_to_pay = $net_price;
+            } else {
+                $amount_not_paid = $net_price - 40000;
+                $total_price = $amount_not_paid - (($amount_not_paid * $commission) / 100);
+                $amount_to_pay = 40000;
+                $has_caution = true;
+            }
+
+            $this->pay($amount_to_pay, $data['payment_type']);
+
+            DB::commit();
+
+            return [
+                'net_price' => $net_price,
+                'total_price' => $total_price,
+                'commission' => $commission,
+                'has_caution' => $has_caution,
+            ];
+        } catch (\Exception $exception) {
+            DB::rollBack();
+        }
+
+        return null;
+    }
+
+    private function pay(float $amount, string $type): void
+    {
+        // todo : implement the pay api's
     }
 }
