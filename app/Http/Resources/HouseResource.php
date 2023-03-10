@@ -24,6 +24,7 @@ class HouseResource extends JsonResource
             'rooms' => $this->rooms,
             'has_wifi' => $this->has_wifi,
             'parking_station' => $this->parking_station,
+            'coordinates' => $this->coordinates,
             'status' => $this->status,
             'photo' => $this->photo,
             'photo_thumb' => $this->photo_thumb,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CoordinatesRequest;
 use App\Http\Requests\UserFavoriteRequest;
 use App\Http\Requests\UserUpdateProfileRequest;
 use App\Http\Resources\HouseResource;
@@ -12,7 +13,6 @@ use App\Http\Resources\VehicleResource;
 use App\Models\Favorite;
 use App\Models\User;
 use App\Traits\PasswordCanBeUpdated;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -21,9 +21,11 @@ class UserController extends Controller
 {
     use PasswordCanBeUpdated;
 
-    public function listVehicles(Request $request): JsonResource
+    public function listVehicles(CoordinatesRequest $request): JsonResource
     {
-        $vehicles = QueryBuilder::for(User::nearByVehicles())
+        $coordinates = (auth()->check()) ? User::find(auth()->id())->coordinates : $request->validated('coordinates');
+
+        $vehicles = QueryBuilder::for(User::nearByVehicles($coordinates))
             ->defaultSort('price')
             ->allowedFilters([
                 'title',
@@ -52,9 +54,11 @@ class UserController extends Controller
         return VehicleResource::collection($vehicles);
     }
 
-    public function listHouses(): JsonResource
+    public function listHouses(CoordinatesRequest $request): JsonResource
     {
-        $houses = QueryBuilder::for(User::nearByHouses())
+        $coordinates = (auth()->check()) ? User::find(auth()->id())->coordinates : $request->validated('coordinates');
+
+        $houses = QueryBuilder::for(User::nearByHouses($coordinates))
             ->defaultSort('price')
             ->allowedFilters([
                 'title',

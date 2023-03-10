@@ -22,14 +22,16 @@ Route::prefix('/v1/users')->group(function () {
         Route::post('/forgot-password', [UserAuthController::class, 'forgotPassword'])->name('users.forgot-password');
     });
 
+    // special case: so this two endpoints work both in guest and auth mode
+    Route::get('/list-vehicles', [UserController::class, 'listVehicles']);
+    Route::get('/list-houses', [UserController::class, 'listHouses']);
+
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [UserAuthController::class, 'logout'])->name('users.logout');
 
 
         Route::controller(UserController::class)->group(function () {
-            Route::get('/list-vehicles', 'listVehicles')->name("users.list-vehicles");
-            Route::get('/list-houses','listHouses')->name('users.list-houses');
             Route::post('/store-favorite', 'storeFavorite')->name('users.store-favorites');
             Route::get('/favorites', 'getFavorites')->name('users.get-favorites');
             Route::delete('/destroy-favorite/{user}/{favorite}', 'destroyFavorite')->name('users.destroy-favorite')->scopeBindings();

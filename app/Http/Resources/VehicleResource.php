@@ -21,6 +21,7 @@ class VehicleResource extends JsonResource
             'is_full' => $this->is_full,
             'payments_accepted' => $this->payments_accepted,
             'status' => $this->status,
+            'coordinates' => $this->coordinates,
             'photo' => $this->photo,
             'photo_thumb' => $this->photo_thumb,
             'photos' => $this->photos,

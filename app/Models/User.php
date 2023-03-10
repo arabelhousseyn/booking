@@ -131,7 +131,7 @@ class User extends Authenticatable implements HasMedia
             });
     }
 
-    public static function nearByVehicles(): Builder
+    public static function nearByVehicles(string $coordinates): Builder
     {
         $nearVehicleIds = [];
         $core = Core::select('KM')->first();
@@ -140,7 +140,7 @@ class User extends Authenticatable implements HasMedia
 
         foreach ($vehicles as $vehicle) {
             try {
-                $km = self::calculateDistance($vehicle->coordinates, User::find(auth()->id())->coordinates);
+                $km = self::calculateDistance($vehicle->coordinates, $coordinates);
 
                 if ($km['1-2']['km'] <= $core->KM) {
                     $nearVehicleIds[] = $vehicle->id;
@@ -153,7 +153,7 @@ class User extends Authenticatable implements HasMedia
         return Vehicle::query()->whereIn('id', $nearVehicleIds);
     }
 
-    public static function nearByHouses(): Builder
+    public static function nearByHouses(string $coordinates): Builder
     {
         $nearHouseIds = [];
         $core = Core::select('KM')->first();
@@ -162,7 +162,7 @@ class User extends Authenticatable implements HasMedia
 
         foreach ($houses as $house) {
             try {
-                $km = self::calculateDistance($house->coordinates, User::find(auth()->id())->coordinates);
+                $km = self::calculateDistance($house->coordinates, $coordinates);
 
                 if ($km['1-2']['km'] <= $core->KM) {
                     $nearHouseIds[] = $house->id;

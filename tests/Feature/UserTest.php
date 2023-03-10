@@ -174,11 +174,14 @@ class UserTest extends TestCase
             ]);
     }
 
+    /*************** with auth **************/
+
     public function test_list_vehicles__case01() // same point between the user and the vehicles
     {
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles")
-            ->assertJsonCount(15,'data');
+            ->assertOk()
+            ->assertJsonCount(15, 'data');
     }
 
     public function test_list_vehicles__case02() // test less than the KM of core
@@ -192,7 +195,8 @@ class UserTest extends TestCase
 
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles")
-            ->assertJsonCount(3,'data');
+            ->assertOk()
+            ->assertJsonCount(3, 'data');
     }
 
     public function test_list_vehicles__case03() // test greater than the KM of core
@@ -206,14 +210,16 @@ class UserTest extends TestCase
 
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles")
-            ->assertJsonCount(1,'data');
+            ->assertOk()
+            ->assertJsonCount(1, 'data');
     }
 
     public function test_list_houses__case01() // same point between the user and the houses
     {
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses")
-            ->assertJsonCount(15,'data');
+            ->assertOk()
+            ->assertJsonCount(15, 'data');
     }
 
     public function test_list_houses__case02() // test less than the KM of core
@@ -227,7 +233,8 @@ class UserTest extends TestCase
 
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses")
-            ->assertJsonCount(3,'data');
+            ->assertOk()
+            ->assertJsonCount(3, 'data');
     }
 
     public function test_list_house__case03() // test greater than the KM of core
@@ -241,6 +248,116 @@ class UserTest extends TestCase
 
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses")
-            ->assertJsonCount(1,'data');
+            ->assertOk()
+            ->assertJsonCount(1, 'data');
+    }
+
+    /*************** without auth **************/
+
+    public function test_list_vehicles_without_auth__case01() // same point between the cent coordinates and the vehicles
+    {
+        $inputs = [
+            'coordinates' => '36.1580,1.3373',
+        ];
+        $this->json('get', "$this->endpoint/list-vehicles", $inputs)
+            ->assertOk()
+            ->assertJsonCount(15, 'data');
+    }
+
+    public function test_list_vehicles_without_auth_case02() // test less than the KM of core
+    {
+        $inputs = [
+            'coordinates' => '36.1580,1.3373',
+        ];
+
+        Vehicle::query()->delete();
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+
+        Vehicle::query()->update(['status' => Status::PUBLISHED]);
+
+        $this->json('get', "$this->endpoint/list-vehicles",$inputs)
+            ->assertOk()
+            ->assertJsonCount(3, 'data');
+    }
+
+    public function test_list_vehicles_without_auth_case03() // test greater than the KM of core
+    {
+        $inputs = [
+            'coordinates' => '36.1580,1.3373',
+        ];
+
+        Vehicle::query()->delete();
+        Vehicle::factory()->create(['coordinates' => '36.7538,3.0588']);
+        Vehicle::factory()->create(['coordinates' => '36.7538,3.0588']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+
+        Vehicle::query()->update(['status' => Status::PUBLISHED]);
+
+        $this->json('get', "$this->endpoint/list-vehicles",$inputs)
+            ->assertOk()
+            ->assertJsonCount(1, 'data');
+    }
+
+    public function test_list_houses_without_auth_case01() // same point between the sent coordinates and the houses
+    {
+        $inputs = [
+            'coordinates' => '36.1580,1.3373',
+        ];
+
+        $this->json('get', "$this->endpoint/list-houses",$inputs)
+            ->assertOk()
+            ->assertJsonCount(15, 'data');
+    }
+
+    public function test_list_houses_without_auth_case02() // test less than the KM of core
+    {
+        $inputs = [
+            'coordinates' => '36.1580,1.3373',
+        ];
+
+        House::query()->delete();
+        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+
+        House::query()->update(['status' => Status::PUBLISHED]);
+
+        $this->json('get', "$this->endpoint/list-houses",$inputs)
+            ->assertOk()
+            ->assertJsonCount(3, 'data');
+    }
+
+    public function test_list_house_without_auth_case03() // test greater than the KM of core
+    {
+        $inputs = [
+            'coordinates' => '36.1580,1.3373',
+        ];
+
+        House::query()->delete();
+        House::factory()->create(['coordinates' => '36.7538,3.0588']);
+        House::factory()->create(['coordinates' => '36.7538,3.0588']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+
+        House::query()->update(['status' => Status::PUBLISHED]);
+
+        $this->json('get', "$this->endpoint/list-houses",$inputs)
+            ->assertOk()
+            ->assertJsonCount(1, 'data');
+    }
+
+    public function test_list_house_without_auth_case04() // when there's no input and no auth
+    {
+        House::query()->delete();
+        House::factory()->create(['coordinates' => '36.7538,3.0588']);
+        House::factory()->create(['coordinates' => '36.7538,3.0588']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+
+        House::query()->update(['status' => Status::PUBLISHED]);
+
+        $this->json('get', "$this->endpoint/list-houses")
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['coordinates']);
     }
 }
