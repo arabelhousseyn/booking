@@ -101,7 +101,7 @@ class UserController extends Controller
 
     public function viewBooking(Booking $booking): BookingResource
     {
-        $this->authorize('view', [$booking, User::find(auth()->id())]);
+        $this->authorize('view', [$booking, auth()->user()]);
 
         $booking->load(['bookable']);
 
