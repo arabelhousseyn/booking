@@ -33,9 +33,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if ($this->app->isLocal()) {
-            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
-        }
+        $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 
         $this->mixins();
 
