@@ -16,6 +16,9 @@ hosts:
     multiplexing: true
 
 tasks:
+  sudo:
+    - rm:.env
+    - rm -rv:vendor
   composer:
     - composer:install
   cp:
