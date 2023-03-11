@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\GearBox;
 use App\Enums\Motorisation;
 use App\Enums\VehicleDocumentType;
+use App\Models\Booking;
 use App\Models\House;
 use App\Models\Seller;
 use App\Models\Vehicle;
@@ -241,6 +242,57 @@ class SellerTest extends TestCase
             ->assertBadRequest()
             ->assertJson([
                 'message' => trans('exceptions.wrong_password', ['state' => trans("nominations.old")]),
+            ]);
+    }
+
+    public function test_list_bookings()
+    {
+        Booking::factory()->count(4)->create(['seller_id' => $this->seller->id]);
+        $this->authenticated()
+            ->json('get', "$this->endpoint/bookings")
+            ->assertOk()
+            ->assertJsonCount(4, 'data')
+            ->assertJsonStructure([
+                'data' => [
+                    [
+                        'id',
+                        'bookable_type',
+                        'bookable_id',
+                        'bookable',
+                        'payment_type',
+                        'net_price',
+                        'total_price',
+                        'has_caution',
+                        'start_date',
+                        'end_date',
+                        'status',
+                        'created_at',
+                    ],
+                ],
+            ]);
+    }
+
+    public function test_view_booking()
+    {
+        $booking = Booking::factory()->create(['seller_id' => $this->seller->id]);
+        $this->authenticated()
+            ->json('get', "$this->endpoint/booking/{$booking->id}")
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'bookable_type',
+                    'bookable_id',
+                    'bookable',
+                    'payment_type',
+                    'net_price',
+                    'total_price',
+                    'has_caution',
+                    'start_date',
+                    'end_date',
+                    'status',
+                    'created_at',
+                ],
             ]);
     }
 }

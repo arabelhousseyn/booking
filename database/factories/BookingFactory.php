@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\PaymentType;
 use App\Models\House;
+use App\Models\Seller;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,6 +25,7 @@ class BookingFactory extends Factory
         $model = $this->faker->randomElement([House::factory()->create(), Vehicle::factory()->create()]);
         return [
             'user_id' => User::factory(),
+            'seller_id' => Seller::factory(),
             'bookable_type' => $model->getMorphClass(),
             'bookable_id' => $model->id,
             'payment_type' => $this->faker->randomElement([PaymentType::DAHABIA, PaymentType::VISA, PaymentType::MASTER_CARD]),

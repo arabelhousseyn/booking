@@ -224,6 +224,7 @@ class User extends Authenticatable implements HasMedia
                 'total_price' => $total_price,
                 'commission' => $commission,
                 'has_caution' => $has_caution,
+                'seller_id' => $bookable->seller_id,
             ];
         } catch (\Exception $exception) {
             DB::rollBack();

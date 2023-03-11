@@ -63,6 +63,11 @@ class Seller extends Authenticatable implements HasMedia
         return $this->hasMany(House::class, 'seller_id', 'id');
     }
 
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'seller_id', 'id');
+    }
+
     public function vehicles(): HasMany
     {
         return $this->hasMany(Vehicle::class, 'seller_id', 'id');

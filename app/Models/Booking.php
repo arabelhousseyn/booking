@@ -28,6 +28,7 @@ class Booking extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'seller_id',
         'bookable_type',
         'bookable_id',
         'payment_type',
@@ -70,6 +71,11 @@ class Booking extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function seller(): BelongsTo
+    {
+        return $this->belongsTo(Seller::class, 'seller_id', 'id');
     }
 
 

@@ -22,6 +22,13 @@ return new class() extends Migration {
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
+            $table->uuid('seller_id');
+            $table->foreign('seller_id')
+                ->on('sellers')
+                ->references('id')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
             $table->uuidMorphs('bookable');
             $table->string('payment_type');
             $table->float('net_price');
@@ -32,6 +39,7 @@ return new class() extends Migration {
             $table->dateTime('end_date');
             $table->string('status');
 
+            $table->unique(['user_id', 'seller_id', 'bookable_type', 'bookable_id']);
             $table->timestamps();
         });
     }

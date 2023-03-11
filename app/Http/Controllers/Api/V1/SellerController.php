@@ -8,8 +8,10 @@ use App\Http\Requests\SellerUpdateProfileRequest;
 use App\Http\Requests\StoreHouseRequest;
 use App\Http\Requests\StoreVehicleDocumentsRequest;
 use App\Http\Requests\StoreVehicleRequest;
+use App\Http\Resources\BookingResource;
 use App\Http\Resources\HouseResource;
 use App\Http\Resources\VehicleResource;
+use App\Models\Booking;
 use App\Models\Seller;
 use App\Models\Vehicle;
 use App\Traits\PasswordCanBeUpdated;
@@ -85,5 +87,23 @@ class SellerController extends Controller
         }
 
         return response()->noContent();
+    }
+
+    public function bookings():JsonResource
+    {
+        $bookings = auth()->user()->bookings()->get();
+
+        $bookings->loadMissing(['bookable']);
+
+        return BookingResource::collection($bookings);
+    }
+
+    public function viewBooking(Booking $booking): BookingResource
+    {
+        $this->authorize('view', [$booking, auth()->user()]);
+
+        $booking->load(['bookable']);
+
+        return BookingResource::make($booking);
     }
 }

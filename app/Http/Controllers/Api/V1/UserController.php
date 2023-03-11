@@ -14,8 +14,12 @@ use App\Http\Resources\UserFavoriteResource;
 use App\Http\Resources\VehicleResource;
 use App\Models\Booking;
 use App\Models\Favorite;
+use App\Models\House;
 use App\Models\User;
+use App\Models\Vehicle;
+use App\Support\RecipientNotificationDispatcher;
 use App\Traits\PasswordCanBeUpdated;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -90,11 +94,18 @@ class UserController extends Controller
 
     public function storeBooking(BookingRequest $request): BookingResource
     {
+        /** @var House|Vehicle $bookable */
+        $bookable = Relation::$morphMap[$request->validated('bookable_type')]::find($request->validated('bookable_id'));
+
+        $this->authorize('create', [$bookable, auth()->user()]);
+
         $priceCalculated = auth()->user()->CalculateBookingPrice($request->validated());
 
         $booking = auth()->user()->bookings()->create(array_merge($priceCalculated, $request->safe()->only('payment_type', 'bookable_type', 'bookable_id', 'start_date', 'end_date')));
 
         $booking->load(['bookable']);
+
+        (new RecipientNotificationDispatcher(trans('bookings.title_new_booking'), trans('bookings.body_new_booking'), $bookable->seller->firebase_registration_token, $booking))->send();
 
         return BookingResource::make($booking);
     }

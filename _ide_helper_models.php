@@ -59,6 +59,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \BenSampo\Enum\Enum|null $status
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $bookable
+ * @property-read \App\Models\Seller|null $seller
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
@@ -147,6 +148,8 @@ namespace App\Models{
  * @property \BenSampo\Enum\Enum|null $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
+ * @property-read int|null $bookings_count
  * @property-read string|null $photo
  * @property-read string|null $photo_thumb
  * @property-read array $photos
@@ -189,6 +192,8 @@ namespace App\Models{
  * @property string $firebase_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
+ * @property-read int|null $bookings_count
  * @property-read string|null $avatar
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\House> $houses
  * @property-read int|null $houses_count
@@ -324,6 +329,8 @@ namespace App\Models{
  * @property \BenSampo\Enum\Enum|null $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
+ * @property-read int|null $bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\VehicleDocument> $documents
  * @property-read int|null $documents_count
  * @property-read string|null $photo

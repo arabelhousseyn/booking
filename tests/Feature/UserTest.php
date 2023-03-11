@@ -363,9 +363,10 @@ class UserTest extends TestCase
             ->assertJsonValidationErrors(['coordinates']);
     }
 
-    public function test_booking__case01() // when the price is 40000 or less
+    public function test_store_booking__case01() // when the price is 40000 or less
     {
         $vehicle = Vehicle::factory()->create(['price' => '20000']);
+        $vehicle->update(['status' => Status::PUBLISHED]);
 
         $inputs = [
             'bookable_type' => $vehicle->getMorphClass(),
@@ -396,9 +397,10 @@ class UserTest extends TestCase
             ]);
     }
 
-    public function test_booking__case02() // when the price is 40000 or more
+    public function test_store_booking__case02() // when the price is 40000 or more
     {
         $vehicle = Vehicle::factory()->create(['price' => '40000']);
+        $vehicle->update(['status' => Status::PUBLISHED]);
 
         $inputs = [
             'bookable_type' => $vehicle->getMorphClass(),
@@ -427,6 +429,34 @@ class UserTest extends TestCase
                     'created_at',
                 ],
             ]);
+    }
+
+    public function test_store_booking__case03() // when the is in pending , declined and booked
+    {
+        $vehicle = Vehicle::factory()->create(['price' => '40000']);
+        $vehicle->update(['status' => Status::BOOKED]);
+
+        $inputs = [
+            'bookable_type' => $vehicle->getMorphClass(),
+            'bookable_id' => $vehicle->getKey(),
+            'payment_type' => PaymentType::DAHABIA,
+            'start_date' => '2023-03-10 00:00:00',
+            'end_date' => '2023-03-12 00:00:00',
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking", $inputs)
+            ->assertStatus(403);
+
+        $vehicle->update(['status' => Status::PENDING]);
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking", $inputs)
+            ->assertStatus(403);
+
+        $vehicle->update(['status' => Status::DECLINED]);
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking", $inputs)
+            ->assertStatus(403);
     }
 
     public function test_view_booking()
@@ -487,7 +517,7 @@ class UserTest extends TestCase
 
     public function test_list_bookings()
     {
-        $booking = Booking::factory()->count(4)->create(['user_id' => $this->user->id]);
+        Booking::factory()->count(4)->create(['user_id' => $this->user->id]);
         $this->authenticated()
             ->json('get', "$this->endpoint/bookings")
             ->assertOk()

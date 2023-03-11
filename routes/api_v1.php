@@ -65,6 +65,9 @@ Route::prefix('/v1/sellers')->group(function () {
         Route::post('/logout', [UserAuthController::class, 'logout'])->name('sellers.logout');
 
         Route::controller(SellerController::class)->group(function () {
+            Route::get('/booking/{booking}', 'viewBooking')->name('users.view-booking');
+            Route::get('/bookings', 'bookings')->name('sellers.bookings');
+
             //profile
             Route::post('/profile', 'updateProfile')->name('sellers-update-profile');
             Route::put('/password', 'updatePassword')->name('sellers-update-password');

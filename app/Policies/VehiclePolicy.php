@@ -2,12 +2,12 @@
 
 namespace App\Policies;
 
-use App\Models\Booking;
-use App\Models\Seller;
+use App\Enums\Status;
 use App\Models\User;
+use App\Models\Vehicle;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class BookingPolicy
+class VehiclePolicy
 {
     use HandlesAuthorization;
 
@@ -21,8 +21,8 @@ class BookingPolicy
         //
     }
 
-    public function view(User|Seller $model, Booking $booking): bool
+    public function create(User $user, Vehicle $bookable): bool
     {
-        return $model->is(($model instanceof User) ? $booking->user : $booking->seller);
+        return $bookable->status->is(Status::PUBLISHED);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Support\Contracts\NotificationDispatcher;
+use Illuminate\Support\Facades\Log;
 
 class RecipientNotificationDispatcher implements NotificationDispatcher
 {
@@ -62,7 +63,9 @@ class RecipientNotificationDispatcher implements NotificationDispatcher
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $result = curl_exec($ch);
-        echo $result;
+
+        Log::debug(json_encode($result));
+
         curl_close($ch);
     }
 }
