@@ -17,8 +17,8 @@ hosts:
 
 tasks:
   sudo:
-    - rm:.env
-    - rm -rv:vendor
+    - sudo rm:.env
+    - sudo rm -rv:vendor
   composer:
     - composer:install
   cp:
