@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Enums\ModelType;
 use App\Mixins\MigrationMixin;
 use App\Models\House;
-use App\Models\User;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -33,6 +33,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->isLocal()) {
+            $this->app->register(IdeHelperServiceProvider::class);
+        }
 
         $this->mixins();
 
