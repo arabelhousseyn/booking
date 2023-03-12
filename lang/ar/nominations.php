@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'current' => 'current',
-    'old' => 'old',
-    'new' => 'new',
+    'current' => 'حاضِر',
+    'old' => 'قديم',
+    'new' => 'جديد',
 ];

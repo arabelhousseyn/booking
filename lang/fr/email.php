@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'mail_password_changed_title' => 'Password changed.',
-    'mail_password_changed_body' => 'Hi :first_name :last_name you password has been changed successfully if you have troubleshot  please contact our support regarding the best thanks\'s.',
-    'mail_password_reset_title' => 'Password reset.',
-    'mail_password_reset_body' => 'Hi :first_name :last_name you password reset link :url',
-    'password' => 'Password',
-    'new_password' => 'New password',
-    'change' => 'Change'
+    'mail_password_changed_title' => 'Mot de passe changé.',
+    'mail_password_changed_body' => 'Salut :first_name :last_name votre mot de passe a été modifié avec succès si vous rencontrez des problèmes, veuillez contacter notre support pour les meilleurs remerciements.',
+    'mail_password_reset_title' => 'Réinitialisation du mot de passe.',
+    'mail_password_reset_body' => 'Salut :first_name :last_name votre lien de réinitialisation de mot de passe :url',
+    'password' => 'Mot de passe',
+    'new_password' => 'Nouveau mot de passe',
+    'change' => 'Changement',
 ];

@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'user_login' => 'Please check your login credentials then retry.',
-    'coordinates' => 'Please verify your coordinates.',
-    'otp_validated' => 'Your otp code already validated.',
-    'otp_wrong' => 'You have a wrong otp code please verify your code then retry.',
-    'session_expired' => 'Session expired.',
-    'password_changed' => 'Password Changed.',
-    'file_uploaded' => 'File already uploaded.',
-    'wrong_password' => 'The :state password is wrong.',
+    'user_login' => 'يرجى التحقق من بيانات اعتماد تسجيل الدخول الخاصة بك ثم أعد المحاولة.',
+    'coordinates' => 'يرجى التحقق من الإحداثيات الخاصة بك.',
+    'otp_validated' => 'تم التحقق من صحة رمز otp الخاص بك بالفعل.',
+    'otp_wrong' => 'لديك رمز otp خاطئ ، يرجى التحقق من الرمز ثم إعادة المحاولة.',
+    'session_expired' => 'انتهت الجلسة.',
+    'password_changed' => 'تم تغيير كلمة السر.',
+    'file_uploaded' => 'تم تحميل الملف بالفعل.',
+    'wrong_password' => 'كلمة السر :state خطأ.',
 ];
