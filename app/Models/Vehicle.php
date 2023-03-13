@@ -79,6 +79,11 @@ class Vehicle extends Model implements HasMedia
         return $this->hasMany(VehicleDocument::class, 'vehicle_id', 'id');
     }
 
+    public function reviews(): MorphMany
+    {
+        return $this->morphMany(Review::class, 'reviewable');
+    }
+
     /**
      * Accessors & mutators
      */

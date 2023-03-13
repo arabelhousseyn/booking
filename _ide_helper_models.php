@@ -155,6 +155,8 @@ namespace App\Models{
  * @property-read array $photos
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $reviews
+ * @property-read int|null $reviews_count
  * @property-read \App\Models\Seller $seller
  * @method static \Database\Factories\HouseFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|House newModelQuery()
@@ -174,6 +176,21 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|House whereUpdatedAt($value)
  */
 	class House extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Review
+ *
+ * @property \BenSampo\Enum\Enum|null $reviewable_type
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $reviewable
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\ReviewFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Review newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review query()
+ */
+	class Review extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -258,6 +275,8 @@ namespace App\Models{
  * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $reviews
+ * @property-read int|null $reviews_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @property-read \App\Models\Admin|null $validatedBy
@@ -338,6 +357,8 @@ namespace App\Models{
  * @property-read array $photos
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $reviews
+ * @property-read int|null $reviews_count
  * @property-read \App\Models\Seller $seller
  * @method static \Database\Factories\VehicleFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle newModelQuery()

@@ -115,7 +115,7 @@ class SellerTest extends TestCase
 
         Storage::fake('public');
 
-        $vehicle = Vehicle::factory()->has(VehicleDocument::factory(), 'documents')->create(['seller_id' => $this->seller->id]);
+        $vehicle = Vehicle::factory()->has(VehicleDocument::factory(['document_type' => VehicleDocumentType::INSURANCE]), 'documents')->create(['seller_id' => $this->seller->id]);
 
         $inputs = [
             'documents' => [

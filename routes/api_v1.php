@@ -40,6 +40,7 @@ Route::prefix('/v1/users')->group(function () {
             Route::post('/booking', 'storeBooking')->name('users.store-booking');
             Route::get('/booking/{booking}', 'viewBooking')->name('users.view-booking');
             Route::get('/bookings', 'bookings')->name('users.bookings');
+            Route::post('/store-review', 'storeReview')->name('users.store-review');
         });
     });
 });

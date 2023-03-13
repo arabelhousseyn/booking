@@ -25,6 +25,8 @@ class VehicleResource extends JsonResource
             'photo' => $this->photo,
             'photo_thumb' => $this->photo_thumb,
             'photos' => $this->photos,
+            'avg_rating' => $this->reviews()->avg('rating'),
+            'created_at' => $this->created_at?->toISOString(),
         ];
     }
 }

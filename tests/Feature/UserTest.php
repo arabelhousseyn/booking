@@ -7,6 +7,7 @@ use App\Enums\Status;
 use App\Models\Booking;
 use App\Models\Favorite;
 use App\Models\House;
+use App\Models\Review;
 use App\Models\User;
 use App\Models\Vehicle;
 use Database\Seeders\CoreSeeder;
@@ -31,8 +32,8 @@ class UserTest extends TestCase
 
         $this->vehicle = Vehicle::factory()->create();
         $this->house = House::factory()->create();
-        $this->vehicles = Vehicle::factory()->count(10)->create();
-        $this->houses = House::factory()->count(10)->create();
+        $this->vehicles = Vehicle::factory()->count(10)->has(Review::factory(),'reviews')->create();
+        $this->houses = House::factory()->count(10)->has(Review::factory(),'reviews')->create();
 
         House::query()->update(['status' => Status::PUBLISHED]);
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
@@ -198,6 +199,7 @@ class UserTest extends TestCase
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles")
             ->assertOk()
+            ->dump()
             ->assertJsonCount(3, 'data');
     }
 
@@ -540,5 +542,39 @@ class UserTest extends TestCase
                     ],
                 ],
             ]);
+    }
+
+    public function test_store_review__case01() // standard case
+    {
+        $vehicle = Vehicle::factory()->create();
+
+        $inputs = [
+            'reviewable_type' => $vehicle->getMorphClass(),
+            'reviewable_id' => $vehicle->getKey(),
+            'rating' => $this->faker->numberBetween(1, 5),
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/store-review", $inputs)
+            ->assertNoContent();
+    }
+
+    public function test_store_review__case02() // when you've already done the review
+    {
+        $vehicle = Vehicle::factory()->create();
+
+        $inputs = [
+            'reviewable_type' => $vehicle->getMorphClass(),
+            'reviewable_id' => $vehicle->getKey(),
+            'rating' => $this->faker->numberBetween(1, 5),
+        ];
+
+        Review::factory()->create($inputs + [
+                'user_id' => $this->user->id,
+            ]);
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/store-review", $inputs)
+            ->assertJsonValidationErrors('reviewable_id');
     }
 }

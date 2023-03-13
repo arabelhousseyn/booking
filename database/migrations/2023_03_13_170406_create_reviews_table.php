@@ -12,19 +12,20 @@ return new class() extends Migration {
      */
     public function up(): void
     {
-        Schema::create('core', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->integer('commission');
-            $table->uuid('commission_updated_by');
 
-            $table->foreign('commission_updated_by')
-                ->on('admins')
-                ->references('id');
+            $table->uuid('user_id');
+            $table->foreign('user_id')
+                ->on('users')
+                ->references('id')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
 
-            $table->string('KM')->default(50);
+            $table->uuidMorphs('reviewable');
+            $table->string('rating');
 
-            $table->string('dahabia_caution')->default(40000);
-            $table->string('debit_card_caution')->default(100);
+            $table->unique(['user_id', 'reviewable_type', 'reviewable_id']);
 
             $table->timestamps();
         });
@@ -37,6 +38,6 @@ return new class() extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('cores');
+        Schema::dropIfExists('reviews');
     }
 };

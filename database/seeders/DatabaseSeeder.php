@@ -7,6 +7,7 @@ use App\Models\Admin;
 use App\Models\Booking;
 use App\Models\Favorite;
 use App\Models\House;
+use App\Models\Review;
 use App\Models\Seller;
 use App\Models\User;
 use App\Models\UserDocument;
@@ -32,6 +33,7 @@ class DatabaseSeeder extends Seeder
         VehicleDocument::factory()->count(100)->create();
         Favorite::factory()->count(30)->create();
         Booking::factory()->count(100)->create();
+        Review::factory()->count(20)->create();
 
         $this->call([
             CoreSeeder::class,

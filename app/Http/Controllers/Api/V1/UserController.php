@@ -6,6 +6,7 @@ use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingRequest;
 use App\Http\Requests\CoordinatesRequest;
+use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UserFavoriteRequest;
 use App\Http\Requests\UserUpdateProfileRequest;
 use App\Http\Resources\BookingResource;
@@ -158,6 +159,13 @@ class UserController extends Controller
         if ($request->hasFile('avatar')) {
             auth()->user()->addMediaFromRequest('avatar')->toMediaCollection('avatar');
         }
+
+        return response()->noContent();
+    }
+
+    public function storeReview(StoreReviewRequest $request): Response
+    {
+        auth()->user()->reviews()->create($request->validated());
 
         return response()->noContent();
     }

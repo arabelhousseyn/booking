@@ -77,6 +77,11 @@ class House extends Model implements HasMedia
         return $this->morphMany(Booking::class, 'bookable');
     }
 
+    public function reviews(): MorphMany
+    {
+        return $this->morphMany(Review::class, 'reviewable');
+    }
+
     /**
      * Accessors & mutators
      */
