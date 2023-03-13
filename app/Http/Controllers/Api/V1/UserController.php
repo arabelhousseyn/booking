@@ -2,20 +2,24 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Enums\ReasonTypes;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingRequest;
 use App\Http\Requests\CoordinatesRequest;
+use App\Http\Requests\GetReasonsRequest;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UserFavoriteRequest;
 use App\Http\Requests\UserUpdateProfileRequest;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\HouseResource;
+use App\Http\Resources\ReasonCompactResource;
 use App\Http\Resources\UserFavoriteResource;
 use App\Http\Resources\VehicleResource;
 use App\Models\Booking;
 use App\Models\Favorite;
 use App\Models\House;
+use App\Models\Reason;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Support\RecipientNotificationDispatcher;
@@ -168,5 +172,14 @@ class UserController extends Controller
         auth()->user()->reviews()->create($request->validated());
 
         return response()->noContent();
+    }
+
+    public function reasons(GetReasonsRequest $request): JsonResource
+    {
+        $reasons = Reason::where('type', '=', $request->validated('type'))
+            ->Orwhere('type', '=', ReasonTypes::ALL)
+            ->get();
+
+        return ReasonCompactResource::collection($reasons);
     }
 }

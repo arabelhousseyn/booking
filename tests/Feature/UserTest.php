@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Enums\ModelType;
 use App\Enums\PaymentType;
+use App\Enums\ReasonTypes;
 use App\Enums\Status;
 use App\Models\Booking;
 use App\Models\Favorite;
 use App\Models\House;
+use App\Models\Reason;
 use App\Models\Review;
 use App\Models\User;
 use App\Models\Vehicle;
@@ -32,8 +35,8 @@ class UserTest extends TestCase
 
         $this->vehicle = Vehicle::factory()->create();
         $this->house = House::factory()->create();
-        $this->vehicles = Vehicle::factory()->count(10)->has(Review::factory(),'reviews')->create();
-        $this->houses = House::factory()->count(10)->has(Review::factory(),'reviews')->create();
+        $this->vehicles = Vehicle::factory()->count(10)->has(Review::factory(), 'reviews')->create();
+        $this->houses = House::factory()->count(10)->has(Review::factory(), 'reviews')->create();
 
         House::query()->update(['status' => Status::PUBLISHED]);
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
@@ -199,7 +202,6 @@ class UserTest extends TestCase
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles")
             ->assertOk()
-            ->dump()
             ->assertJsonCount(3, 'data');
     }
 
@@ -576,5 +578,20 @@ class UserTest extends TestCase
         $this->authenticated()
             ->json('post', "$this->endpoint/store-review", $inputs)
             ->assertJsonValidationErrors('reviewable_id');
+    }
+
+    public function test_reasons()
+    {
+        Reason::query()->delete();
+        Reason::factory()->count(3)->create(['type' => ReasonTypes::HOUSES]);
+        Reason::factory()->count(3)->create(['type' => ReasonTypes::ALL]);
+
+        $inputs = [
+            'type' => ReasonTypes::HOUSES,
+        ];
+        $this->authenticated()
+            ->json('get', "$this->endpoint/reasons", $inputs)
+            ->assertOk()
+            ->assertJsonCount(6, 'data');
     }
 }

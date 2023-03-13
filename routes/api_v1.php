@@ -41,6 +41,7 @@ Route::prefix('/v1/users')->group(function () {
             Route::get('/booking/{booking}', 'viewBooking')->name('users.view-booking');
             Route::get('/bookings', 'bookings')->name('users.bookings');
             Route::post('/store-review', 'storeReview')->name('users.store-review');
+            Route::get('/reasons', 'reasons')->name('users.reasons');
         });
     });
 });

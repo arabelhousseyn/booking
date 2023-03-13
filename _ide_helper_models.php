@@ -180,6 +180,19 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Reason
+ *
+ * @property \BenSampo\Enum\Enum|null $type
+ * @method static \Database\Factories\ReasonFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Reason newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Reason newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Reason query()
+ */
+	class Reason extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Review
  *
  * @property \BenSampo\Enum\Enum|null $reviewable_type

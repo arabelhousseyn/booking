@@ -7,7 +7,6 @@ use BenSampo\Enum\Enum;
 /**
  * @method static static HOUSE()
  * @method static static VEHICLE()
- * @method static static OptionThree()
  */
 final class ModelType extends Enum
 {
