@@ -39,6 +39,7 @@ class Booking extends Model
         'start_date',
         'end_date',
         'status',
+        'coupon_code',
     ];
 
 

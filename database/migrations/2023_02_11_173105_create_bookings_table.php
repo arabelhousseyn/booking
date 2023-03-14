@@ -38,6 +38,7 @@ return new class() extends Migration {
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->string('status');
+            $table->string('coupon_code')->nullable();
 
             $table->unique(['user_id', 'seller_id', 'bookable_type', 'bookable_id']);
             $table->timestamps();

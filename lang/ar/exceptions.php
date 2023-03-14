@@ -9,4 +9,5 @@ return [
     'password_changed' => 'تم تغيير كلمة السر.',
     'file_uploaded' => 'تم تحميل الملف بالفعل.',
     'wrong_password' => 'كلمة السر :state خطأ.',
+    'coupon_code_invalid' => 'رمز القسيمة غير صالح',
 ];

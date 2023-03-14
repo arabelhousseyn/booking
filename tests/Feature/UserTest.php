@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Enums\ModelType;
+use App\Enums\CouponStatus;
+use App\Enums\CouponSystemType;
+use App\Enums\CouponType;
 use App\Enums\PaymentType;
 use App\Enums\ReasonTypes;
 use App\Enums\Status;
 use App\Models\Booking;
+use App\Models\Coupon;
 use App\Models\Favorite;
 use App\Models\House;
 use App\Models\Reason;
@@ -463,6 +466,56 @@ class UserTest extends TestCase
             ->assertStatus(403);
     }
 
+    public function test_store_booking__case04() // with coupon code
+    {
+        // when case status is inactive
+        $coupon = Coupon::factory()->create(['status' => CouponStatus::INACTIVE,'system_type' => CouponSystemType::ALL]);
+
+        $vehicle = Vehicle::factory()->create(['price' => '20000']);
+        $vehicle->update(['status' => Status::PUBLISHED]);
+
+        $inputs = [
+            'bookable_type' => $vehicle->getMorphClass(),
+            'bookable_id' => $vehicle->getKey(),
+            'payment_type' => PaymentType::DAHABIA,
+            'start_date' => '2023-03-10 00:00:00',
+            'end_date' => '2023-03-12 00:00:00',
+            'coupon_code' => $coupon->code,
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking", $inputs)
+            ->assertBadRequest()
+            ->assertJson(['message' => trans('exceptions.coupon_code_invalid')]);
+
+        // when case system type equal to house
+        $coupon->update(['status' => CouponStatus::ACTIVE,'system_type' => CouponSystemType::HOUSE]);
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking", $inputs)
+            ->assertBadRequest()
+            ->assertJson(['message' => trans('exceptions.coupon_code_invalid')]);
+
+        // when the date is expired
+        $coupon->update(['status' => CouponStatus::ACTIVE,'system_type' => CouponSystemType::VEHICLE,'type' => CouponType::CUSTOM,'start_date' => '2023-03-10','end_date' => '2023-03-12']);
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking", $inputs)
+            ->assertBadRequest()
+            ->assertJson(['message' => trans('exceptions.coupon_code_invalid')]);
+
+        // when the usage limit is full
+        $coupon->update(['usage_limit' => 2,'status' => CouponStatus::ACTIVE,'system_type' => CouponSystemType::VEHICLE,'type' => CouponType::CUSTOM,'start_date' => '2023-03-10','end_date' => '2023-04-12']);
+        $coupon->usages()->create(['user_id' => $this->user->id]);
+        $coupon->usages()->create(['user_id' => $this->user->id]);
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking", $inputs)
+            ->assertBadRequest()
+            ->assertJson(['message' => trans('exceptions.coupon_code_invalid')]);
+
+    }
+
     public function test_view_booking()
     {
         $booking = Booking::factory()->create(['user_id' => $this->user->id]);
@@ -593,5 +646,19 @@ class UserTest extends TestCase
             ->json('get', "$this->endpoint/reasons", $inputs)
             ->assertOk()
             ->assertJsonCount(6, 'data');
+    }
+
+    public function test_coupons()
+    {
+        Coupon::query()->delete();
+        Coupon::factory()->count(3)->create(['status' => CouponStatus::ACTIVE]);
+
+        $inputs = [
+            'type' => ReasonTypes::HOUSES,
+        ];
+        $this->authenticated()
+            ->json('get', "$this->endpoint/coupons", $inputs)
+            ->assertOk()
+            ->assertJsonCount(3, 'data');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Enums\CouponStatus;
 use App\Enums\ReasonTypes;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
@@ -12,11 +13,13 @@ use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UserFavoriteRequest;
 use App\Http\Requests\UserUpdateProfileRequest;
 use App\Http\Resources\BookingResource;
+use App\Http\Resources\CouponResource;
 use App\Http\Resources\HouseResource;
 use App\Http\Resources\ReasonCompactResource;
 use App\Http\Resources\UserFavoriteResource;
 use App\Http\Resources\VehicleResource;
 use App\Models\Booking;
+use App\Models\Coupon;
 use App\Models\Favorite;
 use App\Models\House;
 use App\Models\Reason;
@@ -106,7 +109,7 @@ class UserController extends Controller
 
         $priceCalculated = auth()->user()->CalculateBookingPrice($request->validated());
 
-        $booking = auth()->user()->bookings()->create(array_merge($priceCalculated, $request->safe()->only('payment_type', 'bookable_type', 'bookable_id', 'start_date', 'end_date')));
+        $booking = auth()->user()->bookings()->create(array_merge($priceCalculated, $request->safe()->only('payment_type', 'bookable_type', 'bookable_id', 'start_date', 'end_date', 'coupon_code')));
 
         $booking->load(['bookable']);
 
@@ -181,5 +184,12 @@ class UserController extends Controller
             ->get();
 
         return ReasonCompactResource::collection($reasons);
+    }
+
+    public function coupons(): JsonResource
+    {
+        $coupons = Coupon::whereNot('status', '=', CouponStatus::INACTIVE)->get();
+
+        return CouponResource::collection($coupons);
     }
 }

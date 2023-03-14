@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Admin;
 use App\Models\Booking;
+use App\Models\Coupon;
 use App\Models\Favorite;
 use App\Models\House;
 use App\Models\Reason;
@@ -36,6 +37,7 @@ class DatabaseSeeder extends Seeder
         Booking::factory()->count(100)->create();
         Review::factory()->count(20)->create();
         Reason::factory()->count(3)->create();
+        Coupon::factory()->count(3)->create();
 
         $this->call([
             CoreSeeder::class,

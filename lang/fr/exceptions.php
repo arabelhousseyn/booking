@@ -9,4 +9,5 @@ return [
     'password_changed' => 'Mot de passe changé.',
     'file_uploaded' => 'Fichier déjà téléchargé.',
     'wrong_password' => 'Le :state mot de passe est erroné.',
+    'coupon_code_invalid' => 'Le code promo est invalide',
 ];

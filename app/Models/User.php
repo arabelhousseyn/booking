@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\PaymentType;
+use App\Support\ApplyCouponCodeBuilder;
 use App\Traits\UUID;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -195,7 +196,7 @@ class User extends Authenticatable implements HasMedia
         return $distance;
     }
 
-    public function CalculateBookingPrice(array $data): ?array
+    public function CalculateBookingPrice(array $data): array
     {
         try {
             DB::beginTransaction();
@@ -209,6 +210,8 @@ class User extends Authenticatable implements HasMedia
             $bookable = Relation::$morphMap[$data['bookable_type']]::find($data['bookable_id']);
 
             $net_price = $bookable->price * $days;
+
+            $net_price = (new ApplyCouponCodeBuilder(@$data['coupon_code'], $net_price, $data['bookable_type']))->calculate();
 
             if ($data['payment_type'] == PaymentType::DAHABIA) {
                 if ($net_price <= $core->dahabia_caution) {
@@ -239,9 +242,8 @@ class User extends Authenticatable implements HasMedia
             ];
         } catch (\Exception $exception) {
             DB::rollBack();
+            throw $exception;
         }
-
-        return null;
     }
 
     private function pay(float $amount, string $type): void

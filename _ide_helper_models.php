@@ -108,6 +108,37 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Coupon
+ *
+ * @property \BenSampo\Enum\Enum|null $type
+ * @property \BenSampo\Enum\Enum|null $system_type
+ * @property \BenSampo\Enum\Enum|null $status
+ * @property \BenSampo\Enum\Enum|null $value_type
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CouponUsage> $usages
+ * @property-read int|null $usages_count
+ * @method static \Database\Factories\CouponFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon query()
+ */
+	class Coupon extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\CouponUsage
+ *
+ * @property-read \App\Models\Coupon|null $coupon
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|CouponUsage newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CouponUsage newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CouponUsage query()
+ */
+	class CouponUsage extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Favorite
  *
  * @property string $id

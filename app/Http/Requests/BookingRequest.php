@@ -40,6 +40,7 @@ class BookingRequest extends FormRequest
             'payment_type' => ['bail', 'required', Rule::in(PaymentType::DAHABIA, PaymentType::MASTER_CARD, PaymentType::VISA)],
             'start_date' => ['bail', 'required', 'date', 'date_format:Y-m-d H:i:s'],
             'end_date' => ['bail', 'required', 'date', 'date_format:Y-m-d H:i:s', 'after:start_date'],
+            'coupon_code' => ['bail', 'nullable', 'max:255', Rule::exists('coupons', 'code')],
         ];
     }
 }

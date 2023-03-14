@@ -9,4 +9,5 @@ return [
     'password_changed' => 'Password Changed.',
     'file_uploaded' => 'File already uploaded.',
     'wrong_password' => 'The :state password is wrong.',
+    'coupon_code_invalid' => 'The coupon code is invalid',
 ];

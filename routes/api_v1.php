@@ -23,8 +23,8 @@ Route::prefix('/v1/users')->group(function () {
     });
 
     // special case: so this two endpoints work both in guest and auth mode
-    Route::get('/list-vehicles', [UserController::class, 'listVehicles'])->name('users.list-vehicles');
-    Route::get('/list-houses', [UserController::class, 'listHouses'])->name('users.list-houses');
+    Route::get('/list-vehicles', [UserController::class, 'listVehicles'])->name('users.list-vehicles'); // postman
+    Route::get('/list-houses', [UserController::class, 'listHouses'])->name('users.list-houses'); // postman
 
 
     Route::middleware('auth:sanctum')->group(function () {
@@ -37,11 +37,12 @@ Route::prefix('/v1/users')->group(function () {
             Route::delete('/destroy-favorite/{user}/{favorite}', 'destroyFavorite')->name('users.destroy-favorite')->scopeBindings();
             Route::post('/profile', 'updateProfile')->name('users-update-profile');
             Route::put('/password', 'updatePassword')->name('users-update-password');
-            Route::post('/booking', 'storeBooking')->name('users.store-booking');
-            Route::get('/booking/{booking}', 'viewBooking')->name('users.view-booking');
-            Route::get('/bookings', 'bookings')->name('users.bookings');
-            Route::post('/store-review', 'storeReview')->name('users.store-review');
-            Route::get('/reasons', 'reasons')->name('users.reasons');
+            Route::post('/booking', 'storeBooking')->name('users.store-booking'); // postman
+            Route::get('/booking/{booking}', 'viewBooking')->name('users.view-booking'); // postman
+            Route::get('/bookings', 'bookings')->name('users.bookings'); // postman
+            Route::post('/store-review', 'storeReview')->name('users.store-review'); // postman
+            Route::get('/reasons', 'reasons')->name('users.reasons'); // postman
+            Route::get('/coupons', 'coupons')->name('users.coupons'); // postman
         });
     });
 });
