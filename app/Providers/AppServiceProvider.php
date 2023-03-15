@@ -33,6 +33,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->isLocal()) {
+            $this->app->register(IdeHelperServiceProvider::class);
+        }
+
         $this->mixins();
 
         Model::preventLazyLoading(!app()->isProduction());
