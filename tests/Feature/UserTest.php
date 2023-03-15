@@ -661,4 +661,12 @@ class UserTest extends TestCase
             ->assertOk()
             ->assertJsonCount(3, 'data');
     }
+
+    public function test_ads()
+    {
+        $this->authenticated()
+            ->json('get', "$this->endpoint/ads")
+            ->assertOk()
+            ->assertJsonCount(0, 'data');
+    }
 }

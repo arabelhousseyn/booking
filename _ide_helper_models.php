@@ -12,6 +12,20 @@
 
 namespace App\Models{
 /**
+ * App\Models\Ad
+ *
+ * @property-read array $photos
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Ad newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Ad newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Ad query()
+ */
+	class Ad extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Admin
  *
  * @property string $id

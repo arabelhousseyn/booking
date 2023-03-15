@@ -43,6 +43,7 @@ Route::prefix('/v1/users')->group(function () {
             Route::post('/store-review', 'storeReview')->name('users.store-review'); // postman
             Route::get('/reasons', 'reasons')->name('users.reasons'); // postman
             Route::get('/coupons', 'coupons')->name('users.coupons'); // postman
+            Route::get('/ads', 'ads')->name('users.ads'); // postman
         });
     });
 });

@@ -12,12 +12,14 @@ use App\Http\Requests\GetReasonsRequest;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UserFavoriteRequest;
 use App\Http\Requests\UserUpdateProfileRequest;
+use App\Http\Resources\AdResource;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\CouponResource;
 use App\Http\Resources\HouseResource;
 use App\Http\Resources\ReasonCompactResource;
 use App\Http\Resources\UserFavoriteResource;
 use App\Http\Resources\VehicleResource;
+use App\Models\Ad;
 use App\Models\Booking;
 use App\Models\Coupon;
 use App\Models\Favorite;
@@ -191,5 +193,12 @@ class UserController extends Controller
         $coupons = Coupon::whereNot('status', '=', CouponStatus::INACTIVE)->get();
 
         return CouponResource::collection($coupons);
+    }
+
+    public function ads(): JsonResource
+    {
+        $ads = Ad::all();
+
+        return AdResource::collection($ads);
     }
 }
