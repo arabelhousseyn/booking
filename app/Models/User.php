@@ -229,9 +229,9 @@ class User extends Authenticatable implements HasMedia
                 $has_caution = true;
             }
 
-            $this->pay($amount_to_pay, $data['payment_type']);
-
             DB::commit();
+
+            $this->pay($amount_to_pay, $data['payment_type']);
 
             return [
                 'net_price' => $net_price,

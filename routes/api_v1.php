@@ -22,7 +22,7 @@ Route::prefix('/v1/users')->group(function () {
         Route::post('/forgot-password', [UserAuthController::class, 'forgotPassword'])->name('users.forgot-password');
     });
 
-    // special case: so this two endpoints work both in guest and auth mode
+    // special case: so this two endpoints work in guest mode
     Route::get('/guest-list-vehicles', [UserController::class, 'listVehicles'])->name('users.list-vehicles');
     Route::get('/guest-list-houses', [UserController::class, 'listHouses'])->name('users.list-houses');
 
