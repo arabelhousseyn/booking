@@ -25,6 +25,7 @@ class SellerFactory extends Factory
             'email_verified_at' => now(),
             'phone' => $this->faker->unique()->phoneNumber,
             'phone_verified_at' => now(),
+            'country_code' => '213',
             'password' => Hash::make('password'),
             'firebase_registration_token' => Str::random(60),
         ];

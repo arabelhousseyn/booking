@@ -20,6 +20,7 @@ return new class() extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone')->unique();
             $table->string('phone_verified_at')->nullable();
+            $table->string('country_code');
             $table->string('otp')->nullable();
             $table->boolean('can_rent_house')->default(true);
             $table->boolean('can_rent_vehicle')->default(false);

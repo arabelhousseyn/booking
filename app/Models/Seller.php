@@ -26,6 +26,7 @@ class Seller extends Authenticatable implements HasMedia
         'email',
         'phone',
         'phone_verified_at',
+        'country_code',
         'otp',
         'password',
         'firebase_registration_token',

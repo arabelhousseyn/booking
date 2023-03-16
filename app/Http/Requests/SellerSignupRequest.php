@@ -31,6 +31,7 @@ class SellerSignupRequest extends FormRequest
             'last_name' => ['bail', 'required', 'max:255'],
             'email' => ['bail', 'required', 'email:rfc,dns,filter', Rule::unique('sellers', 'email')],
             'phone' => ['bail', 'required', 'digits:10', Rule::unique('sellers', 'phone')],
+            'country_code' => ['bail', 'required'],
             'password' => ['bail', 'required', Password::default()],
             'avatar' => ['bail', 'nullable', 'image', 'mimes:jpg,jpeg,png'],
             'firebase_registration_token' => ['bail', 'required'],

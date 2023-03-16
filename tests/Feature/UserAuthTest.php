@@ -98,6 +98,7 @@ class UserAuthTest extends TestCase
             'password' => 'password',
             'avatar' => null,
             'firebase_registration_token' => Str::random(60),
+            'country_code' => '213'
         ];
 
         $this->json('post', "$this->endpoint/signup", $inputs)
@@ -128,6 +129,7 @@ class UserAuthTest extends TestCase
             'password' => 'password',
             'avatar' => UploadedFile::fake()->image('avatar.jpg'),
             'firebase_registration_token' => Str::random(60),
+            'country_code' => '213'
         ];
 
         $this->json('post', "$this->endpoint/signup", $inputs)

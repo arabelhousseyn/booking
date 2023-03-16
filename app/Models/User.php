@@ -37,6 +37,7 @@ class User extends Authenticatable implements HasMedia
         'email',
         'phone',
         'phone_verified_at',
+        'country_code',
         'otp',
         'can_rent_house',
         'can_rent_vehicle',

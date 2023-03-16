@@ -22,6 +22,7 @@ class SellerResource extends JsonResource
             'last_name' => $this->last_name,
             'email' => $this->email,
             'phone' => $this->phone,
+            'country_code' => $this->country_code,
             'avatar' => $this->avatar,
             'token' => $this->token,
         ];

@@ -31,6 +31,7 @@ class UserSignupRequest extends FormRequest
             'last_name' => ['bail', 'required', 'max:255'],
             'email' => ['bail', 'required', 'email:rfc,dns,filter', Rule::unique('users', 'email')],
             'phone' => ['bail', 'required', 'digits:10', Rule::unique('users', 'phone')],
+            'country_code' => ['bail', 'required'],
             'coordinates' => ['bail', 'required', new Coordinates()],
             'password' => ['bail', 'required', Password::default()],
             'avatar' => ['bail', 'nullable', 'image', 'mimes:jpg,jpeg,png'],
