@@ -275,7 +275,8 @@ class UserTest extends TestCase
         $inputs = [
             'coordinates' => '36.1580,1.3373',
         ];
-        $this->json('get', "$this->endpoint/list-vehicles", $inputs)
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-vehicles", $inputs)
             ->assertOk()
             ->assertJsonCount(15, 'data');
     }
@@ -293,7 +294,8 @@ class UserTest extends TestCase
 
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->json('get', "$this->endpoint/list-vehicles", $inputs)
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-vehicles", $inputs)
             ->assertOk()
             ->assertJsonCount(3, 'data');
     }
@@ -311,7 +313,8 @@ class UserTest extends TestCase
 
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->json('get', "$this->endpoint/list-vehicles", $inputs)
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-vehicles", $inputs)
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
@@ -322,7 +325,8 @@ class UserTest extends TestCase
             'coordinates' => '36.1580,1.3373',
         ];
 
-        $this->json('get', "$this->endpoint/list-houses", $inputs)
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-houses", $inputs)
             ->assertOk()
             ->assertJsonCount(15, 'data');
     }
@@ -340,7 +344,8 @@ class UserTest extends TestCase
 
         House::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->json('get', "$this->endpoint/list-houses", $inputs)
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-houses", $inputs)
             ->assertOk()
             ->assertJsonCount(3, 'data');
     }
@@ -358,7 +363,8 @@ class UserTest extends TestCase
 
         House::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->json('get', "$this->endpoint/list-houses", $inputs)
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-houses", $inputs)
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
@@ -372,7 +378,7 @@ class UserTest extends TestCase
 
         House::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->json('get', "$this->endpoint/list-houses")
+        $this->json('get', "$this->endpoint/guest-list-houses")
             ->assertStatus(422)
             ->assertJsonValidationErrors(['coordinates']);
     }

@@ -51,6 +51,7 @@ Route::prefix('/v1/users')->group(function () {
             Route::get('/coupons', 'coupons')->name('users.coupons');
             Route::get('/list-vehicles', 'listVehicles')->name('users.list-vehicles');
             Route::get('/list-houses', 'listHouses')->name('users.list-houses');
+            Route::get('/ads','ads')->name('users.ads');
         });
     });
 });
