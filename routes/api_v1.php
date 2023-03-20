@@ -32,19 +32,25 @@ Route::prefix('/v1/users')->group(function () {
 
 
         Route::controller(UserController::class)->group(function () {
+            // favorites
             Route::post('/store-favorite', 'storeFavorite')->name('users.store-favorites');
             Route::get('/favorites', 'getFavorites')->name('users.get-favorites');
             Route::delete('/destroy-favorite/{user}/{favorite}', 'destroyFavorite')->name('users.destroy-favorite')->scopeBindings();
+
+            // profile
             Route::post('/profile', 'updateProfile')->name('users-update-profile');
+            Route::get('/profile', 'profile')->name('users-profile');
             Route::put('/password', 'updatePassword')->name('users-update-password');
+
+            // booking
             Route::post('/booking', 'storeBooking')->name('users.store-booking');
             Route::get('/booking/{booking}', 'viewBooking')->name('users.view-booking');
             Route::get('/bookings', 'bookings')->name('users.bookings');
             Route::post('/store-review', 'storeReview')->name('users.store-review');
             Route::get('/reasons', 'reasons')->name('users.reasons');
             Route::get('/coupons', 'coupons')->name('users.coupons');
-            Route::get('/list-vehicles',  'listVehicles')->name('users.list-vehicles');
-            Route::get('/list-houses',  'listHouses')->name('users.list-houses');
+            Route::get('/list-vehicles', 'listVehicles')->name('users.list-vehicles');
+            Route::get('/list-houses', 'listHouses')->name('users.list-houses');
         });
     });
 });
@@ -75,6 +81,7 @@ Route::prefix('/v1/sellers')->group(function () {
 
             //profile
             Route::post('/profile', 'updateProfile')->name('sellers-update-profile');
+            Route::get('/profile', 'profile')->name('sellers-profile');
             Route::put('/password', 'updatePassword')->name('sellers-update-password');
 
 

@@ -154,6 +154,13 @@ class UserTest extends TestCase
         ]);
     }
 
+    public function test_profile()
+    {
+        $this->authenticated()
+            ->json('get', "$this->endpoint/profile")
+            ->assertOk();
+    }
+
     public function test_update_password__case01() // standard case
     {
         $inputs = [

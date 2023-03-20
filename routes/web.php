@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\V1\Auth\Users\AuthController as UserAuthController;
 use App\Http\Controllers\Api\V1\Auth\Sellers\AuthController as SellerAuthController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Api\V1\Auth\Users\AuthController as UserAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,21 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return [];
-});
+Route::get('/', function () {return [];});
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth:admin', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';
+require __DIR__.'/dashboard.php';
 
 
 Route::get('/user-password-reset', function () {

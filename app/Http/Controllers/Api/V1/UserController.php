@@ -18,6 +18,7 @@ use App\Http\Resources\CouponResource;
 use App\Http\Resources\HouseResource;
 use App\Http\Resources\ReasonCompactResource;
 use App\Http\Resources\UserFavoriteResource;
+use App\Http\Resources\UserResource;
 use App\Http\Resources\VehicleResource;
 use App\Models\Ad;
 use App\Models\Booking;
@@ -170,6 +171,13 @@ class UserController extends Controller
         }
 
         return response()->noContent();
+    }
+
+    public function profile(): UserResource
+    {
+        $user = auth()->user();
+
+        return UserResource::make($user);
     }
 
     public function storeReview(StoreReviewRequest $request): Response

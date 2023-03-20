@@ -10,6 +10,7 @@ use App\Http\Requests\StoreVehicleDocumentsRequest;
 use App\Http\Requests\StoreVehicleRequest;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\HouseResource;
+use App\Http\Resources\SellerResource;
 use App\Http\Resources\VehicleResource;
 use App\Models\Booking;
 use App\Models\Seller;
@@ -87,6 +88,13 @@ class SellerController extends Controller
         }
 
         return response()->noContent();
+    }
+
+    public function profile(): SellerResource
+    {
+        $user = auth()->user();
+
+        return SellerResource::make($user);
     }
 
     public function bookings():JsonResource
