@@ -10,6 +10,7 @@ use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -33,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->isLocal()) {
+            $this->app->register(IdeHelperServiceProvider::class);
+        }
 
         $this->mixins();
 
@@ -58,6 +62,8 @@ class AppServiceProvider extends ServiceProvider
 
             return !empty(resolve($type)->find($value));
         });
+
+        Paginator::useBootstrapThree();
     }
 
     private function mixins(): void

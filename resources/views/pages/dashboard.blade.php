@@ -6,11 +6,11 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Dashboard
+                Tableau de bord
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> Acceuil</a></li>
-                <li class="active">Dashboard</li>
+                <li class="active">Tableau de bord</li>
             </ol>
         </section>
 

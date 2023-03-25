@@ -15,8 +15,8 @@ return new class() extends Migration {
         Schema::create('core', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->integer('commission');
-            $table->uuid('commission_updated_by');
 
+            $table->uuid('commission_updated_by')->nullable();
             $table->foreign('commission_updated_by')
                 ->on('admins')
                 ->references('id');
