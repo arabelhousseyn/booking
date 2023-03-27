@@ -11,7 +11,7 @@ class MigrationMixin
     public function firebaseToken(): \Closure
     {
         return function () {
-            return static::string('firebase_registration_token');
+            return static::string('firebase_registration_token')->nullable();
         };
     }
 }
