@@ -200,9 +200,9 @@
                     <span>Comptes</span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="dashboard/admins"><i class="fa fa-circle-o"></i> Administrateurs</a></li>
-                    <li><a href="dashboard/users"><i class="fa fa-circle-o"></i> Utilisateurs</a></li>
-                    <li><a href="dashboard/sellers"><i class="fa fa-circle-o"></i> Partenaires</a></li>
+                    <li><a href="{{route('dashboard.admins.index')}}"><i class="fa fa-circle-o"></i> Administrateurs</a></li>
+                    <li><a href="/dashboard"><i class="fa fa-circle-o"></i> Utilisateurs</a></li>
+                    <li><a href="{{route('dashboard.sellers.index')}}"><i class="fa fa-circle-o"></i> Partenaires</a></li>
                 </ul>
             </li>
         </ul>
