@@ -15,4 +15,9 @@ class FirebaseTopic extends Enum implements LocalizedEnum
     const USERS = '/topics/users';
     const SELLERS = '/topics/sellers';
     const ALL = '/topics/all';
+
+    public static function getLocalizationKey(): string
+    {
+        return 'enums.'.self::class;
+    }
 }

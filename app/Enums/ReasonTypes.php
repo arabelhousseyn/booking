@@ -10,10 +10,14 @@ use BenSampo\Enum\Enum;
  * @method static static VEHICLES()
  * @method static static ALL()
  */
-
 class ReasonTypes extends Enum implements LocalizedEnum
 {
     const HOUSES = 'houses';
     const VEHICLES = 'vehicles';
     const ALL = 'all';
+
+    public static function getLocalizationKey(): string
+    {
+        return 'enums.'.self::class;
+    }
 }

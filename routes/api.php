@@ -6,7 +6,6 @@
 |--------------------------------------------------------------------------
 |
 */
-// todo : comment out the api version middleware ( for deployment )
-//Route::middleware('api_version')->group(function () {
-require('api_v1.php');
-//});
+Route::middleware(['api_version', 'locale'])->group(function () {
+    require('api_v1.php');
+});

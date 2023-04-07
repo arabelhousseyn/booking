@@ -19,4 +19,9 @@ final class UserDocumentType extends Enum implements LocalizedEnum
     const DOCUMENT_LICENSE_FRONT = 'document_license_front';
     const DOCUMENT_LICENSE_BACK = 'document_license_back';
     const FACE = 'face';
+
+    public static function getLocalizationKey(): string
+    {
+        return 'enums.'.self::class;
+    }
 }

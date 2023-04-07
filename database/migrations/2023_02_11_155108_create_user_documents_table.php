@@ -24,8 +24,8 @@ return new class() extends Migration {
 
             $table->string('document_type');
             $table->string('document_url');
+            $table->string('status');
 
-            $table->unique(['user_id', 'document_type']);
             $table->timestamps();
         });
     }

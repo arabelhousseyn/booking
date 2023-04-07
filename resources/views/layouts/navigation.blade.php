@@ -35,7 +35,8 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                                        <i class="fa fa-warning text-yellow"></i> Very long description here that may
+                                        not fit into the
                                         page and may cause design problems
                                     </a>
                                 </li>
@@ -77,7 +78,8 @@
                                             <small class="pull-right">20%</small>
                                         </h3>
                                         <div class="progress xs">
-                                            <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
+                                            <div class="progress-bar progress-bar-aqua" style="width: 20%"
+                                                 role="progressbar"
                                                  aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
                                                 <span class="sr-only">20% Complete</span>
                                             </div>
@@ -92,7 +94,8 @@
                                             <small class="pull-right">40%</small>
                                         </h3>
                                         <div class="progress xs">
-                                            <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar"
+                                            <div class="progress-bar progress-bar-green" style="width: 40%"
+                                                 role="progressbar"
                                                  aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
                                                 <span class="sr-only">40% Complete</span>
                                             </div>
@@ -107,7 +110,8 @@
                                             <small class="pull-right">60%</small>
                                         </h3>
                                         <div class="progress xs">
-                                            <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar"
+                                            <div class="progress-bar progress-bar-red" style="width: 60%"
+                                                 role="progressbar"
                                                  aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
                                                 <span class="sr-only">60% Complete</span>
                                             </div>
@@ -122,7 +126,8 @@
                                             <small class="pull-right">80%</small>
                                         </h3>
                                         <div class="progress xs">
-                                            <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar"
+                                            <div class="progress-bar progress-bar-yellow" style="width: 80%"
+                                                 role="progressbar"
                                                  aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
                                                 <span class="sr-only">80% Complete</span>
                                             </div>
@@ -146,7 +151,8 @@
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="{{asset('assets/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
+                            <img src="{{asset('assets/dist/img/user2-160x160.jpg')}}" class="img-circle"
+                                 alt="User Image">
 
                             <p>
                                 {{auth()->user()->full_name}}
@@ -200,9 +206,29 @@
                     <span>Comptes</span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{route('dashboard.admins.index')}}"><i class="fa fa-circle-o"></i> Administrateurs</a></li>
-                    <li><a href="/dashboard"><i class="fa fa-circle-o"></i> Utilisateurs</a></li>
-                    <li><a href="{{route('dashboard.sellers.index')}}"><i class="fa fa-circle-o"></i> Partenaires</a></li>
+                    <li><a href="{{route('dashboard.admins.index')}}"><i class="fa fa-circle-o"></i> Administrateurs</a>
+                    </li>
+                    <li><a href="{{route('dashboard.users.index')}}"><i class="fa fa-circle-o"></i> Utilisateurs</a>
+                    </li>
+                    <li><a href="{{route('dashboard.sellers.index')}}"><i class="fa fa-circle-o"></i> Partenaires</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-cog"></i>
+                    <span>Paramètres</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{route('dashboard.settings.general')}}"><i class="fa fa-circle-o"></i> Général</a>
+                    </li>
+                    <li><a href="{{route('dashboard.reasons.index')}}"><i class="fa fa-circle-o"></i> Raisons de réclamation</a>
+                    </li>
+                    <li><a href="/"><i class="fa fa-circle-o"></i> Rôles et permissions</a>
+                    </li>
+                    <li><a href="{{route('dashboard.notificationTemplate.index')}}"><i class="fa fa-circle-o"></i> Modèle de notification</a>
+                    </li>
                 </ul>
             </li>
         </ul>

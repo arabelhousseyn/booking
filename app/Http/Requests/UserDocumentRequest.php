@@ -26,7 +26,7 @@ class UserDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'documents' => ['bail', 'required'],
+            'documents' => ['bail', 'required', 'array'],
             'documents.*.document_type' => [
                 'bail', 'required',
                 Rule::in([UserDocumentType::ID, UserDocumentType::PASSPORT, UserDocumentType::FACE, UserDocumentType::DOCUMENT_LICENSE_FRONT, UserDocumentType::DOCUMENT_LICENSE_BACK]),
