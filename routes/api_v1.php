@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Auth\Users\AuthController as UserAuthController;
 use App\Http\Controllers\Api\V1\Auth\Sellers\AuthController as SellerAuthController;
 use App\Http\Controllers\Api\V1\SellerController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\CoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +52,7 @@ Route::prefix('/v1/users')->group(function () {
             Route::get('/coupons', 'coupons')->name('users.coupons');
             Route::get('/list-vehicles', 'listVehicles')->name('users.list-vehicles');
             Route::get('/list-houses', 'listHouses')->name('users.list-houses');
-            Route::get('/ads','ads')->name('users.ads');
+            Route::get('/ads', 'ads')->name('users.ads');
         });
     });
 });
@@ -97,3 +98,13 @@ Route::prefix('/v1/sellers')->group(function () {
         });
     });
 });
+
+/*
+|--------------------------------------------------------------------------
+| Core
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::get('/v1/core', CoreController::class)->name('core');
+

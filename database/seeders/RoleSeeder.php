@@ -19,6 +19,7 @@ class RoleSeeder extends Seeder
         $roles = [
             'name' => 'root',
             'guard_name' => 'admin',
+            'is_protected' => true,
         ];
 
         $permissions = Permission::all();

@@ -225,7 +225,7 @@
                     </li>
                     <li><a href="{{route('dashboard.reasons.index')}}"><i class="fa fa-circle-o"></i> Raisons de réclamation</a>
                     </li>
-                    <li><a href="/"><i class="fa fa-circle-o"></i> Rôles et permissions</a>
+                    <li><a href="{{route('dashboard.roles.index')}}"><i class="fa fa-circle-o"></i> Rôles et permissions</a>
                     </li>
                     <li><a href="{{route('dashboard.notificationTemplate.index')}}"><i class="fa fa-circle-o"></i> Modèle de notification</a>
                     </li>

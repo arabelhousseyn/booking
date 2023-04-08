@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\SettingsController;
 use App\Http\Controllers\Dashboard\ReasonsController;
 use App\Http\Controllers\Dashboard\NotificationTemplateController;
+use App\Http\Controllers\Dashboard\RolesController;
 
 Route::prefix('dashboard')->group(function () {
 
@@ -71,6 +72,17 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/notification_template',[NotificationTemplateController::class,'index'])->name('dashboard.notificationTemplate.index');
         Route::post('/notification_template',[NotificationTemplateController::class,'push'])->name('dashboard.notificationTemplate.push');
 
+        // roles and permissions
+        Route::resource('/roles/', RolesController::class)->names([
+            'index' => 'dashboard.roles.index',
+            'create' => 'dashboard.roles.create',
+            'store' => 'dashboard.roles.store',
+        ]);
+
+        Route::get('/roles/{role}/show', [RolesController::class, 'show'])->name('dashboard.roles.show');
+        Route::get('/roles/{role}/edit', [RolesController::class, 'edit'])->name('dashboard.roles.edit');
+        Route::put('/roles/{role}/update', [RolesController::class, 'update'])->name('dashboard.roles.update');
+        Route::delete('/roles/{role}/destroy', [RolesController::class, 'destroy'])->name('dashboard.roles.destroy');
     });
 
 
