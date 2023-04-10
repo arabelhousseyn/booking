@@ -215,6 +215,8 @@
                 </ul>
             </li>
 
+            <li><a href="{{route('dashboard.reviews.index')}}"><i class="fa fa-star"></i> <span>Commentaires</span></a></li>
+
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-cog"></i>

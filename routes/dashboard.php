@@ -10,6 +10,7 @@ use App\Http\Controllers\Dashboard\SettingsController;
 use App\Http\Controllers\Dashboard\ReasonsController;
 use App\Http\Controllers\Dashboard\NotificationTemplateController;
 use App\Http\Controllers\Dashboard\RolesController;
+use App\Http\Controllers\Dashboard\ReviewsController;
 
 Route::prefix('dashboard')->group(function () {
 
@@ -50,6 +51,10 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('dashboard.users.edit');
         Route::put('/users/{user}/update', [UserController::class, 'update'])->name('dashboard.users.update');
         Route::delete('/users/{user}/destroy', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
+
+
+        // review
+        Route::get('/reviews',ReviewsController::class)->name('dashboard.reviews.index');
 
         /** settings */
 
