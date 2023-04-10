@@ -3,6 +3,10 @@
 use App\Enums\UserDocumentType;
 use App\Enums\ReasonTypes;
 use App\Enums\FirebaseTopic;
+use App\Enums\CouponType;
+use App\Enums\CouponSystemType;
+use App\Enums\CouponStatus;
+use App\Enums\CouponValueType;
 
 return [
     UserDocumentType::class => [
@@ -23,5 +27,26 @@ return [
         FirebaseTopic::ALL => 'All',
         FirebaseTopic::SELLERS => 'Partners',
         FirebaseTopic::USERS => 'Users',
+    ],
+
+    CouponType::class => [
+        CouponType::CUSTOM => 'Custom',
+        CouponType::PERMANENT => 'Permanent',
+    ],
+
+    CouponSystemType::class => [
+        CouponSystemType::ALL => 'All',
+        CouponSystemType::HOUSE => 'House',
+        CouponSystemType::VEHICLE => 'Vehicle',
+    ],
+
+    CouponStatus::class => [
+        CouponStatus::ACTIVE => 'Active',
+        CouponStatus::INACTIVE => 'Inactive',
+    ],
+
+    CouponValueType::class => [
+        CouponValueType::STATIC => 'Static',
+        CouponValueType::PERCENTAGE => 'Percentage',
     ],
 ];

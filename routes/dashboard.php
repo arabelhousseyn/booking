@@ -11,6 +11,7 @@ use App\Http\Controllers\Dashboard\ReasonsController;
 use App\Http\Controllers\Dashboard\NotificationTemplateController;
 use App\Http\Controllers\Dashboard\RolesController;
 use App\Http\Controllers\Dashboard\ReviewsController;
+use App\Http\Controllers\Dashboard\CouponsController;
 
 Route::prefix('dashboard')->group(function () {
 
@@ -55,6 +56,17 @@ Route::prefix('dashboard')->group(function () {
 
         // review
         Route::get('/reviews',ReviewsController::class)->name('dashboard.reviews.index');
+
+        // coupons
+        Route::resource('/coupons/', CouponsController::class)->names([
+            'index' => 'dashboard.coupons.index',
+            'create' => 'dashboard.coupons.create',
+            'store' => 'dashboard.coupons.store',
+        ]);
+
+        Route::get('/coupons/{coupon}/edit', [CouponsController::class, 'edit'])->name('dashboard.coupons.edit');
+        Route::put('/coupons/{coupon}/update', [CouponsController::class, 'update'])->name('dashboard.coupons.update');
+        Route::delete('/coupons/{coupon}/destroy', [CouponsController::class, 'destroy'])->name('dashboard.coupons.destroy');
 
         /** settings */
 
