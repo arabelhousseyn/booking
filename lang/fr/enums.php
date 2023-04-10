@@ -5,6 +5,7 @@ use App\Enums\CouponSystemType;
 use App\Enums\CouponType;
 use App\Enums\CouponValueType;
 use App\Enums\FirebaseTopic;
+use App\Enums\ModelType;
 use App\Enums\ReasonTypes;
 use App\Enums\UserDocumentType;
 
@@ -48,5 +49,10 @@ return [
     CouponValueType::class => [
         CouponValueType::STATIC => 'Statique',
         CouponValueType::PERCENTAGE => 'Pourcentage',
+    ],
+
+    ModelType::class => [
+        ModelType::HOUSE => 'Maison',
+        ModelType::VEHICLE => 'Véhicule',
     ],
 ];

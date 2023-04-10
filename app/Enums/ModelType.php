@@ -2,13 +2,14 @@
 
 namespace App\Enums;
 
+use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
  * @method static static HOUSE()
  * @method static static VEHICLE()
  */
-final class ModelType extends Enum
+final class ModelType extends Enum implements LocalizedEnum
 {
     const HOUSE = 'house';
     const VEHICLE = 'vehicle';

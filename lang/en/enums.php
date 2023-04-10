@@ -7,6 +7,7 @@ use App\Enums\CouponType;
 use App\Enums\CouponSystemType;
 use App\Enums\CouponStatus;
 use App\Enums\CouponValueType;
+use App\Enums\ModelType;
 
 return [
     UserDocumentType::class => [
@@ -48,5 +49,10 @@ return [
     CouponValueType::class => [
         CouponValueType::STATIC => 'Static',
         CouponValueType::PERCENTAGE => 'Percentage',
+    ],
+
+    ModelType::class => [
+        ModelType::HOUSE => 'House',
+        ModelType::VEHICLE => 'Vehicle',
     ],
 ];
