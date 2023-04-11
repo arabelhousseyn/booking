@@ -8,6 +8,10 @@ use App\Enums\CouponSystemType;
 use App\Enums\CouponStatus;
 use App\Enums\CouponValueType;
 use App\Enums\ModelType;
+use App\Enums\VehicleDocumentType;
+use App\Enums\Status;
+use App\Enums\Motorisation;
+use App\Enums\GearBox;
 
 return [
     UserDocumentType::class => [
@@ -54,5 +58,29 @@ return [
     ModelType::class => [
         ModelType::HOUSE => 'House',
         ModelType::VEHICLE => 'Vehicle',
+    ],
+
+    VehicleDocumentType::class => [
+        VehicleDocumentType::INSURANCE => 'Insurance',
+        VehicleDocumentType::GREY_CARD => 'Grey card',
+        VehicleDocumentType::TECHNICAL_CONTROL => 'Technical control',
+    ],
+
+    Status::class => [
+        Status::PENDING => 'Pending',
+        Status::PUBLISHED => 'Published',
+        Status::DECLINED => 'Declined',
+        Status::BOOKED => 'Booked',
+    ],
+
+    Motorisation::class => [
+        Motorisation::MATZOT => 'Matzot',
+        Motorisation::GASOLINE => 'Gasoline',
+        Motorisation::DIESEL => 'Diesel',
+    ],
+
+    GearBox::class => [
+        GearBox::AUTOMATIC => 'Automatic',
+        GearBox::MANUAL => 'Manual',
     ],
 ];

@@ -23,7 +23,7 @@ class VehicleFactory extends Factory
     {
         $data = [
             'dahabia' => true,
-            'visa/master_card' => true,
+            'debit_card' => true,
         ];
         return [
             'seller_id' => Seller::factory(),

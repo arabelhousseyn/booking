@@ -5,9 +5,13 @@ use App\Enums\CouponSystemType;
 use App\Enums\CouponType;
 use App\Enums\CouponValueType;
 use App\Enums\FirebaseTopic;
+use App\Enums\GearBox;
 use App\Enums\ModelType;
+use App\Enums\Motorisation;
 use App\Enums\ReasonTypes;
+use App\Enums\Status;
 use App\Enums\UserDocumentType;
+use App\Enums\VehicleDocumentType;
 
 return [
     UserDocumentType::class => [
@@ -54,5 +58,29 @@ return [
     ModelType::class => [
         ModelType::HOUSE => 'Maison',
         ModelType::VEHICLE => 'Véhicule',
+    ],
+
+    VehicleDocumentType::class => [
+        VehicleDocumentType::INSURANCE => 'Assurance',
+        VehicleDocumentType::GREY_CARD => 'Carte grise',
+        VehicleDocumentType::TECHNICAL_CONTROL => 'Contrôle technique',
+    ],
+
+    Status::class => [
+        Status::PENDING => 'En attente',
+        Status::PUBLISHED => 'Publié',
+        Status::DECLINED => 'refuser',
+        Status::BOOKED => 'Réservé',
+    ],
+
+    Motorisation::class => [
+        Motorisation::MATZOT => 'Matzot',
+        Motorisation::GASOLINE => 'Gas',
+        Motorisation::DIESEL => 'Diesel',
+    ],
+
+    GearBox::class => [
+        GearBox::AUTOMATIC => 'Automatique',
+        GearBox::MANUAL => 'Manuel',
     ],
 ];

@@ -26,7 +26,6 @@ return new class() extends Migration {
             $table->string('document_url');
             $table->date('expiry_date');
 
-            $table->unique(['vehicle_id', 'document_type']);
             $table->timestamps();
         });
     }

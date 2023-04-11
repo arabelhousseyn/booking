@@ -10,6 +10,7 @@ use App\Http\Controllers\Dashboard\NotificationTemplateController;
 use App\Http\Controllers\Dashboard\RolesController;
 use App\Http\Controllers\Dashboard\ReviewsController;
 use App\Http\Controllers\Dashboard\CouponsController;
+use App\Http\Controllers\Dashboard\VehiclesController;
 
 Route::prefix('dashboard')->group(function () {
 
@@ -65,6 +66,21 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/coupons/{coupon}/edit', [CouponsController::class, 'edit'])->name('dashboard.coupons.edit');
         Route::put('/coupons/{coupon}/update', [CouponsController::class, 'update'])->name('dashboard.coupons.update');
         Route::delete('/coupons/{coupon}/destroy', [CouponsController::class, 'destroy'])->name('dashboard.coupons.destroy');
+
+        // vehicles
+        Route::resource('/vehicles/', VehiclesController::class)->names([
+            'index' => 'dashboard.vehicles.index',
+            'create' => 'dashboard.vehicles.create',
+            'store' => 'dashboard.vehicles.store',
+        ]);
+
+        Route::post('/vehicles/{vehicle}/decline', [VehiclesController::class, 'decline'])->name('dashboard.vehicles.decline');
+        Route::post('/vehicles/{vehicle}/publish', [VehiclesController::class, 'publish'])->name('dashboard.vehicles.publish');
+        Route::get('/vehicles/{vehicle}/show', [VehiclesController::class, 'show'])->name('dashboard.vehicles.show');
+        Route::get('/vehicles/{vehicle}/edit', [VehiclesController::class, 'edit'])->name('dashboard.vehicles.edit');
+        Route::put('/vehicles/{vehicle}/update', [VehiclesController::class, 'update'])->name('dashboard.vehicles.update');
+        Route::delete('/vehicles/{vehicle}/destroy', [VehiclesController::class, 'destroy'])->name('dashboard.vehicles.destroy');
+
 
         /** settings */
 
