@@ -1,7 +1,5 @@
 <?php
 
-
-use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\SellerController;
@@ -101,15 +99,6 @@ Route::prefix('dashboard')->group(function () {
         Route::put('/roles/{role}/update', [RolesController::class, 'update'])->name('dashboard.roles.update');
         Route::delete('/roles/{role}/destroy', [RolesController::class, 'destroy'])->name('dashboard.roles.destroy');
     });
-
-
-    // edit profile
-    Route::middleware('auth')->group(function () {
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    });
-
 
     // authentication
     require __DIR__.'/auth.php';
