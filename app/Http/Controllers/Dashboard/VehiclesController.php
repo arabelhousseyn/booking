@@ -41,9 +41,11 @@ class VehiclesController extends Controller
         return view('pages.vehicles.edit', compact('vehicle'));
     }
 
-    public function update(VehicleRequest $request, Vehicle $vehicle)
+    public function update(VehicleRequest $request, Vehicle $vehicle): RedirectResponse
     {
-        //
+        $vehicle->update($request->validated());
+
+        return redirect()->route('dashboard.vehicles.index');
     }
 
     public function destroy(Vehicle $vehicle): RedirectResponse

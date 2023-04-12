@@ -89,8 +89,11 @@
                                     <td>{{\App\Enums\Status::fromValue($vehicle->status)->description}}</td>
                                     <td>{{$vehicle->created_at->format('Y-m-d H:i:s')}}</td>
                                     <td style="display: flex;flex-direction: row;">
-                                        <a href="{{route('dashboard.vehicles.edit',$vehicle->id)}}" class="btn btn-success"><i
-                                                class="fa fa-edit"></i></a>
+
+                                        @if($vehicle->status != \App\Enums\Status::BOOKED)
+                                            <a href="{{route('dashboard.vehicles.edit',$vehicle->id)}}" class="btn btn-success"><i
+                                                    class="fa fa-edit"></i></a>
+                                        @endif
 
                                         @if($vehicle->status == \App\Enums\Status::PENDING)
                                             <form action="{{route('dashboard.vehicles.publish',$vehicle->id)}}" method="post">
