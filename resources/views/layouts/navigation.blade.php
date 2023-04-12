@@ -191,51 +191,101 @@
                 <p>{{auth()->user()->full_name}}</p>
             </div>
         </div>
-        <!-- sidebar menu: : style can be found in sidebar.less -->
+        @php
+            $permissions = collect(auth()->user()->getPermissionsViaRoles()->pluck('name'));
+        @endphp
+            <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">NAVIGATION</li>
 
-            <li><a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Tableau de bord</span></a></li>
+            @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_DASHBOARD))
+                <li><a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Tableau de bord</span></a>
+                </li>
+            @endif
 
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-users"></i>
-                    <span>Comptes</span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{route('dashboard.admins.index')}}"><i class="fa fa-circle-o"></i> Administrateurs</a>
-                    </li>
-                    <li><a href="{{route('dashboard.users.index')}}"><i class="fa fa-circle-o"></i> Utilisateurs</a>
-                    </li>
-                    <li><a href="{{route('dashboard.sellers.index')}}"><i class="fa fa-circle-o"></i> Partenaires</a>
-                    </li>
-                </ul>
-            </li>
+            @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_ACCOUNTS))
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-users"></i>
+                        <span>Comptes</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_ACCOUNTS__ADMINS))
+                            <li><a href="{{route('dashboard.admins.index')}}"><i class="fa fa-circle-o"></i>
+                                    Administrateurs</a>
+                            </li>
+                        @endif
+                        @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_ACCOUNTS__USERS))
+                            <li><a href="{{route('dashboard.users.index')}}"><i class="fa fa-circle-o"></i> Utilisateurs</a>
+                            </li>
+                        @endif
+                        @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_ACCOUNTS__PARTNERS))
+                            <li><a href="{{route('dashboard.sellers.index')}}"><i class="fa fa-circle-o"></i>
+                                    Partenaires</a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            @endif
 
-            <li><a href="{{route('dashboard.houses.index')}}"><i class="fa fa-home"></i> <span>Maisons</span></a></li>
+            @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_HOUSES))
+                <li><a href="{{route('dashboard.houses.index')}}"><i class="fa fa-home"></i> <span>Maisons</span></a>
+                </li>
+            @endif
 
-            <li><a href="{{route('dashboard.vehicles.index')}}"><i class="fa fa-car"></i> <span>Véhicules</span></a></li>
+            @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_VEHICLES))
+                <li><a href="{{route('dashboard.vehicles.index')}}"><i class="fa fa-car"></i> <span>Véhicules</span></a>
+                </li>
+            @endif
 
-            <li><a href="{{route('dashboard.coupons.index')}}"><i class="fa fa-gift"></i> <span>Promo code</span></a></li>
+            @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_BOOKINGS))
+                <li><a href="/"><i class="fa fa-hotel"></i> <span>Réservations</span></a></li>
+            @endif
 
-            <li><a href="{{route('dashboard.reviews.index')}}"><i class="fa fa-star"></i> <span>Commentaires</span></a></li>
+            @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_PROMO_CODES))
+                <li><a href="{{route('dashboard.coupons.index')}}"><i class="fa fa-gift"></i>
+                        <span>Promo code</span></a>
+                </li>
+            @endif
 
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-cog"></i>
-                    <span>Paramètres</span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{route('dashboard.settings.general')}}"><i class="fa fa-circle-o"></i> Général</a>
-                    </li>
-                    <li><a href="{{route('dashboard.reasons.index')}}"><i class="fa fa-circle-o"></i> Raisons de réclamation</a>
-                    </li>
-                    <li><a href="{{route('dashboard.roles.index')}}"><i class="fa fa-circle-o"></i> Rôles et permissions</a>
-                    </li>
-                    <li><a href="{{route('dashboard.notificationTemplate.index')}}"><i class="fa fa-circle-o"></i> Modèle de notification</a>
-                    </li>
-                </ul>
-            </li>
+            @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_REVIEWS))
+                <li><a href="{{route('dashboard.reviews.index')}}"><i class="fa fa-star"></i> <span>Commentaires</span></a>
+                </li>
+            @endif
+
+            @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_SETTINGS))
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-cog"></i>
+                        <span>Paramètres</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_SETTINGS__GENERAL))
+                            <li><a href="{{route('dashboard.settings.general')}}"><i class="fa fa-circle-o"></i> Général</a>
+                            </li>
+                        @endif
+
+                        @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_SETTINGS__RECLAMATIONS))
+                            <li><a href="{{route('dashboard.reasons.index')}}"><i class="fa fa-circle-o"></i> Raisons de
+                                    réclamation</a>
+                            </li>
+                        @endif
+
+                        @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_SETTINGS__ROLES))
+                            <li><a href="{{route('dashboard.roles.index')}}"><i class="fa fa-circle-o"></i> Rôles et
+                                    permissions</a>
+                            </li>
+                        @endif
+
+                        @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_SETTINGS__NOTIFICATIONS))
+                            <li><a href="{{route('dashboard.notificationTemplate.index')}}"><i
+                                        class="fa fa-circle-o"></i>
+                                    Modèle de notification</a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            @endif
         </ul>
     </section>
     <!-- /.sidebar -->

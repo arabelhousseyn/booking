@@ -12,8 +12,27 @@ use App\Enums\VehicleDocumentType;
 use App\Enums\Status;
 use App\Enums\Motorisation;
 use App\Enums\GearBox;
+use App\Enums\Permissions;
 
 return [
+    Permissions::class => [
+        Permissions::CAN_MANAGE_DASHBOARD => 'Can manage dashboard',
+        Permissions::CAN_MANAGE_ACCOUNTS => 'Can manage accounts',
+        Permissions::CAN_MANAGE_ACCOUNTS__ADMINS => 'Can manage admins',
+        Permissions::CAN_MANAGE_ACCOUNTS__USERS => 'Can manage users',
+        Permissions::CAN_MANAGE_ACCOUNTS__PARTNERS => 'Can manage partners',
+        Permissions::CAN_MANAGE_HOUSES => 'Can manage houses',
+        Permissions::CAN_MANAGE_VEHICLES => 'Can manage vehicles',
+        Permissions::CAN_MANAGE_BOOKINGS => 'Can manage bookings',
+        Permissions::CAN_MANAGE_PROMO_CODES => 'Can manage promo codes',
+        Permissions::CAN_MANAGE_REVIEWS => 'Can manage reviews',
+        Permissions::CAN_MANAGE_SETTINGS => 'Can manage settings',
+        Permissions::CAN_MANAGE_SETTINGS__GENERAL => 'Can manage general',
+        Permissions::CAN_MANAGE_SETTINGS__RECLAMATIONS => 'Can manage reclamations',
+        Permissions::CAN_MANAGE_SETTINGS__ROLES => 'Can manage roles and permissions',
+        Permissions::CAN_MANAGE_SETTINGS__NOTIFICATIONS => 'Can manage notifications',
+    ],
+
     UserDocumentType::class => [
         UserDocumentType::ID => 'ID',
         UserDocumentType::DOCUMENT_LICENSE_FRONT => 'Document driving license front',

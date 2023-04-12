@@ -8,12 +8,31 @@ use App\Enums\FirebaseTopic;
 use App\Enums\GearBox;
 use App\Enums\ModelType;
 use App\Enums\Motorisation;
+use App\Enums\Permissions;
 use App\Enums\ReasonTypes;
 use App\Enums\Status;
 use App\Enums\UserDocumentType;
 use App\Enums\VehicleDocumentType;
 
 return [
+    Permissions::class => [
+        Permissions::CAN_MANAGE_DASHBOARD => 'Peut gérer le tableau de bord',
+        Permissions::CAN_MANAGE_ACCOUNTS => 'Peut gérer des comptes',
+        Permissions::CAN_MANAGE_ACCOUNTS__ADMINS => 'Peut gérer les administrateurs',
+        Permissions::CAN_MANAGE_ACCOUNTS__USERS => 'Peut gérer les utilisateurs',
+        Permissions::CAN_MANAGE_ACCOUNTS__PARTNERS => 'Peut gérer des partenaires',
+        Permissions::CAN_MANAGE_HOUSES => 'Peut gérer des maisons',
+        Permissions::CAN_MANAGE_VEHICLES => 'Peut gérer des véhicules',
+        Permissions::CAN_MANAGE_BOOKINGS => 'Peut gérer les réservations',
+        Permissions::CAN_MANAGE_PROMO_CODES => 'Peut gérer les codes promotionnels',
+        Permissions::CAN_MANAGE_REVIEWS => 'Peut gérer les avis',
+        Permissions::CAN_MANAGE_SETTINGS => 'Peut gérer les paramètres',
+        Permissions::CAN_MANAGE_SETTINGS__GENERAL => 'Peut gérer le général',
+        Permissions::CAN_MANAGE_SETTINGS__RECLAMATIONS => 'Peut gérer les réclamations',
+        Permissions::CAN_MANAGE_SETTINGS__ROLES => 'Peut gérer les rôles et les autorisations',
+        Permissions::CAN_MANAGE_SETTINGS__NOTIFICATIONS => 'Peut gérer les notifications',
+    ],
+
     UserDocumentType::class => [
         UserDocumentType::ID => 'IDENTIFIANT',
         UserDocumentType::DOCUMENT_LICENSE_FRONT => 'Document permis de conduire recto',

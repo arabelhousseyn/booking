@@ -14,7 +14,7 @@ class AdminController extends Controller
 {
     public function index(): View
     {
-        $admins = Admin::latest('created_at')->with('roles')->paginate();
+        $admins = Admin::latest('created_at')->whereNot('id',auth()->id())->with('roles')->paginate();
         return view('pages.admins.index', compact('admins'));
     }
 

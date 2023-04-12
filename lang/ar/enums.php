@@ -8,12 +8,31 @@ use App\Enums\FirebaseTopic;
 use App\Enums\GearBox;
 use App\Enums\ModelType;
 use App\Enums\Motorisation;
+use App\Enums\Permissions;
 use App\Enums\ReasonTypes;
 use App\Enums\Status;
 use App\Enums\UserDocumentType;
 use App\Enums\VehicleDocumentType;
 
 return [
+    Permissions::class => [
+        Permissions::CAN_MANAGE_DASHBOARD => 'يمكن إدارة لوحة القيادة',
+        Permissions::CAN_MANAGE_ACCOUNTS => 'يمكنه إدارة الحسابات',
+        Permissions::CAN_MANAGE_ACCOUNTS__ADMINS => 'يمكن إدارة المشرفين',
+        Permissions::CAN_MANAGE_ACCOUNTS__USERS => 'يمكن إدارة المستخدمين',
+        Permissions::CAN_MANAGE_ACCOUNTS__PARTNERS => 'يمكن إدارة الشركاء',
+        Permissions::CAN_MANAGE_HOUSES => 'يمكن إدارة المنازل',
+        Permissions::CAN_MANAGE_VEHICLES => 'يمكنه إدارة المركبات',
+        Permissions::CAN_MANAGE_BOOKINGS => 'يمكن إدارة الحجوزات',
+        Permissions::CAN_MANAGE_PROMO_CODES => 'يمكن إدارة الرموز الترويجية',
+        Permissions::CAN_MANAGE_REVIEWS => 'يمكنه إدارة المراجعات',
+        Permissions::CAN_MANAGE_SETTINGS => 'يمكن إدارة الإعدادات',
+        Permissions::CAN_MANAGE_SETTINGS__GENERAL => 'يمكن أن يدير العام',
+        Permissions::CAN_MANAGE_SETTINGS__RECLAMATIONS => 'يمكن إدارة عمليات الاستصلاح',
+        Permissions::CAN_MANAGE_SETTINGS__ROLES => 'يمكن إدارة الأدوار والأذونات',
+        Permissions::CAN_MANAGE_SETTINGS__NOTIFICATIONS => 'يمكن إدارة الإخطارات',
+    ],
+
     UserDocumentType::class => [
         UserDocumentType::ID => 'بطاقة تعريف',
         UserDocumentType::DOCUMENT_LICENSE_FRONT => 'وثيقة رخصة القيادة الأمامية',
