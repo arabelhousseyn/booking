@@ -212,6 +212,8 @@
                 </ul>
             </li>
 
+            <li><a href="{{route('dashboard.houses.index')}}"><i class="fa fa-home"></i> <span>Maisons</span></a></li>
+
             <li><a href="{{route('dashboard.vehicles.index')}}"><i class="fa fa-car"></i> <span>Véhicules</span></a></li>
 
             <li><a href="{{route('dashboard.coupons.index')}}"><i class="fa fa-gift"></i> <span>Promo code</span></a></li>

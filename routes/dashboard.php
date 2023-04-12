@@ -11,6 +11,7 @@ use App\Http\Controllers\Dashboard\RolesController;
 use App\Http\Controllers\Dashboard\ReviewsController;
 use App\Http\Controllers\Dashboard\CouponsController;
 use App\Http\Controllers\Dashboard\VehiclesController;
+use App\Http\Controllers\Dashboard\HousesController;
 
 Route::prefix('dashboard')->group(function () {
 
@@ -80,6 +81,20 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/vehicles/{vehicle}/edit', [VehiclesController::class, 'edit'])->name('dashboard.vehicles.edit');
         Route::put('/vehicles/{vehicle}/update', [VehiclesController::class, 'update'])->name('dashboard.vehicles.update');
         Route::delete('/vehicles/{vehicle}/destroy', [VehiclesController::class, 'destroy'])->name('dashboard.vehicles.destroy');
+
+        // houses
+        Route::resource('/houses/', HousesController::class)->names([
+            'index' => 'dashboard.houses.index',
+            'create' => 'dashboard.houses.create',
+            'store' => 'dashboard.houses.store',
+        ]);
+
+        Route::post('/houses/{house}/decline', [HousesController::class, 'decline'])->name('dashboard.houses.decline');
+        Route::post('/houses/{house}/publish', [HousesController::class, 'publish'])->name('dashboard.houses.publish');
+        Route::get('/houses/{house}/show', [HousesController::class, 'show'])->name('dashboard.houses.show');
+        Route::get('/houses/{house}/edit', [HousesController::class, 'edit'])->name('dashboard.houses.edit');
+        Route::put('/houses/{house}/update', [HousesController::class, 'update'])->name('dashboard.houses.update');
+        Route::delete('/houses/{house}/destroy', [HousesController::class, 'destroy'])->name('dashboard.houses.destroy');
 
 
         /** settings */

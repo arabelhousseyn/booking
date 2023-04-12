@@ -21,6 +21,10 @@ class House extends Model implements HasMedia
         static::creating(function (self $model) {
             $model->status = Status::PENDING;
         });
+
+        static::deleting(function (self $model) {
+            $model->reviews()->delete();
+        });
     }
 
     /**
