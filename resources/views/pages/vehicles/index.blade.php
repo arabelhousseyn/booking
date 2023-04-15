@@ -47,7 +47,7 @@
                                     <td>{{$vehicle->seller->first_name}} {{$vehicle->seller->last_name}}</td>
                                     <td>{{$vehicle->title}}</td>
                                     <td>{{$vehicle->description}}</td>
-                                    <td>{{$vehicle->price}} DZD</td>
+                                    <td>{{(new NumberFormatter('ar_DZ',NumberFormatter::CURRENCY))->formatCurrency($vehicle->price,'DZD')}}</td>
                                     <td>{{$vehicle->places}}</td>
                                     <td>{{\App\Enums\Motorisation::fromValue($vehicle->motorisation)->description}}</td>
                                     <td>{{\App\Enums\GearBox::fromValue($vehicle->gearbox)->description}}</td>
@@ -64,14 +64,14 @@
                                                 @if(json_decode($vehicle->payments_accepted)->dahabia)
                                                     Dahabia : <div class="alert alert-success">Oui</div>
                                                 @else
-                                                    Dahabia : <div class="alert alert-success">Non</div>
+                                                    Dahabia : <div class="alert alert-danger">Non</div>
                                                 @endif
                                             </li>
                                             <li>
                                                 @if(json_decode($vehicle->payments_accepted)->debit_card)
                                                     Visa/master card : <div class="alert alert-success">Oui</div>
                                                 @else
-                                                    Visa/master card : <div class="alert alert-success">Non</div>
+                                                    Visa/master card : <div class="alert alert-danger">Non</div>
                                                 @endif
                                             </li>
                                         </ul>

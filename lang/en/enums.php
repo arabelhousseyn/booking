@@ -13,6 +13,7 @@ use App\Enums\Status;
 use App\Enums\Motorisation;
 use App\Enums\GearBox;
 use App\Enums\Permissions;
+use App\Enums\BookingStatus;
 
 return [
     Permissions::class => [
@@ -101,5 +102,12 @@ return [
     GearBox::class => [
         GearBox::AUTOMATIC => 'Automatic',
         GearBox::MANUAL => 'Manual',
+    ],
+
+    BookingStatus::class => [
+        BookingStatus::PENDING => 'Pending',
+        BookingStatus::ACCEPTED => 'Accepted',
+        BookingStatus::DECLINED => 'Declined',
+        BookingStatus::COMPLETED => 'Completed',
     ],
 ];

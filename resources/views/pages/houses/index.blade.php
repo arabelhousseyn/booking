@@ -44,7 +44,7 @@
                                     <td>{{$house->seller->first_name}} {{$house->seller->last_name}}</td>
                                     <td>{{$house->title}}</td>
                                     <td>{{$house->description}}</td>
-                                    <td>{{$house->price}} DZD</td>
+                                    <td>{{(new NumberFormatter('ar_DZ',NumberFormatter::CURRENCY))->formatCurrency($house->price,'DZD')}}</td>
                                     <td>{{$house->rooms}}</td>
                                     <td>
                                         @if($house->has_wifi)

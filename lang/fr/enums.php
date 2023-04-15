@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\BookingStatus;
 use App\Enums\CouponStatus;
 use App\Enums\CouponSystemType;
 use App\Enums\CouponType;
@@ -101,5 +102,12 @@ return [
     GearBox::class => [
         GearBox::AUTOMATIC => 'Automatique',
         GearBox::MANUAL => 'Manuel',
+    ],
+
+    BookingStatus::class => [
+        BookingStatus::PENDING => 'En attente',
+        BookingStatus::ACCEPTED => 'Accepté',
+        BookingStatus::DECLINED => 'Refuser',
+        BookingStatus::COMPLETED => 'Complété',
     ],
 ];

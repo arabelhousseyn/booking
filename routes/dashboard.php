@@ -12,6 +12,7 @@ use App\Http\Controllers\Dashboard\ReviewsController;
 use App\Http\Controllers\Dashboard\CouponsController;
 use App\Http\Controllers\Dashboard\VehiclesController;
 use App\Http\Controllers\Dashboard\HousesController;
+use App\Http\Controllers\Dashboard\BookingsController;
 
 Route::prefix('dashboard')->group(function () {
 
@@ -55,7 +56,7 @@ Route::prefix('dashboard')->group(function () {
 
 
         // review
-        Route::get('/reviews',ReviewsController::class)->name('dashboard.reviews.index');
+        Route::get('/reviews', ReviewsController::class)->name('dashboard.reviews.index');
 
         // coupons
         Route::resource('/coupons/', CouponsController::class)->names([
@@ -96,12 +97,26 @@ Route::prefix('dashboard')->group(function () {
         Route::put('/houses/{house}/update', [HousesController::class, 'update'])->name('dashboard.houses.update');
         Route::delete('/houses/{house}/destroy', [HousesController::class, 'destroy'])->name('dashboard.houses.destroy');
 
+        // bookings
+        Route::resource('/bookings/', BookingsController::class)->names([
+            'index' => 'dashboard.bookings.index',
+            'create' => 'dashboard.bookings.create',
+            'store' => 'dashboard.bookings.store',
+        ]);
+
+        Route::post('/bookings/{booking}/decline', [BookingsController::class, 'decline'])->name('dashboard.bookings.decline');
+        Route::post('/bookings/{booking}/accept', [BookingsController::class, 'accept'])->name('dashboard.bookings.accept');
+        Route::get('/bookings/{booking}/show', [BookingsController::class, 'show'])->name('dashboard.bookings.show');
+        Route::get('/bookings/{booking}/edit', [BookingsController::class, 'edit'])->name('dashboard.bookings.edit');
+        Route::put('/bookings/{booking}/update', [BookingsController::class, 'update'])->name('dashboard.bookings.update');
+        Route::delete('/bookings/{booking}/destroy', [BookingsController::class, 'destroy'])->name('dashboard.bookings.destroy');
+
 
         /** settings */
 
         // general
         Route::get('/general', [SettingsController::class, 'general'])->name('dashboard.settings.general');
-        Route::post('/core',[SettingsController::class,'updateCore'])->name('dashboard.settings.core');
+        Route::post('/core', [SettingsController::class, 'updateCore'])->name('dashboard.settings.core');
 
         // reasons
         Route::resource('/reasons/', ReasonsController::class)->names([
@@ -115,8 +130,8 @@ Route::prefix('dashboard')->group(function () {
         Route::delete('/reasons/{reason}/destroy', [ReasonsController::class, 'destroy'])->name('dashboard.reasons.destroy');
 
         // push notification
-        Route::get('/notification_template',[NotificationTemplateController::class,'index'])->name('dashboard.notificationTemplate.index');
-        Route::post('/notification_template',[NotificationTemplateController::class,'push'])->name('dashboard.notificationTemplate.push');
+        Route::get('/notification_template', [NotificationTemplateController::class, 'index'])->name('dashboard.notificationTemplate.index');
+        Route::post('/notification_template', [NotificationTemplateController::class, 'push'])->name('dashboard.notificationTemplate.push');
 
         // roles and permissions
         Route::resource('/roles/', RolesController::class)->names([
