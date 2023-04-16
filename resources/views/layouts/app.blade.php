@@ -61,6 +61,29 @@
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://js.pusher.com/8.0/pusher.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        let serviceWorkerPath = {!! json_encode(asset('sw.js')) !!};
+
+        if ("serviceWorker" in navigator) {
+            try {
+                const registration = navigator.serviceWorker.register(serviceWorkerPath, {
+                    scope: "/",
+                });
+                if (registration.installing) {
+                    console.log("Service worker installing");
+                } else if (registration.waiting) {
+                    console.log("Service worker installed");
+                } else if (registration.active) {
+                    console.log("Service worker active");
+                }
+            } catch (error) {
+                console.error(`Registration failed with ${error}`);
+            }
+        }
+    </script>
 
 
 </head>
@@ -91,7 +114,6 @@
     <!-- Add the sidebar's background. This div must be placed
          immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
-
 </div>
 </body>
 </html>

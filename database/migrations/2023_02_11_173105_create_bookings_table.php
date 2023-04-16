@@ -15,6 +15,8 @@ return new class() extends Migration {
         Schema::create('bookings', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
+            $table->string('reference');
+
             $table->uuid('user_id');
             $table->foreign('user_id')
                 ->on('users')

@@ -94,7 +94,7 @@ class Vehicle extends Model implements HasMedia
 
     public function getPhotosAttribute(): array
     {
-        return $this->getMedia('photos')->map(fn ($image) => env('APP_URL')."$image->original_url")->toArray();
+        return $this->getMedia('photos')->map(fn ($image) => "$image->original_url")->toArray();
     }
 
     public function getPhotoAttribute(): ?string

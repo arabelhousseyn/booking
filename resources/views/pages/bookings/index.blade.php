@@ -25,6 +25,7 @@
                         <table id="bookings" class="table table-bordered table-hover">
                             <thead>
                             <tr>
+                                <th>Référence</th>
                                 <th>Utilisateur</th>
                                 <th>Partenaire</th>
                                 <th>Réservable</th>
@@ -45,6 +46,7 @@
                             <tbody>
                             @foreach($bookings as $booking)
                                 <tr>
+                                    <td>{{$booking->reference}}</td>
                                     <td>{{$booking->user->first_name}} {{$booking->user->last_name}}</td>
                                     <td>{{$booking->seller->first_name}} {{$booking->seller->last_name}}</td>
                                     <td>{{$booking->bookable->title}}</td>

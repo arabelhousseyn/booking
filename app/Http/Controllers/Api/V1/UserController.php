@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Enums\BookingStatus;
 use App\Enums\CouponStatus;
 use App\Enums\ReasonTypes;
 use App\Enums\Status;
+use App\Events\BookingDeclined;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingRequest;
 use App\Http\Requests\CoordinatesRequest;
@@ -21,6 +23,7 @@ use App\Http\Resources\UserFavoriteResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\VehicleResource;
 use App\Models\Ad;
+use App\Models\Admin;
 use App\Models\Booking;
 use App\Models\Coupon;
 use App\Models\Favorite;
@@ -128,6 +131,21 @@ class UserController extends Controller
         $booking->load(['bookable']);
 
         return BookingResource::make($booking);
+    }
+
+    public function declineBooking(Booking $booking): Response
+    {
+        $this->authorize('decline', [$booking, auth()->user()]);
+
+        $booking->update(['status' => BookingStatus::DECLINED]);
+
+        $admins = Admin::all();
+
+        $booking->notifyCancelation($admins);
+
+        event(new BookingDeclined($booking->toArray()));
+
+        return response()->noContent();
     }
 
     public function bookings(): JsonResource

@@ -14,6 +14,7 @@ use App\Enums\Motorisation;
 use App\Enums\GearBox;
 use App\Enums\Permissions;
 use App\Enums\BookingStatus;
+use App\Enums\Notifications;
 
 return [
     Permissions::class => [
@@ -109,5 +110,9 @@ return [
         BookingStatus::ACCEPTED => 'Accepted',
         BookingStatus::DECLINED => 'Declined',
         BookingStatus::COMPLETED => 'Completed',
+    ],
+
+    Notifications::class => [
+        Notifications::BOOKING_DECLINED => 'Booking declined',
     ],
 ];

@@ -14,25 +14,31 @@
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
-        <!-- Navbar Right Menu -->
+        @php
+            $notifications = auth()->user()->notifications;
+        @endphp
+            <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <!-- Notifications: style can be found in dropdown.less -->
                 <li class="dropdown notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
-                        <span class="label label-danger">10</span>
+                        <span class="label label-danger">{{$notifications->count()}}</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">You have 10 notifications</li>
+                        <li class="header">Vous avez {{$notifications->count()}} notifications</li>
                         <li>
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu">
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                    </a>
-                                </li>
+                                @foreach($notifications as $notification)
+                                    <li>
+                                        <a href="#">
+                                            {{\App\Enums\Notifications::fromValue($notification->type)->description}} N
+                                            : {{$notification->data['data']['reference']}}
+                                        </a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </li>
                     </ul>
@@ -134,7 +140,8 @@
             @endif
 
             @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_BOOKINGS))
-                <li><a href="{{route('dashboard.bookings.index')}}"><i class="fa fa-hotel"></i> <span>Réservations</span></a></li>
+                <li><a href="{{route('dashboard.bookings.index')}}"><i class="fa fa-hotel"></i>
+                        <span>Réservations</span></a></li>
             @endif
 
             @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_PROMO_CODES))
@@ -184,4 +191,40 @@
         </ul>
     </section>
     <!-- /.sidebar -->
+
+    <script>
+        let bookingPage = {!! json_encode(route('dashboard.bookings.index')) !!};
+        let notificationSoundUrl = {!! json_encode(asset('assets/notification.mp3')) !!};
+
+        // ask for notification permission
+        Notification.requestPermission();
+
+        var pusher = new Pusher('7d51e47c74d0f8bbc479', {
+            cluster: "eu",
+            encrypted: true,
+        });
+
+        var channel = pusher.subscribe('booking');
+
+        channel.bind('declined_booking', function (data) {
+            if (Notification.permission === 'granted') {
+                let notification = new Notification(`Nouvelle réservation refusée N: ` + data.data.reference);
+
+                let sound = new Audio();
+                sound.src = notificationSoundUrl;
+                sound.play();
+
+                Swal.fire({
+                    title: 'Nouvelle réservation refusée',
+                    text: 'Réservation N: ' + data.data.reference,
+                    icon: 'info',
+                    confirmButtonText: 'Ok!'
+                })
+
+                notification.onclick = (event) => {
+                    window.open(bookingPage)
+                }
+            }
+        })
+    </script>
 </aside>

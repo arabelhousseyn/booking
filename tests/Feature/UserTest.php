@@ -8,6 +8,8 @@ use App\Enums\CouponType;
 use App\Enums\PaymentType;
 use App\Enums\ReasonTypes;
 use App\Enums\Status;
+use App\Events\BookingDeclined;
+use App\Models\Admin;
 use App\Models\Booking;
 use App\Models\Coupon;
 use App\Models\Favorite;
@@ -19,6 +21,8 @@ use App\Models\Vehicle;
 use Database\Seeders\CoreSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -529,7 +533,7 @@ class UserTest extends TestCase
 
     }
 
-    public function test_view_booking()
+    public function test_view_booking__case01() // standard case
     {
         $booking = Booking::factory()->create(['user_id' => $this->user->id]);
         $this->authenticated()
@@ -553,7 +557,7 @@ class UserTest extends TestCase
             ]);
     }
 
-    public function test_view_booking__case01() // when the user belongs to booking
+    public function test_view_booking__case02() // when the user belongs to booking
     {
         $booking = Booking::factory()->create(['user_id' => $this->user->id]);
         $this->authenticated()
@@ -577,12 +581,28 @@ class UserTest extends TestCase
             ]);
     }
 
-    public function test_view_booking__case02() // when the user doesn't belong to booking
+    public function test_view_booking__case03() // when the user doesn't belong to booking
     {
         $booking = Booking::factory()->create();
         $this->authenticated()
             ->json('get', "$this->endpoint/booking/{$booking->id}")
             ->assertStatus(403);
+    }
+
+    public function test_decline_booking()
+    {
+        Event::fake([BookingDeclined::class]);
+        Notification::fake([\App\Notifications\BookingDeclined::class]);
+
+        $booking = Booking::factory()->create(['user_id' => $this->user->id]);
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/decline-booking/{$booking->id}")
+            ->assertNoContent();
+
+        Event::assertDispatched(BookingDeclined::class);
+
+        Notification::assertCount(Admin::count());
     }
 
     public function test_list_bookings()

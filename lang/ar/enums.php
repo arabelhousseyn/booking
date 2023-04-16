@@ -9,6 +9,7 @@ use App\Enums\FirebaseTopic;
 use App\Enums\GearBox;
 use App\Enums\ModelType;
 use App\Enums\Motorisation;
+use App\Enums\Notifications;
 use App\Enums\Permissions;
 use App\Enums\ReasonTypes;
 use App\Enums\Status;
@@ -109,5 +110,9 @@ return [
         BookingStatus::ACCEPTED => 'قبلت',
         BookingStatus::DECLINED => 'انخفض',
         BookingStatus::COMPLETED => 'مكتمل',
+    ],
+
+    Notifications::class => [
+        Notifications::BOOKING_DECLINED => 'رفض الحجز',
     ],
 ];

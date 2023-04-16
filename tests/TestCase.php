@@ -20,6 +20,8 @@ abstract class TestCase extends BaseTestCase
         $this->user = User::factory()->create(['email' => 'test12@gmail.com']);
 
         $this->seed(DatabaseSeeder::class);
+
+        $this->withHeader('version', config('app.latest_api'));
     }
 
     public function authenticated(): self
