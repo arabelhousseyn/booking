@@ -8,8 +8,8 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Models\UserDocument;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -33,7 +33,9 @@ class UserController extends Controller
 
         $user = User::create(array_merge($data, $request->safe()->except('password')));
 
-        return response()->redirectTo('/dashboard/users');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.users.index');
     }
 
     public function show(User $user): View
@@ -52,20 +54,26 @@ class UserController extends Controller
     {
         $user->update($request->validated());
 
-        return response()->redirectTo('/dashboard/users');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.users.index');
     }
 
     public function destroy(User $user): RedirectResponse
     {
         $user->delete();
 
-        return response()->redirectTo('/dashboard/users');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.users.index');
     }
 
-    public function document(UserHandleDocumentRequest $request, User $user, UserDocument $document): Response
+    public function document(UserHandleDocumentRequest $request, User $user, UserDocument $document): RedirectResponse
     {
         $document->update($request->validated());
 
-        return response()->noContent();
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.users.index');
     }
 }

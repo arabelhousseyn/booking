@@ -8,6 +8,7 @@ use App\Http\Requests\HouseRequest;
 use App\Models\House;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class HousesController extends Controller
@@ -43,12 +44,16 @@ class HousesController extends Controller
     {
         $house->update($request->validated());
 
+        Session::put('created','Opération effectué');
+
         return redirect()->route('dashboard.houses.index');
     }
 
     public function destroy(House $house): RedirectResponse
     {
         $house->delete();
+
+        Session::put('created','Opération effectué');
 
         return redirect()->route('dashboard.houses.index');
     }
@@ -57,12 +62,16 @@ class HousesController extends Controller
     {
         $house->update(['status' => Status::PUBLISHED]);
 
+        Session::put('created','Opération effectué');
+
         return redirect()->route('dashboard.houses.index');
     }
 
     public function decline(House $house): RedirectResponse
     {
         $house->update(['status' => Status::DECLINED]);
+
+        Session::put('created','Opération effectué');
 
         return redirect()->route('dashboard.houses.index');
     }

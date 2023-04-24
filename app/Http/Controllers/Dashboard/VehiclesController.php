@@ -8,6 +8,7 @@ use App\Http\Requests\VehicleRequest;
 use App\Models\Vehicle;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class VehiclesController extends Controller
@@ -45,12 +46,16 @@ class VehiclesController extends Controller
     {
         $vehicle->update($request->validated());
 
+        Session::put('created', 'Opération effectué');
+
         return redirect()->route('dashboard.vehicles.index');
     }
 
     public function destroy(Vehicle $vehicle): RedirectResponse
     {
         $vehicle->delete();
+
+        Session::put('created', 'Opération effectué');
 
         return redirect()->route('dashboard.vehicles.index');
     }
@@ -59,12 +64,16 @@ class VehiclesController extends Controller
     {
         $vehicle->update(['status' => Status::PUBLISHED]);
 
+        Session::put('created', 'Opération effectué');
+
         return redirect()->route('dashboard.vehicles.index');
     }
 
     public function decline(Vehicle $vehicle): RedirectResponse
     {
         $vehicle->update(['status' => Status::DECLINED]);
+
+        Session::put('created', 'Opération effectué');
 
         return redirect()->route('dashboard.vehicles.index');
     }

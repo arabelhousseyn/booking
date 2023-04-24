@@ -12,6 +12,7 @@ use App\Models\House;
 use App\Models\Vehicle;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class BookingsController extends Controller
@@ -57,12 +58,16 @@ class BookingsController extends Controller
 
         $booking->update(array_merge($request->validated(), $status));
 
+        Session::put('created','Opération effectué');
+
         return redirect()->route('dashboard.bookings.index');
     }
 
     public function destroy(Booking $booking): RedirectResponse
     {
         $booking->delete();
+
+        Session::put('created','Opération effectué');
 
         return redirect()->route('dashboard.bookings.index');
     }
@@ -71,12 +76,16 @@ class BookingsController extends Controller
     {
         $booking->update(['status' => BookingStatus::ACCEPTED]);
 
+        Session::put('created','Opération effectué');
+
         return redirect()->route('dashboard.bookings.index');
     }
 
     public function decline(Booking $booking): RedirectResponse
     {
         $booking->update(['status' => BookingStatus::DECLINED]);
+
+        Session::put('created','Opération effectué');
 
         return redirect()->route('dashboard.bookings.index');
     }

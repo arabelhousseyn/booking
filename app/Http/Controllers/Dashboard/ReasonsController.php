@@ -7,6 +7,7 @@ use App\Http\Requests\ReasonRequest;
 use App\Models\Reason;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class ReasonsController extends Controller
@@ -28,7 +29,9 @@ class ReasonsController extends Controller
     {
         $reason = Reason::create($request->validated());
 
-        return response()->redirectTo('/dashboard/reasons');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.reasons.index');
     }
 
     public function show($id)
@@ -45,13 +48,17 @@ class ReasonsController extends Controller
     {
         $reason->update($request->validated());
 
-        return response()->redirectTo('/dashboard/reasons');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.reasons.index');
     }
 
     public function destroy(Reason $reason): RedirectResponse
     {
         $reason->delete();
 
-        return response()->redirectTo('/dashboard/reasons');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.reasons.index');
     }
 }

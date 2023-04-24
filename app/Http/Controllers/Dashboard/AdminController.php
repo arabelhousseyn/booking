@@ -7,6 +7,7 @@ use App\Http\Requests\AdminRequest;
 use App\Models\Admin;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 
@@ -32,7 +33,9 @@ class AdminController extends Controller
 
         $admin->assignRole($request->validated('role'));
 
-        return response()->redirectTo('/dashboard/admins');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.admins.index');
     }
 
     public function show(Admin $admin)
@@ -52,13 +55,17 @@ class AdminController extends Controller
 
         $admin->syncRoles($request->validated('role'));
 
-        return response()->redirectTo('/dashboard/admins');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.admins.index');
     }
 
     public function destroy(Admin $admin): RedirectResponse
     {
         $admin->delete();
 
-        return response()->redirectTo('/dashboard/admins');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.admins.index');
     }
 }

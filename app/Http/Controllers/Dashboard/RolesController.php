@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -40,7 +40,9 @@ class RolesController extends Controller
             $role->givePermissionTo($permission);
         }
 
-        return response()->redirectTo('/dashboard/roles');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.roles.index');
     }
 
 
@@ -67,13 +69,17 @@ class RolesController extends Controller
 
         $role->syncPermissions($request->validated('permissions'));
 
-        return response()->redirectTo('/dashboard/roles');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.roles.index');
     }
 
     public function destroy(Role $role): RedirectResponse
     {
         $role->delete();
 
-        return response()->redirectTo('/dashboard/roles');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.roles.index');
     }
 }

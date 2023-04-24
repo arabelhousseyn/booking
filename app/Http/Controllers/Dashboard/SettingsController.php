@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CoreRequest;
 use App\Models\Core;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class SettingsController extends Controller
@@ -18,7 +18,7 @@ class SettingsController extends Controller
         return view('pages.general.index', compact('core'));
     }
 
-    public function updateCore(CoreRequest $request): Response
+    public function updateCore(CoreRequest $request): RedirectResponse
     {
         $core = Core::first();
 
@@ -32,6 +32,8 @@ class SettingsController extends Controller
 
         $core->update(array_merge($data, $request->validated()));
 
-        return response()->noContent();
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.settings.general');
     }
 }

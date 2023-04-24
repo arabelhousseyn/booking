@@ -12,6 +12,13 @@
         </ol>
     </section>
 
+    @if(session()->has('created'))
+        <div class="alert alert-success">
+            {{session()->get('created')}}
+        </div>
+        {{session()->remove('created')}}
+    @endif
+
     <!-- Main content -->
     <section class="content">
         <div class="row">

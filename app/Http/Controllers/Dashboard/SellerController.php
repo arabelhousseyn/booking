@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SellerRequest;
 use App\Models\Seller;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class SellerController extends Controller
@@ -33,7 +33,9 @@ class SellerController extends Controller
 
         $seller = Seller::create(array_merge($data, $request->safe()->except('password')));
 
-        return response()->redirectTo('/dashboard/sellers');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.sellers.index');
     }
 
     public function show($id)
@@ -52,7 +54,9 @@ class SellerController extends Controller
     {
         $seller->update($request->validated());
 
-        return response()->redirectTo('/dashboard/sellers');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.sellers.index');
     }
 
 
@@ -60,6 +64,8 @@ class SellerController extends Controller
     {
         $seller->delete();
 
-        return response()->redirectTo('/dashboard/sellers');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.sellers.index');
     }
 }

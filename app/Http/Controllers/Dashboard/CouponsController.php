@@ -7,6 +7,7 @@ use App\Http\Requests\CouponRequest;
 use App\Models\Coupon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class CouponsController extends Controller
@@ -27,7 +28,9 @@ class CouponsController extends Controller
     {
         $coupon = Coupon::create($request->validated());
 
-        return response()->redirectTo('/dashboard/coupons');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.coupons.index');
     }
 
     public function show($id)
@@ -44,13 +47,17 @@ class CouponsController extends Controller
     {
         $coupon->update($request->validated());
 
-        return response()->redirectTo('/dashboard/coupons');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.coupons.index');
     }
 
     public function destroy(Coupon $coupon): RedirectResponse
     {
         $coupon->delete();
 
-        return response()->redirectTo('/dashboard/coupons');
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.coupons.index');
     }
 }

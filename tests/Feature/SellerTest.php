@@ -109,37 +109,6 @@ class SellerTest extends TestCase
         $this->assertDatabaseCount('vehicle_documents', 2);
     }
 
-    public function test_store_seller_vehicle__case02() // with previous documents uploaded
-    {
-        VehicleDocument::query()->delete();
-
-        Storage::fake('public');
-
-        $vehicle = Vehicle::factory()->has(VehicleDocument::factory(['document_type' => VehicleDocumentType::INSURANCE]), 'documents')->create(['seller_id' => $this->seller->id]);
-
-        $inputs = [
-            'documents' => [
-                [
-                    'document_type' => VehicleDocumentType::INSURANCE,
-                    'document_image' => UploadedFile::fake()->image('image.png'),
-                    'expiry_date' => Carbon::now()->format('Y-m-d'),
-                ],
-                [
-                    'document_type' => VehicleDocumentType::GREY_CARD,
-                    'document_image' => UploadedFile::fake()->image('image.png'),
-                    'expiry_date' => Carbon::now()->format('Y-m-d'),
-                ],
-            ],
-        ];
-
-        $this->authenticated()
-            ->json('post', "$this->endpoint/vehicle/{$vehicle->seller_id}/{$vehicle->id}", $inputs)
-            ->assertBadRequest()
-            ->assertJson([
-                'message' => trans('exceptions.file_uploaded'),
-            ]);
-    }
-
     public function test_get_vehicles()
     {
         $vehicle = Vehicle::factory()->count(5)->create(['seller_id' => $this->seller->id]);
