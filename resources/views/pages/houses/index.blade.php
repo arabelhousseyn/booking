@@ -16,7 +16,9 @@
         <div class="alert alert-success">
             {{session()->get('created')}}
         </div>
-        {{session()->remove('created')}}
+        @php
+            session()->remove('created')
+        @endphp
     @endif
 
     <!-- Main content -->
