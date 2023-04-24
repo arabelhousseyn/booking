@@ -67,8 +67,49 @@
                                     <td>{{$booking->coupon_code}}</td>
                                     <td>{{\App\Enums\BookingStatus::fromValue($booking->status)->description}}</td>
                                     <td>{{$booking->created_at?->format('Y-m-d H:i:s')}}</td>
-                                    <td>
+                                    <td style="display: flex;flex-direction: row;">
+                                        @if($booking->status == \App\Enums\BookingStatus::PENDING)
 
+                                            <form action="{{route('dashboard.bookings.accept',$booking->id)}}" method="post">
+                                                @csrf
+                                                <button type="submit" id="accept-booking" value="{{$booking->id}}" class="btn btn-success"><i class="fa fa-check"></i>
+                                                </button>
+                                            </form>
+
+                                            <form action="{{route('dashboard.bookings.decline',$booking->id)}}" method="post">
+                                                @csrf
+                                                <button type="submit" id="decline-booking" value="{{$booking->id}}" class="btn btn-danger"><i class="fa fa-ban"></i>
+                                                </button>
+                                            </form>
+
+                                            <form action="{{route('dashboard.bookings.destroy',$booking->id)}}" method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" id="delete-booking" value="{{$booking->id}}" class="btn btn-danger"><i class="fa fa-minus"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+
+                                        @if($booking->status == \App\Enums\BookingStatus::DECLINED)
+                                                <a href="{{route('dashboard.bookings.edit',$booking->id)}}" class="btn btn-success"><i
+                                                        class="fa fa-edit"></i></a>
+
+                                                <form action="{{route('dashboard.bookings.destroy',$booking->id)}}" method="post">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button type="submit" id="delete-booking" value="{{$booking->id}}" class="btn btn-danger"><i class="fa fa-minus"></i>
+                                                    </button>
+                                                </form>
+                                        @endif
+
+                                        @if($booking->status == \App\Enums\BookingStatus::COMPLETED)
+                                                <form action="{{route('dashboard.bookings.destroy',$booking->id)}}" method="post">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button type="submit" id="delete-booking" value="{{$booking->id}}" class="btn btn-danger"><i class="fa fa-minus"></i>
+                                                    </button>
+                                                </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -108,7 +149,7 @@
             })
 
             $('#accept-booking').click(function (e){
-                let response = confirm('Voulez vous supprimer ?')
+                let response = confirm('Voulez vous Accepter ?')
                 if(!response)
                 {
                     e.preventDefault()
@@ -116,7 +157,7 @@
             })
 
             $('#decline-booking').click(function (e){
-                let response = confirm('Voulez vous supprimer ?')
+                let response = confirm('Voulez vous Refuser ?')
                 if(!response)
                 {
                     e.preventDefault()

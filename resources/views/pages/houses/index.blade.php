@@ -75,6 +75,13 @@
                                         @if($house->status != \App\Enums\Status::BOOKED)
                                             <a href="{{route('dashboard.houses.edit',$house->id)}}" class="btn btn-success"><i
                                                     class="fa fa-edit"></i></a>
+
+                                            <form action="{{route('dashboard.houses.destroy',$house->id)}}" method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" id="delete-house" value="{{$house->id}}" class="btn btn-danger"><i class="fa fa-minus"></i>
+                                                </button>
+                                            </form>
                                         @endif
 
                                         @if($house->status == \App\Enums\Status::PENDING)
@@ -87,15 +94,6 @@
                                             <form action="{{route('dashboard.houses.decline',$house->id)}}" method="post">
                                                 @csrf
                                                 <button type="submit" id="decline-house" value="{{$house->id}}" class="btn btn-danger"><i class="fa fa-ban"></i>
-                                                </button>
-                                            </form>
-                                        @endif
-
-                                        @if($house->status != \App\Enums\Status::BOOKED)
-                                            <form action="{{route('dashboard.houses.destroy',$house->id)}}" method="post">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="submit" id="delete-house" value="{{$house->id}}" class="btn btn-danger"><i class="fa fa-minus"></i>
                                                 </button>
                                             </form>
                                         @endif
@@ -138,7 +136,7 @@
             })
 
             $('#publish-house').click(function (e){
-                let response = confirm('Voulez vous supprimer ?')
+                let response = confirm('Voulez vous accepter ?')
                 if(!response)
                 {
                     e.preventDefault()
@@ -146,7 +144,7 @@
             })
 
             $('#decline-house').click(function (e){
-                let response = confirm('Voulez vous supprimer ?')
+                let response = confirm('Voulez vous refuser ?')
                 if(!response)
                 {
                     e.preventDefault()

@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Enums\BookingStatus;
+use App\Enums\ModelType;
+use App\Enums\Status;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
+use App\Models\House;
+use App\Models\Vehicle;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -31,28 +38,46 @@ class BookingsController extends Controller
         //
     }
 
-    public function edit($id)
+    public function edit(Booking $booking): View
     {
-        //
+        $properties = [];
+
+        if ($booking->bookable_type == ModelType::VEHICLE) {
+            $properties = Vehicle::where('status', '=', Status::PUBLISHED)->with('seller')->get();
+        } elseif ($booking->bookable_type == ModelType::HOUSE) {
+            $properties = House::where('status', '=', Status::PUBLISHED)->with('seller')->get();
+        }
+
+        return view('pages.bookings.edit', compact('booking', 'properties'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateBookingRequest $request, Booking $booking): RedirectResponse
     {
-        //
+        $status = ['status' => BookingStatus::ACCEPTED];
+
+        $booking->update(array_merge($request->validated(), $status));
+
+        return redirect()->route('dashboard.bookings.index');
     }
 
-    public function destroy(Booking $booking)
+    public function destroy(Booking $booking): RedirectResponse
     {
-        //
+        $booking->delete();
+
+        return redirect()->route('dashboard.bookings.index');
     }
 
-    public function accept(Booking $booking)
+    public function accept(Booking $booking): RedirectResponse
     {
+        $booking->update(['status' => BookingStatus::ACCEPTED]);
 
+        return redirect()->route('dashboard.bookings.index');
     }
 
-    public function decline(Booking $booking)
+    public function decline(Booking $booking): RedirectResponse
     {
+        $booking->update(['status' => BookingStatus::DECLINED]);
 
+        return redirect()->route('dashboard.bookings.index');
     }
 }

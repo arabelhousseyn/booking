@@ -117,6 +117,8 @@ class UserController extends Controller
 
         $booking = auth()->user()->bookings()->create(array_merge($priceCalculated, $request->safe()->only('payment_type', 'bookable_type', 'bookable_id', 'start_date', 'end_date', 'coupon_code')));
 
+        $bookable->update(['status' => Status::BOOKED]);
+
         $booking->load(['bookable']);
 
         (new RecipientNotificationDispatcher(trans('bookings.title_new_booking'), trans('bookings.body_new_booking'), $bookable->seller->firebase_registration_token, $booking))->send();
@@ -138,6 +140,8 @@ class UserController extends Controller
         $this->authorize('decline', [$booking, auth()->user()]);
 
         $booking->update(['status' => BookingStatus::DECLINED]);
+
+        $booking->bookable()->update(['status' => Status::PUBLISHED]);
 
         $admins = Admin::all();
 

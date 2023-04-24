@@ -419,6 +419,11 @@ class UserTest extends TestCase
                     'created_at',
                 ],
             ]);
+
+        $this->assertDatabaseHas('vehicles', [
+            'id' => $vehicle->getKey(),
+            'status' => Status::BOOKED,
+        ]);
     }
 
     public function test_store_booking__case02() // when the price is 40000 or more
@@ -486,7 +491,7 @@ class UserTest extends TestCase
     public function test_store_booking__case04() // with coupon code
     {
         // when case status is inactive
-        $coupon = Coupon::factory()->create(['status' => CouponStatus::INACTIVE,'system_type' => CouponSystemType::ALL]);
+        $coupon = Coupon::factory()->create(['status' => CouponStatus::INACTIVE, 'system_type' => CouponSystemType::ALL]);
 
         $vehicle = Vehicle::factory()->create(['price' => '20000']);
         $vehicle->update(['status' => Status::PUBLISHED]);
@@ -506,7 +511,7 @@ class UserTest extends TestCase
             ->assertJson(['message' => trans('exceptions.coupon_code_invalid')]);
 
         // when case system type equal to house
-        $coupon->update(['status' => CouponStatus::ACTIVE,'system_type' => CouponSystemType::HOUSE]);
+        $coupon->update(['status' => CouponStatus::ACTIVE, 'system_type' => CouponSystemType::HOUSE]);
 
         $this->authenticated()
             ->json('post', "$this->endpoint/booking", $inputs)
@@ -514,7 +519,7 @@ class UserTest extends TestCase
             ->assertJson(['message' => trans('exceptions.coupon_code_invalid')]);
 
         // when the date is expired
-        $coupon->update(['status' => CouponStatus::ACTIVE,'system_type' => CouponSystemType::VEHICLE,'type' => CouponType::CUSTOM,'start_date' => '2023-03-10','end_date' => '2023-03-12']);
+        $coupon->update(['status' => CouponStatus::ACTIVE, 'system_type' => CouponSystemType::VEHICLE, 'type' => CouponType::CUSTOM, 'start_date' => '2023-03-10', 'end_date' => '2023-03-12']);
 
         $this->authenticated()
             ->json('post', "$this->endpoint/booking", $inputs)
@@ -522,7 +527,9 @@ class UserTest extends TestCase
             ->assertJson(['message' => trans('exceptions.coupon_code_invalid')]);
 
         // when the usage limit is full
-        $coupon->update(['usage_limit' => 2,'status' => CouponStatus::ACTIVE,'system_type' => CouponSystemType::VEHICLE,'type' => CouponType::CUSTOM,'start_date' => '2023-03-10','end_date' => '2023-04-12']);
+        $coupon->update([
+            'usage_limit' => 2, 'status' => CouponStatus::ACTIVE, 'system_type' => CouponSystemType::VEHICLE, 'type' => CouponType::CUSTOM, 'start_date' => '2023-03-10', 'end_date' => '2023-04-12',
+        ]);
         $coupon->usages()->create(['user_id' => $this->user->id]);
         $coupon->usages()->create(['user_id' => $this->user->id]);
 
@@ -591,10 +598,12 @@ class UserTest extends TestCase
 
     public function test_decline_booking()
     {
+        $vehicle = Vehicle::factory()->create();
+
         Event::fake([BookingDeclined::class]);
         Notification::fake([\App\Notifications\BookingDeclined::class]);
 
-        $booking = Booking::factory()->create(['user_id' => $this->user->id]);
+        $booking = Booking::factory()->create(['user_id' => $this->user->id, 'bookable_type' => $vehicle->getMorphClass(), 'bookable_id' => $vehicle->getKey()]);
 
         $this->authenticated()
             ->json('post', "$this->endpoint/decline-booking/{$booking->id}")
@@ -603,6 +612,11 @@ class UserTest extends TestCase
         Event::assertDispatched(BookingDeclined::class);
 
         Notification::assertCount(Admin::count());
+
+        $this->assertDatabaseHas('vehicles', [
+            'id' => $vehicle->getKey(),
+            'status' => Status::PUBLISHED,
+        ]);
     }
 
     public function test_list_bookings()
