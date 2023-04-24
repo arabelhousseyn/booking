@@ -156,7 +156,7 @@
             })
 
             $('#publish-vehicle').click(function (e){
-                let response = confirm('Voulez vous supprimer ?')
+                let response = confirm('Voulez vous Publier ?')
                 if(!response)
                 {
                     e.preventDefault()
@@ -164,7 +164,7 @@
             })
 
             $('#decline-vehicle').click(function (e){
-                let response = confirm('Voulez vous supprimer ?')
+                let response = confirm('Voulez vous Refuser ?')
                 if(!response)
                 {
                     e.preventDefault()
