@@ -59,8 +59,8 @@
                                     <td>{{$booking->bookable->title}}</td>
                                     <td>{{$booking->bookable_type->description}}</td>
                                     <td>{{$booking->payment_type}}</td>
-                                    <td>{{(new NumberFormatter('ar_DZ',NumberFormatter::CURRENCY))->formatCurrency($booking->net_price,'DZD')}}</td>
-                                    <td>{{(new NumberFormatter('ar_DZ',NumberFormatter::CURRENCY))->formatCurrency($booking->total_price,'DZDs')}}</td>
+                                    <td>{{(new NumberFormatter('ar_DZ',NumberFormatter::CURRENCY))->formatCurrency($booking->original_price,'DZD')}}</td>
+                                    <td>{{(new NumberFormatter('ar_DZ',NumberFormatter::CURRENCY))->formatCurrency($booking->calculated_price,'DZD')}}</td>
                                     <td>{{$booking->commission}} %</td>
                                     <td>
                                         @if($booking->has_caution)

@@ -211,23 +211,23 @@ class User extends Authenticatable implements HasMedia
             /** @var House|Vehicle $bookable */
             $bookable = Relation::$morphMap[$data['bookable_type']]::find($data['bookable_id']);
 
-            $net_price = $bookable->price * $days;
+            $original_price = $bookable->price * $days;
 
-            $net_price = (new ApplyCouponCodeBuilder(@$data['coupon_code'], $net_price, $data['bookable_type']))->calculate();
+            $original_price = (new ApplyCouponCodeBuilder(@$data['coupon_code'], $original_price, $data['bookable_type']))->calculate();
 
             if ($data['payment_type'] == PaymentType::DAHABIA) {
-                if ($net_price <= $core->dahabia_caution) {
-                    $total_price = $net_price;
-                    $amount_to_pay = $net_price;
+                if ($original_price <= $core->dahabia_caution) {
+                    $calculated_price = $original_price;
+                    $amount_to_pay = $original_price;
                 } else {
-                    $amount_not_paid = $net_price - $core->dahabia_caution;
-                    $total_price = $amount_not_paid - (($amount_not_paid * $commission) / 100);
+                    $amount_not_paid = $original_price - $core->dahabia_caution;
+                    $calculated_price = $amount_not_paid - (($amount_not_paid * $commission) / 100);
                     $amount_to_pay = $core->dahabia_caution;
                     $has_caution = true;
                 }
             } elseif ($data['payment_type'] == PaymentType::VISA || $data['payment_type'] == PaymentType::MASTER_CARD) {
-                $total_price = $net_price + $core->debit_card_caution;
-                $amount_to_pay = $total_price;
+                $calculated_price = $original_price + $core->debit_card_caution;
+                $amount_to_pay = $calculated_price;
                 $has_caution = true;
             }
 
@@ -236,8 +236,8 @@ class User extends Authenticatable implements HasMedia
             $this->pay($amount_to_pay, $data['payment_type']);
 
             return [
-                'net_price' => $net_price,
-                'total_price' => $total_price,
+                'original_price' => $original_price,
+                'calculated_price' => $calculated_price,
                 'commission' => $commission,
                 'has_caution' => $has_caution,
                 'seller_id' => $bookable->seller_id,

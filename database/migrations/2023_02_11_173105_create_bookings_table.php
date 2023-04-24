@@ -33,8 +33,8 @@ return new class() extends Migration {
 
             $table->uuidMorphs('bookable');
             $table->string('payment_type');
-            $table->float('net_price', 8, 2);
-            $table->float('total_price', 8, 2);
+            $table->float('original_price', 8, 2);
+            $table->float('calculated_price', 8, 2);
             $table->integer('commission');
             $table->boolean('has_caution')->default(false);
             $table->dateTime('start_date');

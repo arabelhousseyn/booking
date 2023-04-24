@@ -28,8 +28,8 @@ class BookingResource extends JsonResource
                 };
             }),
             'payment_type' => $this->payment_type,
-            'net_price' => $this->net_price,
-            'total_price' => $this->total_price,
+            'original_price' => $this->original_price,
+            'calculated_price' => $this->calculated_price,
             'has_caution' => $this->has_caution,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,

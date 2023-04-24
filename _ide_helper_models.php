@@ -14,12 +14,18 @@ namespace App\Models{
 /**
  * App\Models\Ad
  *
+ * @property string $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read array $photos
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|Ad newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Ad newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Ad query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Ad whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ad whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ad whereUpdatedAt($value)
  */
 	class Ad extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
@@ -36,12 +42,21 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Core|null $commission
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
+ * @property-read int|null $roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
  * @method static \Database\Factories\AdminFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Admin newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Admin newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Admin permission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|Admin query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Admin role($roles, $guard = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Admin whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Admin whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Admin whereFullName($value)
@@ -59,21 +74,24 @@ namespace App\Models{
  * App\Models\Booking
  *
  * @property string $id
+ * @property string $reference
  * @property string $user_id
+ * @property string $seller_id
  * @property \BenSampo\Enum\Enum|null $bookable_type
  * @property string $bookable_id
  * @property \BenSampo\Enum\Enum|null $payment_type
- * @property float $net_price
- * @property float $total_price
+ * @property float $original_price
+ * @property float $calculated_price
  * @property int $commission
  * @property int $has_caution
  * @property \Illuminate\Support\Carbon $start_date
  * @property \Illuminate\Support\Carbon $end_date
+ * @property \BenSampo\Enum\Enum|null $status
+ * @property string|null $coupon_code
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \BenSampo\Enum\Enum|null $status
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $bookable
- * @property-read \App\Models\Seller|null $seller
+ * @property-read \App\Models\Seller $seller
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
@@ -81,15 +99,19 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Booking query()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereBookableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereBookableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCalculatedPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCommission($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCouponCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereEndDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereHasCaution($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereNetPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereOriginalPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePaymentType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereReference($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereSellerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStartDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereTotalPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUserId($value)
  */
@@ -102,17 +124,21 @@ namespace App\Models{
  *
  * @property string $id
  * @property int $commission
- * @property string $commission_updated_by
+ * @property string|null $commission_updated_by
  * @property int $KM
+ * @property string $dahabia_caution
+ * @property string $debit_card_caution
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Admin $updatedBy
+ * @property-read \App\Models\Admin|null $updatedBy
  * @method static \Illuminate\Database\Eloquent\Builder|Core newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Core newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Core query()
  * @method static \Illuminate\Database\Eloquent\Builder|Core whereCommission($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Core whereCommissionUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Core whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Core whereDahabiaCaution($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Core whereDebitCardCaution($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Core whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Core whereKM($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Core whereUpdatedAt($value)
@@ -124,16 +150,38 @@ namespace App\Models{
 /**
  * App\Models\Coupon
  *
+ * @property string $id
+ * @property string $code
+ * @property array $description
+ * @property \BenSampo\Enum\Enum|null $value_type
+ * @property string $value
  * @property \BenSampo\Enum\Enum|null $type
  * @property \BenSampo\Enum\Enum|null $system_type
+ * @property string|null $start_date
+ * @property string|null $end_date
+ * @property string $usage_limit
  * @property \BenSampo\Enum\Enum|null $status
- * @property \BenSampo\Enum\Enum|null $value_type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CouponUsage> $usages
  * @property-read int|null $usages_count
  * @method static \Database\Factories\CouponFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Coupon newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Coupon newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Coupon query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereSystemType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereUsageLimit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereValueType($value)
  */
 	class Coupon extends \Eloquent {}
 }
@@ -142,11 +190,21 @@ namespace App\Models{
 /**
  * App\Models\CouponUsage
  *
+ * @property string $id
+ * @property string|null $user_id
+ * @property string|null $coupon_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Coupon|null $coupon
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|CouponUsage newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CouponUsage newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CouponUsage query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CouponUsage whereCouponId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CouponUsage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CouponUsage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CouponUsage whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CouponUsage whereUserId($value)
  */
 	class CouponUsage extends \Eloquent {}
 }
@@ -227,11 +285,20 @@ namespace App\Models{
 /**
  * App\Models\Reason
  *
+ * @property string $id
+ * @property string $description
  * @property \BenSampo\Enum\Enum|null $type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\ReasonFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Reason newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reason newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reason query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Reason whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reason whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reason whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reason whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reason whereUpdatedAt($value)
  */
 	class Reason extends \Eloquent {}
 }
@@ -240,13 +307,26 @@ namespace App\Models{
 /**
  * App\Models\Review
  *
+ * @property string $id
+ * @property string $user_id
  * @property \BenSampo\Enum\Enum|null $reviewable_type
+ * @property string $reviewable_id
+ * @property string $rating
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $reviewable
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\ReviewFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Review newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Review newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Review query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereReviewableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereReviewableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereUserId($value)
  */
 	class Review extends \Eloquent {}
 }
@@ -262,9 +342,10 @@ namespace App\Models{
  * @property string|null $email_verified_at
  * @property string $phone
  * @property string|null $phone_verified_at
+ * @property string $country_code
  * @property string|null $otp
  * @property string $password
- * @property string $firebase_token
+ * @property string|null $firebase_registration_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
@@ -284,10 +365,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Seller newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Seller newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Seller query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Seller whereCountryCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Seller whereFirebaseToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Seller whereFirebaseRegistrationToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereFirstName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereLastName($value)
@@ -311,13 +393,14 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $phone
  * @property \Illuminate\Support\Carbon|null $phone_verified_at
+ * @property string $country_code
  * @property string|null $otp
  * @property bool $can_rent_house
  * @property bool $can_rent_vehicle
  * @property string|null $coordinates
  * @property \Illuminate\Support\Carbon|null $validated_at
  * @property string|null $validated_by
- * @property string $firebase_token
+ * @property string|null $firebase_registration_token
  * @property string $password
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -345,10 +428,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCanRentHouse($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCanRentVehicle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCoordinates($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCountryCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereFirebaseToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereFirebaseRegistrationToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereFirstName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereLastName($value)
@@ -371,6 +455,7 @@ namespace App\Models{
  * @property string $user_id
  * @property \BenSampo\Enum\Enum|null $document_type
  * @property string $document_url
+ * @property \BenSampo\Enum\Enum|null $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $user
@@ -382,6 +467,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserDocument whereDocumentType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserDocument whereDocumentUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserDocument whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserDocument whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserDocument whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserDocument whereUserId($value)
  */
