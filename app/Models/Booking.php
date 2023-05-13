@@ -13,10 +13,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Booking extends Model
+class Booking extends Model implements HasMedia
 {
-    use HasFactory, UUID;
+    use HasFactory, InteractsWithMedia, UUID;
 
     protected static function booted()
     {
@@ -45,6 +48,7 @@ class Booking extends Model
         'end_date',
         'status',
         'coupon_code',
+        'note',
     ];
 
 
@@ -84,6 +88,15 @@ class Booking extends Model
         return $this->belongsTo(Seller::class, 'seller_id', 'id');
     }
 
+    /**
+     * Accessors & mutators
+     */
+
+    public function getFeedbackPhotosAttribute(): array
+    {
+        return $this->getMedia('photos')->map(fn ($image) => "$image->original_url")->toArray();
+    }
+
 
     /**
      * functions
@@ -96,10 +109,32 @@ class Booking extends Model
         return "$current_year-B-$bookingNumber";
     }
 
-    public function notifyCancelation(Collection $admins)
+    public function notifyCancellation(Collection $admins): void
     {
         $admins->each(function (Admin $admin) {
             $admin->notify(new BookingDeclined($this));
         });
+    }
+
+    /**
+     * functions
+     */
+
+    /**
+     * Defining media collections for the User model.
+     * https://spatie.be/docs/laravel-medialibrary/v9/working-with-media-collections/defining-media-collections
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('booking')
+            ->singleFile()
+            ->useDisk('public')
+            ->registerMediaConversions(function (Media $media) {
+                {
+                    $this->addMediaConversion('thumb')
+                        ->width(80)
+                        ->height(80);
+                }
+            });
     }
 }

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Enums\BookingStatus;
+use App\Events\BookingTerminated;
 use App\Exceptions\FileUploadedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SellerUpdateProfileRequest;
 use App\Http\Requests\StoreHouseRequest;
 use App\Http\Requests\StoreVehicleDocumentsRequest;
 use App\Http\Requests\StoreVehicleRequest;
+use App\Http\Requests\TerminateBookingRequest;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\HouseResource;
 use App\Http\Resources\SellerResource;
@@ -97,7 +100,7 @@ class SellerController extends Controller
         return SellerResource::make($user);
     }
 
-    public function bookings():JsonResource
+    public function bookings(): JsonResource
     {
         $bookings = auth()->user()->bookings()->get();
 
@@ -113,5 +116,23 @@ class SellerController extends Controller
         $booking->load(['bookable']);
 
         return BookingResource::make($booking);
+    }
+
+    public function terminateBooking(TerminateBookingRequest $request, Booking $booking): Response
+    {
+        $this->authorize('view', [$booking, auth()->user()]);
+
+        $booking->update(['note' => $request->validated('note'), 'status' => BookingStatus::COMPLETED]);
+
+        if (filled($request->validated('images'))) {
+            $booking->addMultipleMediaFromRequest(['photos'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('photos');
+                });
+        }
+
+        event(new BookingTerminated($booking->toArray()));
+
+        return response()->noContent();
     }
 }

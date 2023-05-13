@@ -145,7 +145,7 @@ class UserController extends Controller
 
         $admins = Admin::all();
 
-        $booking->notifyCancelation($admins);
+        $booking->notifyCancellation($admins);
 
         event(new BookingDeclined($booking->toArray()));
 

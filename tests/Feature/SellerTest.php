@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\BookingStatus;
 use App\Enums\GearBox;
 use App\Enums\Motorisation;
 use App\Enums\VehicleDocumentType;
@@ -236,8 +237,8 @@ class SellerTest extends TestCase
                         'bookable_id',
                         'bookable',
                         'payment_type',
-                        'net_price',
-                        'total_price',
+                        'original_price',
+                        'calculated_price',
                         'has_caution',
                         'start_date',
                         'end_date',
@@ -261,8 +262,8 @@ class SellerTest extends TestCase
                     'bookable_id',
                     'bookable',
                     'payment_type',
-                    'net_price',
-                    'total_price',
+                    'original_price',
+                    'calculated_price',
                     'has_caution',
                     'start_date',
                     'end_date',
@@ -270,5 +271,79 @@ class SellerTest extends TestCase
                     'created_at',
                 ],
             ]);
+    }
+
+    public function test_terminate_booking__case01() // standard case
+    {
+        Storage::fake('public');
+
+        $booking = Booking::factory()->create(['seller_id' => $this->seller->id]);
+        $booking->update(['status' => BookingStatus::ACCEPTED]);
+
+        $payload = [
+            'note' => $this->faker->sentence,
+            'photos' => [
+                UploadedFile::fake()->image('image1.png'),
+                UploadedFile::fake()->image('image2.png'),
+            ],
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/terminate-booking/{$booking->id}", $payload)
+            ->assertNoContent();
+
+        $this->assertDatabaseHas('bookings', [
+            'id' => $booking->getKey(),
+            'status' => BookingStatus::COMPLETED,
+        ]);
+    }
+
+    public function test_terminate_booking__case02() // when the status is pending
+    {
+        Storage::fake('public');
+
+        $booking = Booking::factory()->create(['seller_id' => $this->seller->id]);
+
+        $payload = [
+            'note' => $this->faker->sentence,
+            'photos' => [
+                UploadedFile::fake()->image('image1.png'),
+                UploadedFile::fake()->image('image2.png'),
+            ],
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/terminate-booking/{$booking->id}", $payload)
+            ->assertForbidden();
+
+        $this->assertDatabaseHas('bookings', [
+            'id' => $booking->getKey(),
+            'status' => BookingStatus::PENDING,
+        ]);
+    }
+
+    public function test_terminate_booking__case03() // when the booking doesn't belong to the seller
+    {
+        Storage::fake('public');
+
+        $booking = Booking::factory()->create();
+        $booking->update(['status' => BookingStatus::ACCEPTED]);
+
+        $payload = [
+            'note' => $this->faker->sentence,
+            'photos' => [
+                UploadedFile::fake()->image('image1.png'),
+                UploadedFile::fake()->image('image2.png'),
+            ],
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/terminate-booking/{$booking->id}", $payload)
+            ->assertForbidden();
+
+        $this->assertDatabaseHas('bookings', [
+            'id' => $booking->getKey(),
+            'status' => BookingStatus::ACCEPTED,
+        ]);
     }
 }

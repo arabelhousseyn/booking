@@ -34,9 +34,9 @@ class BookingsController extends Controller
         //
     }
 
-    public function show($id)
+    public function show(Booking $booking): View
     {
-        //
+        return view('pages.bookings.show', compact('booking'));
     }
 
     public function edit(Booking $booking): View
@@ -58,7 +58,7 @@ class BookingsController extends Controller
 
         $booking->update(array_merge($request->validated(), $status));
 
-        Session::put('created','Opération effectué');
+        Session::put('created', 'Opération effectué');
 
         return redirect()->route('dashboard.bookings.index');
     }
@@ -67,7 +67,7 @@ class BookingsController extends Controller
     {
         $booking->delete();
 
-        Session::put('created','Opération effectué');
+        Session::put('created', 'Opération effectué');
 
         return redirect()->route('dashboard.bookings.index');
     }
@@ -76,7 +76,7 @@ class BookingsController extends Controller
     {
         $booking->update(['status' => BookingStatus::ACCEPTED]);
 
-        Session::put('created','Opération effectué');
+        Session::put('created', 'Opération effectué');
 
         return redirect()->route('dashboard.bookings.index');
     }
@@ -85,7 +85,7 @@ class BookingsController extends Controller
     {
         $booking->update(['status' => BookingStatus::DECLINED]);
 
-        Session::put('created','Opération effectué');
+        Session::put('created', 'Opération effectué');
 
         return redirect()->route('dashboard.bookings.index');
     }

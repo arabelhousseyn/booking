@@ -81,6 +81,7 @@ Route::prefix('/v1/sellers')->group(function () {
         Route::controller(SellerController::class)->group(function () {
             Route::get('/booking/{booking}', 'viewBooking')->name('users.view-booking');
             Route::get('/bookings', 'bookings')->name('sellers.bookings');
+            Route::post('/terminate-booking/{booking}', 'terminateBooking')->name('sellers.terminate-booking');
 
             //profile
             Route::post('/profile', 'updateProfile')->name('sellers-update-profile');

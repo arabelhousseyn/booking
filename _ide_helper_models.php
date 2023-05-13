@@ -91,6 +91,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $bookable
+ * @property-read array $feedback_photos
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
  * @property-read \App\Models\Seller $seller
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
@@ -115,7 +118,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUserId($value)
  */
-	class Booking extends \Eloquent {}
+	class Booking extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
