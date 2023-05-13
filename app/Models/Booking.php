@@ -92,9 +92,9 @@ class Booking extends Model implements HasMedia
      * Accessors & mutators
      */
 
-    public function getFeedbackPhotosAttribute(): array
+    public function getFeedbackPhotosAttribute()
     {
-        return $this->getMedia('photos')->map(fn ($image) => "$image->original_url")->toArray();
+        return $this->getMedia('photos')->map(fn ($image) => "$image->original_url");
     }
 
 

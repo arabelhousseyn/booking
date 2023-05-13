@@ -162,7 +162,7 @@
                 'searching': true,
                 'ordering': true,
                 'sorting': false,
-                'order': [[14, 'asc']],
+                'order': [[15, 'asc']],
                 'info': true,
                 'autoWidth': false
             })

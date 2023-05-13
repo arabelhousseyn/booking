@@ -5,7 +5,7 @@
     <section class="content-header">
         <a href="{{route('dashboard.bookings.index')}}" class="btn btn-primary"><i class="fa fa-arrow-left"></i></a>
         <h1>
-            Permissions
+            Photos des réclamations
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> Acceuil</a></li>
@@ -13,7 +13,7 @@
             <li><a class="active">Photos des réclamations</a></li>
         </ol>
     </section>
-{{$booking->feedback_photos}}
+
     <!-- Main content -->
     <section class="content">
         <div class="row">
@@ -27,11 +27,15 @@
                         <table id="users" class="table table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th>Permission</th>
+                                <th>Photo</th>
                             </tr>
                             </thead>
                             <tbody>
-
+                            @foreach($booking->feedback_photos as $feedback_photo)
+                                <tr>
+                                    <td><img src="{{$feedback_photo->original_url}}" width="300" height="300"></td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
