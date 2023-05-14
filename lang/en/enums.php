@@ -114,5 +114,6 @@ return [
 
     Notifications::class => [
         Notifications::BOOKING_DECLINED => 'Booking declined',
+        Notifications::BOOKING_TERMINATED => 'Booking terminated',
     ],
 ];
