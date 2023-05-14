@@ -14,6 +14,11 @@
         </ol>
     </section>
 
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Note!</h4>
+        <p>{{$booking->note}}</p>
+    </div>
+
     <!-- Main content -->
     <section class="content">
         <div class="row">
@@ -33,7 +38,7 @@
                             <tbody>
                             @foreach($booking->feedback_photos as $feedback_photo)
                                 <tr>
-                                    <td><img src="{{$feedback_photo->original_url}}" width="300" height="300"></td>
+                                    <td><img src="{{$feedback_photo}}" width="300" height="300"></td>
                                 </tr>
                             @endforeach
                             </tbody>

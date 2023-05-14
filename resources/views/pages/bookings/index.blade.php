@@ -77,7 +77,6 @@
                                     <td>{{$booking->coupon_code}}</td>
                                     <td>{{\App\Enums\BookingStatus::fromValue($booking->status)->description}}</td>
                                     <td>
-                                        {{$booking->note}}
                                         <a href="{{route('dashboard.bookings.show',$booking->id)}}"
                                            class="btn btn-success"><i
                                                 class="fa fa-image"></i></a>
