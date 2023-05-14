@@ -125,7 +125,7 @@ class SellerController extends Controller
         $booking->update(['note' => $request->validated('note'), 'status' => BookingStatus::COMPLETED]);
 
         if (filled($request->validated('images'))) {
-            $booking->addMultipleMediaFromRequest(['photos'])
+            $booking->addMultipleMediaFromRequest(['images'])
                 ->each(function ($fileAdder) {
                     $fileAdder->toMediaCollection('photos');
                 });
