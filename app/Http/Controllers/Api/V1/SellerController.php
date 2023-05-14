@@ -127,7 +127,7 @@ class SellerController extends Controller
         if (filled($request->validated('images'))) {
             $booking->addMultipleMediaFromRequest(['images'])
                 ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('photos');
+                    $fileAdder->toMediaCollection('reclamations');
                 });
         }
 

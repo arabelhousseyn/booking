@@ -94,7 +94,7 @@ class Booking extends Model implements HasMedia
 
     public function getFeedbackPhotosAttribute()
     {
-        return $this->getMedia('photos')->map(fn ($image) => "$image->original_url");
+        return $this->getMedia('reclamations')->map(fn ($image) => "$image->original_url");
     }
 
 
@@ -126,15 +126,7 @@ class Booking extends Model implements HasMedia
      */
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('booking')
-            ->singleFile()
-            ->useDisk('public')
-            ->registerMediaConversions(function (Media $media) {
-                {
-                    $this->addMediaConversion('thumb')
-                        ->width(80)
-                        ->height(80);
-                }
-            });
+        $this->addMediaCollection('reclamations')
+            ->useDisk('public');
     }
 }
