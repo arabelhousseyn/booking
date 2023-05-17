@@ -54,6 +54,7 @@ Route::prefix('/v1/users')->group(function () {
             Route::get('/list-vehicles', 'listVehicles')->name('users.list-vehicles');
             Route::get('/list-houses', 'listHouses')->name('users.list-houses');
             Route::get('/ads', 'ads')->name('users.ads');
+            Route::post('/booking-state/{booking}', 'bookingState')->name('users.booking-state');
         });
     });
 });

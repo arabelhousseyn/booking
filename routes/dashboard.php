@@ -106,6 +106,7 @@ Route::prefix('dashboard')->group(function () {
 
         Route::post('/bookings/{booking}/decline', [BookingsController::class, 'decline'])->name('dashboard.bookings.decline');
         Route::post('/bookings/{booking}/accept', [BookingsController::class, 'accept'])->name('dashboard.bookings.accept');
+        Route::get('/bookings/{vehicle}/state', [BookingsController::class, 'bookingState'])->name('dashboard.bookings.state');
         Route::get('/bookings/{booking}/show', [BookingsController::class, 'show'])->name('dashboard.bookings.show');
         Route::get('/bookings/{booking}/edit', [BookingsController::class, 'edit'])->name('dashboard.bookings.edit');
         Route::put('/bookings/{booking}/update', [BookingsController::class, 'update'])->name('dashboard.bookings.update');

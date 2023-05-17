@@ -97,6 +97,16 @@ class Booking extends Model implements HasMedia
         return $this->getMedia('reclamations')->map(fn ($image) => "$image->original_url");
     }
 
+    public function getStartPhotosAttribute()
+    {
+        return $this->getMedia('start')->map(fn ($image) => "$image->original_url");
+    }
+
+    public function getEndPhotosAttribute()
+    {
+        return $this->getMedia('end')->map(fn ($image) => "$image->original_url");
+    }
+
 
     /**
      * functions
@@ -127,6 +137,12 @@ class Booking extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('reclamations')
+            ->useDisk('public');
+
+        $this->addMediaCollection('start')
+            ->useDisk('public');
+
+        $this->addMediaCollection('end')
             ->useDisk('public');
     }
 }

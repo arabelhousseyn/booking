@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingRequest;
 use App\Http\Requests\CoordinatesRequest;
 use App\Http\Requests\GetReasonsRequest;
+use App\Http\Requests\StoreBookingStateRequest;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UserFavoriteRequest;
 use App\Http\Requests\UserUpdateProfileRequest;
@@ -230,5 +231,15 @@ class UserController extends Controller
         $ads = Ad::all();
 
         return AdResource::collection($ads);
+    }
+
+    public function bookingState(StoreBookingStateRequest $request, Booking $booking): Response
+    {
+        $booking->addMultipleMediaFromRequest(['images'])
+            ->each(function ($fileAdder) use ($request) {
+                $fileAdder->toMediaCollection($request->validated('state'));
+            });
+
+        return response()->noContent();
     }
 }

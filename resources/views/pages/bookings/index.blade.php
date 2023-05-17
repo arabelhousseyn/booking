@@ -60,7 +60,15 @@
                                     <td>{{$booking->user->first_name}} {{$booking->user->last_name}}</td>
                                     <td>{{$booking->seller->first_name}} {{$booking->seller->last_name}}</td>
                                     <td>{{$booking->bookable->title}}</td>
-                                    <td>{{$booking->bookable_type->description}}</td>
+                                    <td>
+                                        {{$booking->bookable_type->description}}
+                                        @if($booking->bookable_type == \App\Enums\ModelType::VEHICLE)
+                                            <a href="{{route('dashboard.bookings.state',$booking->id)}}"
+                                               class="btn btn-success">
+                                                État du véhicule
+                                            </a>
+                                        @endif
+                                    </td>
                                     <td>{{$booking->payment_type}}</td>
                                     <td>{{(new NumberFormatter('ar_DZ',NumberFormatter::CURRENCY))->formatCurrency($booking->original_price,'DZD')}}</td>
                                     <td>{{(new NumberFormatter('ar_DZ',NumberFormatter::CURRENCY))->formatCurrency($booking->calculated_price,'DZD')}}</td>

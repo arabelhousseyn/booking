@@ -20,9 +20,11 @@ use App\Models\User;
 use App\Models\Vehicle;
 use Database\Seeders\CoreSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -715,5 +717,45 @@ class UserTest extends TestCase
             ->json('get', "$this->endpoint/ads")
             ->assertOk()
             ->assertJsonCount(0, 'data');
+    }
+
+    public function test_booking_state__case01() // start
+    {
+        Storage::fake('public');
+
+        $vehicle = Vehicle::factory()->create();
+        $booking = Booking::factory()->create(['bookable_id' => $vehicle->getKey(), 'bookable_type' => $vehicle->getMorphClass()]);
+
+        $payload = [
+            'state' => 'start',
+            'images' => [
+                UploadedFile::fake()->image('image1.png'),
+                UploadedFile::fake()->image('image2.png'),
+            ],
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking-state/{$booking->id}", $payload)
+            ->assertNoContent();
+    }
+
+    public function test_booking_state__case02() // end
+    {
+        Storage::fake('public');
+
+        $vehicle = Vehicle::factory()->create();
+        $booking = Booking::factory()->create(['bookable_id' => $vehicle->getKey(), 'bookable_type' => $vehicle->getMorphClass()]);
+
+        $payload = [
+            'state' => 'end',
+            'images' => [
+                UploadedFile::fake()->image('image1.png'),
+                UploadedFile::fake()->image('image2.png'),
+            ],
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking-state/{$booking->id}", $payload)
+            ->assertNoContent();
     }
 }

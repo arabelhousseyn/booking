@@ -89,4 +89,9 @@ class BookingsController extends Controller
 
         return redirect()->route('dashboard.bookings.index');
     }
+
+    public function bookingState(Booking $booking): View
+    {
+        return view('pages.bookings.state', compact('booking'));
+    }
 }

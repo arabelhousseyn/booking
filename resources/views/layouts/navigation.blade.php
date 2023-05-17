@@ -225,6 +225,27 @@
                     window.open(bookingPage)
                 }
             }
-        })
+        });
+
+        channel.bind('terminated_booking', function (data) {
+            if (Notification.permission === 'granted') {
+                let notification = new Notification(`Nouvelle réservation terminée N: ` + data.data.reference);
+
+                let sound = new Audio();
+                sound.src = notificationSoundUrl;
+                sound.play();
+
+                Swal.fire({
+                    title: 'Nouvelle réservation terminée',
+                    text: 'Réservation N: ' + data.data.reference,
+                    icon: 'success',
+                    confirmButtonText: 'Ok!'
+                })
+
+                notification.onclick = (event) => {
+                    window.open(bookingPage)
+                }
+            }
+        });
     </script>
 </aside>
