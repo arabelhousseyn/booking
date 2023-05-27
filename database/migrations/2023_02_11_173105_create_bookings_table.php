@@ -39,9 +39,10 @@ return new class() extends Migration {
             $table->boolean('has_caution')->default(false);
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->string('status');
             $table->string('coupon_code')->nullable();
             $table->text('note')->nullable();
+            $table->string('status');
+            $table->string('payment_status');
 
             $table->unique(['user_id', 'seller_id', 'bookable_type', 'bookable_id']);
             $table->timestamps();

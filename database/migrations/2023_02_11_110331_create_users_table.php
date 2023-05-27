@@ -33,6 +33,8 @@ return new class() extends Migration {
                 ->references('id');
 
             $table->firebaseToken();
+            $table->ribBankAccount();
+            $table->dahabiaAccount();
 
             $table->string('password');
             $table->timestamps();

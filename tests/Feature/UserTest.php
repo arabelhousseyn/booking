@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\CouponStatus;
 use App\Enums\CouponSystemType;
 use App\Enums\CouponType;
+use App\Enums\PaymentStatus;
 use App\Enums\PaymentType;
 use App\Enums\ReasonTypes;
 use App\Enums\Status;
@@ -757,5 +758,32 @@ class UserTest extends TestCase
         $this->authenticated()
             ->json('post', "$this->endpoint/booking-state/{$booking->id}", $payload)
             ->assertNoContent();
+    }
+
+    public function test_booking_payment_status__case01() // standard case
+    {
+        $booking = Booking::factory()->create();
+
+        $payload = [
+            'payment_status' => PaymentStatus::PAID,
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking-payment-status/{$booking->id}", $payload)
+            ->assertNoContent();
+    }
+
+    public function test_booking_payment_status__case02() // when the booking is already paid
+    {
+        $booking = Booking::factory()->create();
+        $booking->update(['payment_status' => PaymentStatus::PAID]);
+
+        $payload = [
+            'payment_status' => PaymentStatus::PAID,
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking-payment-status/{$booking->id}", $payload)
+            ->assertForbidden();
     }
 }

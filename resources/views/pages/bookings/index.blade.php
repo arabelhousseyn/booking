@@ -47,6 +47,7 @@
                                 <th>Date de debut</th>
                                 <th>Date de fin</th>
                                 <th>Promo code</th>
+                                <th>Statu de paiement</th>
                                 <th>Statu</th>
                                 <th>Note</th>
                                 <th>Date de creation</th>
@@ -83,6 +84,7 @@
                                     <td>{{$booking->start_date}}</td>
                                     <td>{{$booking->end_date}}</td>
                                     <td>{{$booking->coupon_code}}</td>
+                                    <td>{{\App\Enums\PaymentStatus::fromValue($booking->payment_status)->description}}</td>
                                     <td>{{\App\Enums\BookingStatus::fromValue($booking->status)->description}}</td>
                                     <td>
                                         <a href="{{route('dashboard.bookings.show',$booking->id)}}"

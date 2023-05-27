@@ -10,6 +10,7 @@ use App\Enums\GearBox;
 use App\Enums\ModelType;
 use App\Enums\Motorisation;
 use App\Enums\Notifications;
+use App\Enums\PaymentStatus;
 use App\Enums\Permissions;
 use App\Enums\ReasonTypes;
 use App\Enums\Status;
@@ -110,6 +111,11 @@ return [
         BookingStatus::ACCEPTED => 'قبلت',
         BookingStatus::DECLINED => 'انخفض',
         BookingStatus::COMPLETED => 'مكتمل',
+    ],
+
+    PaymentStatus::class => [
+        PaymentStatus::PENDING => 'قيد الانتظار',
+        PaymentStatus::PAID => 'مدفوع',
     ],
 
     Notifications::class => [

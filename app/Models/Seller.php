@@ -31,6 +31,8 @@ class Seller extends Authenticatable implements HasMedia
         'otp',
         'password',
         'firebase_registration_token',
+        'rib_bank_account',
+        'dahabia_account',
     ];
 
 

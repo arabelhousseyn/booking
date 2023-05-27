@@ -32,6 +32,8 @@ class UserUpdateProfileRequest extends FormRequest
             'email' => ['bail', 'nullable', 'email:rfc,dns,filter', Rule::unique('users', 'email')->ignore(auth()->id())],
             'coordinates' => ['bail', 'nullable', new Coordinates()],
             'avatar' => ['bail', 'nullable', 'image', 'mimes:jpg,jpeg,png'],
+            'rib_bank_account' => ['bail', 'nullable', 'string'],
+            'dahabia_account' => ['bail', 'nullable', 'string'],
         ];
     }
 }

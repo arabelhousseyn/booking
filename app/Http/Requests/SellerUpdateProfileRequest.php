@@ -29,6 +29,8 @@ class SellerUpdateProfileRequest extends FormRequest
             'last_name' => ['bail', 'nullable', 'max:255'],
             'email' => ['bail', 'nullable', 'email:rfc,dns,filter', Rule::unique('sellers', 'email')->ignore(auth()->id())],
             'avatar' => ['bail', 'nullable', 'image', 'mimes:jpg,jpeg,png'],
+            'rib_bank_account' => ['bail', 'nullable', 'string'],
+            'dahabia_account' => ['bail', 'nullable', 'string'],
         ];
     }
 }

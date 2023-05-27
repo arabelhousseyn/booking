@@ -20,8 +20,10 @@ class Core extends Model
         'commission',
         'commission_updated_by',
         'KM',
-        'dahabia_caution',
-        'debit_card_caution',
+        'vehicle_dahabia_caution',
+        'vehicle_debit_card_caution',
+        'house_dahabia_caution',
+        'house_debit_card_caution',
     ];
 
 

@@ -26,8 +26,10 @@ class CoreRequest extends FormRequest
         return [
             'commission' => ['bail','required','sometimes','numeric'],
             'KM' => ['bail','required','sometimes','numeric'],
-            'dahabia_caution' => ['bail','required','sometimes','numeric'],
-            'debit_card_caution' => ['bail','required','sometimes','numeric'],
+            'vehicle_dahabia_caution' => ['bail','required','sometimes','numeric'],
+            'vehicle_debit_card_caution' => ['bail','required','sometimes','numeric'],
+            'house_dahabia_caution' => ['bail','required','sometimes','numeric'],
+            'house_debit_card_caution' => ['bail','required','sometimes','numeric'],
         ];
     }
 }

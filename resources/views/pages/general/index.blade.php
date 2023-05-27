@@ -79,7 +79,7 @@
             <div class="col-md-6">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Dahabia caution</h3>
+                        <h3 class="box-title">Véhicule dahabia caution</h3>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
@@ -87,9 +87,9 @@
                         @csrf
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="dahabia_caution">Dahabia caution</label>
-                                <input type="text" class="form-control" value="{{$core->dahabia_caution}}" name="dahabia_caution" id="dahabia_caution" placeholder="Dahabia caution" required>
-                                <x-input-error :messages="$errors->get('dahabia_caution')" class="mt-2"/>
+                                <label for="vehicle_dahabia_caution">Véhicule dahabia caution</label>
+                                <input type="text" class="form-control" value="{{$core->vehicle_dahabia_caution}}" name="vehicle_dahabia_caution" id="vehicle_dahabia_caution" placeholder="Véhicule dahabia caution" required>
+                                <x-input-error :messages="$errors->get('vehicle_dahabia_caution')" class="mt-2"/>
                             </div>
                         </div>
                         <!-- /.box-body -->
@@ -104,7 +104,7 @@
             <div class="col-md-6">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Visa/master card caution</h3>
+                        <h3 class="box-title">Véhicule visa/master card caution</h3>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
@@ -112,9 +112,59 @@
                         @csrf
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="visa_masterCard_caution">Visa/master card caution</label>
-                                <input type="text" class="form-control" value="{{$core->debit_card_caution}}" name="debit_card_caution" id="visa_masterCard_caution" placeholder="Visa/master card caution" required>
-                                <x-input-error :messages="$errors->get('debit_card_caution')" class="mt-2"/>
+                                <label for="vehicle_visa_masterCard_caution">Véhicule visa/master card caution</label>
+                                <input type="text" class="form-control" value="{{$core->vehicle_debit_card_caution}}" name="vehicle_debit_card_caution" id="vehicle_visa_masterCard_caution" placeholder="Véhicule visa/master card caution" required>
+                                <x-input-error :messages="$errors->get('vehicle_debit_card_caution')" class="mt-2"/>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary confirm">Confirmer</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.box -->
+            </div>
+
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Maison dahabia caution</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" method="post" action="{{route('dashboard.settings.core')}}">
+                        @csrf
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="house_dahabia_caution">Maison dahabia caution</label>
+                                <input type="text" class="form-control" value="{{$core->house_dahabia_caution}}" name="house_dahabia_caution" id="house_dahabia_caution" placeholder="Maison dahabia caution" required>
+                                <x-input-error :messages="$errors->get('house_dahabia_caution')" class="mt-2"/>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary confirm">Confirmer</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.box -->
+            </div>
+
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Maison visa/master card caution</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" method="post" action="{{route('dashboard.settings.core')}}">
+                        @csrf
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="house_visa_masterCard_caution">Visa/master card caution</label>
+                                <input type="text" class="form-control" value="{{$core->house_debit_card_caution}}" name="house_debit_card_caution" id="house_visa_masterCard_caution" placeholder="Maison visa/master card caution" required>
+                                <x-input-error :messages="$errors->get('house_debit_card_caution')" class="mt-2"/>
                             </div>
                         </div>
                         <!-- /.box-body -->

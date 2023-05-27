@@ -25,6 +25,8 @@ return new class() extends Migration {
             $table->string('password');
 
             $table->firebaseToken();
+            $table->ribBankAccount();
+            $table->dahabiaAccount();
 
             $table->timestamps();
         });

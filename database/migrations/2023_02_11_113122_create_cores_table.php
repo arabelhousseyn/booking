@@ -23,8 +23,11 @@ return new class() extends Migration {
 
             $table->string('KM')->default(50);
 
-            $table->string('dahabia_caution')->default(40000);
-            $table->string('debit_card_caution')->default(100);
+            $table->string('vehicle_dahabia_caution')->default(40000);
+            $table->string('vehicle_debit_card_caution')->default(100);
+
+            $table->string('house_dahabia_caution')->default(40000);
+            $table->string('house_debit_card_caution')->default(100);
 
             $table->timestamps();
         });

@@ -88,10 +88,14 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon $end_date
  * @property \BenSampo\Enum\Enum|null $status
  * @property string|null $coupon_code
+ * @property string|null $note
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \BenSampo\Enum\Enum|null $payment_status
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $bookable
- * @property-read array $feedback_photos
+ * @property-read mixed $end_photos
+ * @property-read mixed $feedback_photos
+ * @property-read mixed $start_photos
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
  * @property-read \App\Models\Seller $seller
@@ -109,6 +113,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereEndDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereHasCaution($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereOriginalPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePaymentType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereReference($value)
@@ -129,8 +134,10 @@ namespace App\Models{
  * @property int $commission
  * @property string|null $commission_updated_by
  * @property int $KM
- * @property string $dahabia_caution
- * @property string $debit_card_caution
+ * @property string $vehicle_dahabia_caution
+ * @property string $vehicle_debit_card_caution
+ * @property string $house_dahabia_caution
+ * @property string $house_debit_card_caution
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Admin|null $updatedBy
@@ -140,11 +147,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Core whereCommission($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Core whereCommissionUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Core whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Core whereDahabiaCaution($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Core whereDebitCardCaution($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Core whereHouseDahabiaCaution($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Core whereHouseDebitCardCaution($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Core whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Core whereKM($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Core whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Core whereVehicleDahabiaCaution($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Core whereVehicleDebitCardCaution($value)
  */
 	class Core extends \Eloquent {}
 }

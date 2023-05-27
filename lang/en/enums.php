@@ -15,6 +15,7 @@ use App\Enums\GearBox;
 use App\Enums\Permissions;
 use App\Enums\BookingStatus;
 use App\Enums\Notifications;
+use App\Enums\PaymentStatus;
 
 return [
     Permissions::class => [
@@ -110,6 +111,11 @@ return [
         BookingStatus::ACCEPTED => 'Accepted',
         BookingStatus::DECLINED => 'Declined',
         BookingStatus::COMPLETED => 'Completed',
+    ],
+
+    PaymentStatus::class => [
+        PaymentStatus::PENDING => 'Pending',
+        PaymentStatus::PAID => 'Paid',
     ],
 
     Notifications::class => [

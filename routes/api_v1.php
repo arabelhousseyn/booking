@@ -48,13 +48,14 @@ Route::prefix('/v1/users')->group(function () {
             Route::get('/booking/{booking}', 'viewBooking')->name('users.view-booking');
             Route::get('/bookings', 'bookings')->name('users.bookings');
             Route::post('/decline-booking/{booking}', 'declineBooking')->name('users.decline-booking');
+            Route::post('/booking-state/{booking}', 'bookingState')->name('users.booking-state');
+            Route::post('/booking-payment-status/{booking}', 'bookingPaymentStatus')->name('users.booking-payment-status');
             Route::post('/store-review', 'storeReview')->name('users.store-review');
             Route::get('/reasons', 'reasons')->name('users.reasons');
             Route::get('/coupons', 'coupons')->name('users.coupons');
             Route::get('/list-vehicles', 'listVehicles')->name('users.list-vehicles');
             Route::get('/list-houses', 'listHouses')->name('users.list-houses');
             Route::get('/ads', 'ads')->name('users.ads');
-            Route::post('/booking-state/{booking}', 'bookingState')->name('users.booking-state');
         });
     });
 });

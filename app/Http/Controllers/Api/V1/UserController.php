@@ -8,6 +8,7 @@ use App\Enums\ReasonTypes;
 use App\Enums\Status;
 use App\Events\BookingDeclined;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BookingPaymentStatusRequest;
 use App\Http\Requests\BookingRequest;
 use App\Http\Requests\CoordinatesRequest;
 use App\Http\Requests\GetReasonsRequest;
@@ -239,6 +240,13 @@ class UserController extends Controller
             ->each(function ($fileAdder) use ($request) {
                 $fileAdder->toMediaCollection($request->validated('state'));
             });
+
+        return response()->noContent();
+    }
+
+    public function bookingPaymentStatus(BookingPaymentStatusRequest $request, Booking $booking): Response
+    {
+        $booking->update($request->validated());
 
         return response()->noContent();
     }

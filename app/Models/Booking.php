@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\BookingStatus;
 use App\Enums\ModelType;
+use App\Enums\PaymentStatus;
 use App\Enums\PaymentType;
 use App\Notifications\BookingDeclined;
 use App\Traits\UUID;
@@ -25,6 +26,7 @@ class Booking extends Model implements HasMedia
     {
         static::creating(function (self $model) {
             $model->status = BookingStatus::PENDING;
+            $model->payment_status = PaymentStatus::PENDING;
             $model->reference = $model->generateReference();
         });
     }
@@ -46,9 +48,10 @@ class Booking extends Model implements HasMedia
         'has_caution',
         'start_date',
         'end_date',
-        'status',
         'coupon_code',
         'note',
+        'status',
+        'payment_status',
     ];
 
 
@@ -65,6 +68,7 @@ class Booking extends Model implements HasMedia
         'bookable_type' => ModelType::class,
         'payment_type' => PaymentType::class,
         'status' => BookingStatus::class,
+        'payment_status' => PaymentStatus::class,
         'start_date' => 'datetime',
         'end_date' => 'datetime',
     ];

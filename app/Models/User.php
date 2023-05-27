@@ -47,6 +47,8 @@ class User extends Authenticatable implements HasMedia
         'validated_by',
         'password',
         'firebase_registration_token',
+        'rib_bank_account',
+        'dahabia_account',
     ];
 
     /**
@@ -233,8 +235,6 @@ class User extends Authenticatable implements HasMedia
 
             DB::commit();
 
-            $this->pay($amount_to_pay, $data['payment_type']);
-
             return [
                 'original_price' => $original_price,
                 'calculated_price' => $calculated_price,
@@ -246,10 +246,5 @@ class User extends Authenticatable implements HasMedia
             DB::rollBack();
             throw $exception;
         }
-    }
-
-    private function pay(float $amount, string $type): void
-    {
-        // todo : implement the pay api's
     }
 }
