@@ -409,7 +409,6 @@ class UserTest extends TestCase
         $this->authenticated()
             ->json('post', "$this->endpoint/booking", $inputs)
             ->assertCreated()
-            ->dump()
             ->assertJsonStructure([
                 'data' => [
                     'id',
@@ -500,7 +499,7 @@ class UserTest extends TestCase
                     'payment_type',
                     'original_price',
                     'calculated_price',
-                    'has_caution',
+                    'to_be_paid',
                     'start_date',
                     'end_date',
                     'status',
@@ -524,7 +523,7 @@ class UserTest extends TestCase
                     'payment_type',
                     'original_price',
                     'calculated_price',
-                    'has_caution',
+                    'to_be_paid',
                     'start_date',
                     'end_date',
                     'status',
@@ -581,7 +580,7 @@ class UserTest extends TestCase
                         'payment_type',
                         'original_price',
                         'calculated_price',
-                        'has_caution',
+                        'to_be_paid',
                         'start_date',
                         'end_date',
                         'status',
