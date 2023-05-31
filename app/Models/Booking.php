@@ -45,7 +45,8 @@ class Booking extends Model implements HasMedia
         'original_price',
         'calculated_price',
         'commission',
-        'has_caution',
+        'caution',
+        'refund',
         'start_date',
         'end_date',
         'coupon_code',
@@ -111,7 +112,6 @@ class Booking extends Model implements HasMedia
         return $this->getMedia('end')->map(fn ($image) => "$image->original_url");
     }
 
-
     /**
      * functions
      */
@@ -130,9 +130,21 @@ class Booking extends Model implements HasMedia
         });
     }
 
-    /**
-     * functions
-     */
+    public static function retrieveCaution(string $bookableType, Core $core): array // to be tested
+    {
+        if ($bookableType == ModelType::HOUSE) {
+            return [$core->house_dahabia_caution, $core->house_debit_card_caution];
+        } elseif ($bookableType == ModelType::VEHICLE) {
+            return [$core->vehicle_dahabia_caution, $core->vehicle_debit_card_caution];
+        }
+
+        return [];
+    }
+
+    public static function calculateCommission(float $price, int $commission): float
+    {
+        return $price - (($price * $commission) / 100);
+    }
 
     /**
      * Defining media collections for the User model.

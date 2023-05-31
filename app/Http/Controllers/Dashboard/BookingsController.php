@@ -6,6 +6,7 @@ use App\Enums\BookingStatus;
 use App\Enums\ModelType;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SetRefundRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
 use App\Models\House;
@@ -93,5 +94,18 @@ class BookingsController extends Controller
     public function bookingState(Booking $booking): View
     {
         return view('pages.bookings.state', compact('booking'));
+    }
+
+    public function viewRefund(Booking $booking)
+    {
+        return view('pages.bookings.refund', compact('booking'));
+    }
+
+    public function setRefund(SetRefundRequest $request, Booking $booking): RedirectResponse
+    {
+        // todo implement the refund api
+        $booking->update($request->validated());
+
+        return redirect()->route('dashboard.bookings.index');
     }
 }

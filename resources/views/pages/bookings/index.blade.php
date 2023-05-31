@@ -38,12 +38,13 @@
                                 <th>Utilisateur</th>
                                 <th>Partenaire</th>
                                 <th>Réservable</th>
-                                <th>Type de réservable</th>
+                                <th>Type</th>
                                 <th>Paiement</th>
-                                <th>Prix net</th>
-                                <th>Prix total</th>
+                                <th>P.originale</th>
+                                <th>P.totale</th>
                                 <th>Commission</th>
-                                <th>A caution</th>
+                                <th>caution</th>
+                                <th>Remboursement</th>
                                 <th>Date de debut</th>
                                 <th>Date de fin</th>
                                 <th>Promo code</th>
@@ -74,13 +75,8 @@
                                     <td>{{(new NumberFormatter('ar_DZ',NumberFormatter::CURRENCY))->formatCurrency($booking->original_price,'DZD')}}</td>
                                     <td>{{(new NumberFormatter('ar_DZ',NumberFormatter::CURRENCY))->formatCurrency($booking->calculated_price,'DZD')}}</td>
                                     <td>{{$booking->commission}} %</td>
-                                    <td>
-                                        @if($booking->has_caution)
-                                            <div class="alert alert-success">Oui</div>
-                                        @else
-                                            <div class="alert alert-danger">Non</div>
-                                        @endif
-                                    </td>
+                                    <td>{{(new NumberFormatter('ar_DZ',NumberFormatter::CURRENCY))->formatCurrency($booking->caution,'DZD')}}</td>
+                                    <td>{{(new NumberFormatter('ar_DZ',NumberFormatter::CURRENCY))->formatCurrency($booking?->refund,'DZD')}}</td>
                                     <td>{{$booking->start_date}}</td>
                                     <td>{{$booking->end_date}}</td>
                                     <td>{{$booking->coupon_code}}</td>
@@ -137,6 +133,13 @@
                                         @endif
 
                                         @if($booking->status == \App\Enums\BookingStatus::COMPLETED)
+
+                                            @if(is_null($booking->refund))
+                                                <a href="{{route('dashboard.bookings.view-refund',$booking->id)}}"
+                                                   class="btn btn-success"><i
+                                                        class="fa fa-dollar"></i></a>
+                                            @endif
+
                                             <form action="{{route('dashboard.bookings.destroy',$booking->id)}}"
                                                   method="post">
                                                 @method('DELETE')
@@ -171,31 +174,28 @@
                 'searching': true,
                 'ordering': true,
                 'sorting': false,
-                'order': [[15, 'asc']],
+                'order': [[17, 'asc']],
                 'info': true,
                 'autoWidth': false
             })
 
-            $('#delete-booking').click(function (e){
+            $('#delete-booking').click(function (e) {
                 let response = confirm('Voulez vous supprimer ?')
-                if(!response)
-                {
+                if (!response) {
                     e.preventDefault()
                 }
             })
 
-            $('#accept-booking').click(function (e){
+            $('#accept-booking').click(function (e) {
                 let response = confirm('Voulez vous Accepter ?')
-                if(!response)
-                {
+                if (!response) {
                     e.preventDefault()
                 }
             })
 
-            $('#decline-booking').click(function (e){
+            $('#decline-booking').click(function (e) {
                 let response = confirm('Voulez vous Refuser ?')
-                if(!response)
-                {
+                if (!response) {
                     e.preventDefault()
                 }
             })

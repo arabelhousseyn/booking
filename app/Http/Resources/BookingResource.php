@@ -30,7 +30,7 @@ class BookingResource extends JsonResource
             'payment_type' => $this->payment_type,
             'original_price' => $this->original_price,
             'calculated_price' => $this->calculated_price,
-            'has_caution' => $this->has_caution,
+            'to_be_paid' => $this->caution,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'status' => $this->status,

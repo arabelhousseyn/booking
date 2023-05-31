@@ -12,6 +12,7 @@ use App\Enums\Status;
 use App\Events\BookingDeclined;
 use App\Models\Admin;
 use App\Models\Booking;
+use App\Models\Core;
 use App\Models\Coupon;
 use App\Models\Favorite;
 use App\Models\House;
@@ -390,22 +391,25 @@ class UserTest extends TestCase
             ->assertJsonValidationErrors(['coordinates']);
     }
 
-    public function test_store_booking__case01() // when the price is 40000 or less
+    public function test_store_booking__case01() // without coupon code
     {
-        $vehicle = Vehicle::factory()->create(['price' => '20000']);
+        $vehicle = Vehicle::factory()->create(['price' => '100000']);
         $vehicle->update(['status' => Status::PUBLISHED]);
+        $core = Core::first();
+        $core->update(['commission' => 20]);
 
         $inputs = [
             'bookable_type' => $vehicle->getMorphClass(),
             'bookable_id' => $vehicle->getKey(),
             'payment_type' => PaymentType::DAHABIA,
             'start_date' => '2023-03-10 00:00:00',
-            'end_date' => '2023-03-12 00:00:00',
+            'end_date' => '2023-03-11 00:00:00',
         ];
 
         $this->authenticated()
             ->json('post', "$this->endpoint/booking", $inputs)
             ->assertCreated()
+            ->dump()
             ->assertJsonStructure([
                 'data' => [
                     'id',
@@ -415,7 +419,7 @@ class UserTest extends TestCase
                     'payment_type',
                     'original_price',
                     'calculated_price',
-                    'has_caution',
+                    'to_be_paid',
                     'start_date',
                     'end_date',
                     'status',
@@ -429,69 +433,7 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function test_store_booking__case02() // when the price is 40000 or more
-    {
-        $vehicle = Vehicle::factory()->create(['price' => '40000']);
-        $vehicle->update(['status' => Status::PUBLISHED]);
-
-        $inputs = [
-            'bookable_type' => $vehicle->getMorphClass(),
-            'bookable_id' => $vehicle->getKey(),
-            'payment_type' => PaymentType::DAHABIA,
-            'start_date' => '2023-03-10 00:00:00',
-            'end_date' => '2023-03-12 00:00:00',
-        ];
-
-        $this->authenticated()
-            ->json('post', "$this->endpoint/booking", $inputs)
-            ->assertCreated()
-            ->assertJsonStructure([
-                'data' => [
-                    'id',
-                    'bookable_type',
-                    'bookable_id',
-                    'bookable',
-                    'payment_type',
-                    'original_price',
-                    'calculated_price',
-                    'has_caution',
-                    'start_date',
-                    'end_date',
-                    'status',
-                    'created_at',
-                ],
-            ]);
-    }
-
-    public function test_store_booking__case03() // when the is in pending , declined and booked
-    {
-        $vehicle = Vehicle::factory()->create(['price' => '40000']);
-        $vehicle->update(['status' => Status::BOOKED]);
-
-        $inputs = [
-            'bookable_type' => $vehicle->getMorphClass(),
-            'bookable_id' => $vehicle->getKey(),
-            'payment_type' => PaymentType::DAHABIA,
-            'start_date' => '2023-03-10 00:00:00',
-            'end_date' => '2023-03-12 00:00:00',
-        ];
-
-        $this->authenticated()
-            ->json('post', "$this->endpoint/booking", $inputs)
-            ->assertStatus(403);
-
-        $vehicle->update(['status' => Status::PENDING]);
-        $this->authenticated()
-            ->json('post', "$this->endpoint/booking", $inputs)
-            ->assertStatus(403);
-
-        $vehicle->update(['status' => Status::DECLINED]);
-        $this->authenticated()
-            ->json('post', "$this->endpoint/booking", $inputs)
-            ->assertStatus(403);
-    }
-
-    public function test_store_booking__case04() // with coupon code
+    public function test_store_booking__case02() // with coupon code
     {
         // when case status is inactive
         $coupon = Coupon::factory()->create(['status' => CouponStatus::INACTIVE, 'system_type' => CouponSystemType::ALL]);

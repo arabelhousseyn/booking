@@ -36,7 +36,8 @@ return new class() extends Migration {
             $table->float('original_price', 8, 2);
             $table->float('calculated_price', 8, 2);
             $table->integer('commission');
-            $table->boolean('has_caution')->default(false);
+            $table->float('caution');
+            $table->float('refund')->nullable();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->string('coupon_code')->nullable();

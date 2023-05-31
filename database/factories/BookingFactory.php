@@ -32,6 +32,7 @@ class BookingFactory extends Factory
             'original_price' => $this->faker->randomFloat(8, 1000, 100000),
             'calculated_price' => $this->faker->randomFloat(8, 1000, 100000),
             'commission' => $this->faker->numberBetween(1, 100),
+            'caution' => $this->faker->randomFloat(8, 1000, 100000),
             'start_date' => ($date = Carbon::now())->toDateTimeString(),
             'end_date' => (clone $date)->modify('+ 3days'),
         ];

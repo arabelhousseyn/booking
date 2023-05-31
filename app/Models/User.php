@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\ModelType;
 use App\Enums\PaymentType;
 use App\Support\ApplyCouponCodeBuilder;
 use App\Traits\UUID;
@@ -207,7 +208,7 @@ class User extends Authenticatable implements HasMedia
             $has_caution = false;
 
             $days = Carbon::parse($data['end_date'])->diffInDays($data['start_date']);
-            $core = Core::select(['commission', 'dahabia_caution', 'debit_card_caution'])->first();
+            $core = Core::first();
             $commission = $core->commission;
 
             /** @var House|Vehicle $bookable */
@@ -217,21 +218,10 @@ class User extends Authenticatable implements HasMedia
 
             $original_price = (new ApplyCouponCodeBuilder(@$data['coupon_code'], $original_price, $data['bookable_type']))->calculate();
 
-            if ($data['payment_type'] == PaymentType::DAHABIA) {
-                if ($original_price <= $core->dahabia_caution) {
-                    $calculated_price = $original_price;
-                    $amount_to_pay = $original_price;
-                } else {
-                    $amount_not_paid = $original_price - $core->dahabia_caution;
-                    $calculated_price = $amount_not_paid - (($amount_not_paid * $commission) / 100);
-                    $amount_to_pay = $core->dahabia_caution;
-                    $has_caution = true;
-                }
-            } elseif ($data['payment_type'] == PaymentType::VISA || $data['payment_type'] == PaymentType::MASTER_CARD) {
-                $calculated_price = $original_price + $core->debit_card_caution;
-                $amount_to_pay = $calculated_price;
-                $has_caution = true;
-            }
+            [$dahabia_caution, $debit_card_caution] = Booking::retrieveCaution($data['bookable_type'], $core);
+
+            $calculated_price = Booking::calculateCommission($original_price, $commission);
+            $caution = ($data['payment_type'] == PaymentType::DAHABIA) ? $dahabia_caution : $debit_card_caution + $original_price;
 
             DB::commit();
 
@@ -239,7 +229,7 @@ class User extends Authenticatable implements HasMedia
                 'original_price' => $original_price,
                 'calculated_price' => $calculated_price,
                 'commission' => $commission,
-                'has_caution' => $has_caution,
+                'caution' => $caution,
                 'seller_id' => $bookable->seller_id,
             ];
         } catch (\Exception $exception) {
