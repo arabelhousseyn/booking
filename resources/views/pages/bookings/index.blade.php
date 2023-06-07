@@ -21,6 +21,16 @@
         @endphp
     @endif
 
+
+    @if(session()->has('paymentError'))
+        <div class="alert alert-danger">
+            {{session()->get('paymentError')}}
+        </div>
+        @php
+            session()->remove('paymentError')
+        @endphp
+    @endif
+
     <!-- Main content -->
     <section class="content">
         <div class="row">

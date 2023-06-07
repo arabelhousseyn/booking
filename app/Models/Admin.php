@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\PaymentException;
 use App\Traits\UUID;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Http;
 use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Authenticatable implements CanResetPassword
@@ -72,4 +74,19 @@ class Admin extends Authenticatable implements CanResetPassword
     /**
      * functions
      */
+
+    public function satimRefund(Booking $booking, float $amount): void
+    {
+        $satimApi = config('app.satim_api');
+        $response = Http::get("${satimApi}/refund.do", [
+            'userName' => config('app.satim_username'),
+            'password' => config('app.satim_password'),
+            'orderId' => $booking->satim_order_id,
+            'amount', $amount,
+        ]);
+
+        if ($response->json()['errorCode'] != '0') {
+            throw new PaymentException($response->json()['errorMessage']);
+        }
+    }
 }

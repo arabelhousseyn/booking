@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Enums\BookingStatus;
 use App\Enums\ModelType;
+use App\Enums\PaymentType;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SetRefundRequest;
@@ -103,7 +104,18 @@ class BookingsController extends Controller
 
     public function setRefund(SetRefundRequest $request, Booking $booking): RedirectResponse
     {
-        // todo implement the refund api
+        try {
+            if ($booking->payment_type == PaymentType::DAHABIA) {
+                auth()->user()->satimRefund($booking, $request->validated('refund'));
+            } elseif ($booking->payment_type == PaymentType::VISA || $booking->payment_type == PaymentType::MASTER_CARD) {
+
+            }
+        } catch (\Exception $exception) {
+            Session::put('paymentError', json_encode($exception->getMessage(), true));
+
+            return redirect()->route('dashboard.bookings.index');
+        }
+
         $booking->update($request->validated());
 
         return redirect()->route('dashboard.bookings.index');
