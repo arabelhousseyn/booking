@@ -10,4 +10,5 @@ return [
     'file_uploaded' => 'File already uploaded.',
     'wrong_password' => 'The :state password is wrong.',
     'coupon_code_invalid' => 'The coupon code is invalid',
+    'payment_invalid' => 'Payment invalid please retry',
 ];

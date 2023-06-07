@@ -115,7 +115,7 @@ class SellerController extends Controller
 
         $booking->load(['bookable']);
 
-        return BookingResource::make($booking);
+        return BookingResource::make($booking,[]);
     }
 
     public function terminateBooking(TerminateBookingRequest $request, Booking $booking): Response

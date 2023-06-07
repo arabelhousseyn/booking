@@ -50,6 +50,7 @@ Route::prefix('/v1/users')->group(function () {
             Route::post('/decline-booking/{booking}', 'declineBooking')->name('users.decline-booking');
             Route::post('/booking-state/{booking}', 'bookingState')->name('users.booking-state');
             Route::post('/booking-payment-status/{booking}', 'bookingPaymentStatus')->name('users.booking-payment-status');
+            Route::post('/confirm-order/{booking}', 'confirmSatimRegistredOrder')->name('users.confirm-order');
             Route::post('/store-review', 'storeReview')->name('users.store-review');
             Route::get('/reasons', 'reasons')->name('users.reasons');
             Route::get('/coupons', 'coupons')->name('users.coupons');

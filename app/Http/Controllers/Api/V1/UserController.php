@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Enums\BookingStatus;
 use App\Enums\CouponStatus;
+use App\Enums\PaymentStatus;
+use App\Enums\PaymentType;
 use App\Enums\ReasonTypes;
 use App\Enums\Status;
 use App\Events\BookingDeclined;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingPaymentStatusRequest;
 use App\Http\Requests\BookingRequest;
+use App\Http\Requests\ConfirmSatimRegistredOrderRequest;
 use App\Http\Requests\CoordinatesRequest;
 use App\Http\Requests\GetReasonsRequest;
 use App\Http\Requests\StoreBookingStateRequest;
@@ -38,6 +41,7 @@ use App\Traits\PasswordCanBeUpdated;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
@@ -115,9 +119,28 @@ class UserController extends Controller
 
         $this->authorize('create', [$bookable, auth()->user()]);
 
-        $priceCalculated = auth()->user()->CalculateBookingPrice($request->validated());
+        try {
+            DB::beginTransaction();
 
-        $booking = auth()->user()->bookings()->create(array_merge($priceCalculated, $request->safe()->only('payment_type', 'bookable_type', 'bookable_id', 'start_date', 'end_date', 'coupon_code')));
+            $priceCalculated = auth()->user()->CalculateBookingPrice($request->validated());
+
+            /** @var Booking $booking */
+            $booking = auth()->user()->bookings()->create(array_merge($priceCalculated, $request->safe()->only('payment_type', 'bookable_type', 'bookable_id', 'start_date', 'end_date', 'coupon_code')));
+
+            if ($request->validated('payment_type') == PaymentType::DAHABIA) {
+                $satimPaymentRegistration = auth()->user()->registerPayment($booking, $request->validated('return_url'));
+                $booking->update(['satim_order_id' => $satimPaymentRegistration['orderId']]);
+            } elseif ($request->validated('payment_type') == PaymentType::VISA || $request->validated('payment_type') == PaymentType::MASTER_CARD) {
+                // todo : implement the cashier
+            }
+
+
+            DB::commit();
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
 
         $bookable->update(['status' => Status::BOOKED]);
 
@@ -125,7 +148,7 @@ class UserController extends Controller
 
         (new RecipientNotificationDispatcher(trans('bookings.title_new_booking'), trans('bookings.body_new_booking'), $bookable->seller->firebase_registration_token, $booking))->send();
 
-        return BookingResource::make($booking);
+        return BookingResource::make($booking, $satimPaymentRegistration);
     }
 
     public function viewBooking(Booking $booking): BookingResource
@@ -134,7 +157,7 @@ class UserController extends Controller
 
         $booking->load(['bookable']);
 
-        return BookingResource::make($booking);
+        return BookingResource::make($booking,[]);
     }
 
     public function declineBooking(Booking $booking): Response
@@ -247,6 +270,17 @@ class UserController extends Controller
     public function bookingPaymentStatus(BookingPaymentStatusRequest $request, Booking $booking): Response
     {
         $booking->update($request->validated());
+
+        return response()->noContent();
+    }
+
+    public function confirmSatimRegistredOrder(ConfirmSatimRegistredOrderRequest $request, Booking $booking): Response
+    {
+        $this->authorize('satim', [$booking, $request->input('order_id')]);
+
+        auth()->user()->confirmRegisteredPayment($request->validated('order_id'));
+
+        $booking->update(['payment_status' => PaymentStatus::PAID]);
 
         return response()->noContent();
     }

@@ -31,13 +31,15 @@ return new class() extends Migration {
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
+            $table->string('satim_order_id')->nullable();
+
             $table->uuidMorphs('bookable');
             $table->string('payment_type');
             $table->float('original_price', 8, 2);
             $table->float('calculated_price', 8, 2);
             $table->integer('commission');
-            $table->float('caution');
-            $table->float('refund')->nullable();
+            $table->float('caution', 8, 2);
+            $table->float('refund', 8, 2)->nullable();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->string('coupon_code')->nullable();

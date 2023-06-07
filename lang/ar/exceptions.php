@@ -10,4 +10,5 @@ return [
     'file_uploaded' => 'تم تحميل الملف بالفعل.',
     'wrong_password' => 'كلمة السر :state خطأ.',
     'coupon_code_invalid' => 'رمز القسيمة غير صالح',
+    'payment_invalid' => 'الدفع غير صالح يرجى إعادة المحاولة',
 ];

@@ -25,6 +25,21 @@ return [
 
     'latest_api' => '1',
 
+
+    /*
+     |--------------------------------------------------------------------------
+     | Satim
+     |--------------------------------------------------------------------------
+     */
+
+    'satim_api' => env('SATIM_API', 'https://test.satim.dz/payment/rest'),
+
+    'satim_username' => env('SATIM_USERNAME', 'SAT2204250397'),
+
+    'satim_password' => env('SATIM_PASSWORD', 'satim120'),
+
+    'satim_currency' => env('SATIM_CURRENCY', '012'),
+
     /*
     |--------------------------------------------------------------------------
     | latest api version

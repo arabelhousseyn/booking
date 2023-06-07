@@ -31,4 +31,9 @@ class BookingPolicy
     {
         return $booking->status->isNot([BookingStatus::COMPLETED, BookingStatus::DECLINED]);
     }
+
+    public function satim(User $user, Booking $booking, string $order_id): bool
+    {
+        return $booking->satim_order_id === $order_id;
+    }
 }

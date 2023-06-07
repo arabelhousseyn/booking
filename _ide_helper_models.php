@@ -83,15 +83,16 @@ namespace App\Models{
  * @property float $original_price
  * @property float $calculated_price
  * @property int $commission
- * @property int $has_caution
+ * @property float $caution
+ * @property float|null $refund
  * @property \Illuminate\Support\Carbon $start_date
  * @property \Illuminate\Support\Carbon $end_date
- * @property \BenSampo\Enum\Enum|null $status
  * @property string|null $coupon_code
  * @property string|null $note
+ * @property \BenSampo\Enum\Enum|null $status
+ * @property \BenSampo\Enum\Enum|null $payment_status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \BenSampo\Enum\Enum|null $payment_status
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $bookable
  * @property-read mixed $end_photos
  * @property-read mixed $feedback_photos
@@ -107,16 +108,18 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereBookableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereBookableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCalculatedPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCaution($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCommission($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCouponCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereEndDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereHasCaution($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereOriginalPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePaymentStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePaymentType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereReference($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereRefund($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereSellerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStatus($value)
@@ -358,6 +361,8 @@ namespace App\Models{
  * @property string|null $otp
  * @property string $password
  * @property string|null $firebase_registration_token
+ * @property string|null $rib_bank_account
+ * @property string|null $dahabia_account
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
@@ -379,6 +384,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Seller query()
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereCountryCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Seller whereDahabiaAccount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereFirebaseRegistrationToken($value)
@@ -389,6 +395,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Seller wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller wherePhoneVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Seller whereRibBankAccount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereUpdatedAt($value)
  */
 	class Seller extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
@@ -413,6 +420,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $validated_at
  * @property string|null $validated_by
  * @property string|null $firebase_registration_token
+ * @property string|null $rib_bank_account
+ * @property string|null $dahabia_account
  * @property string $password
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -442,6 +451,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCoordinates($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCountryCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDahabiaAccount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereFirebaseRegistrationToken($value)
@@ -452,6 +462,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhoneVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRibBankAccount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereValidatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereValidatedBy($value)

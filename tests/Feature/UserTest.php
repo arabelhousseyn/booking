@@ -397,6 +397,7 @@ class UserTest extends TestCase
         $vehicle->update(['status' => Status::PUBLISHED]);
         $core = Core::first();
         $core->update(['commission' => 20]);
+        Booking::factory()->count(rand(1, 1000))->create();
 
         $inputs = [
             'bookable_type' => $vehicle->getMorphClass(),
@@ -404,6 +405,7 @@ class UserTest extends TestCase
             'payment_type' => PaymentType::DAHABIA,
             'start_date' => '2023-03-10 00:00:00',
             'end_date' => '2023-03-11 00:00:00',
+            'return_url' => 'https://certweb.satim.dz/Cert/url%23',
         ];
 
         $this->authenticated()
@@ -422,6 +424,9 @@ class UserTest extends TestCase
                     'start_date',
                     'end_date',
                     'status',
+                    'errorCode',
+                    'orderId',
+                    'formUrl',
                     'created_at',
                 ],
             ]);
@@ -447,6 +452,7 @@ class UserTest extends TestCase
             'start_date' => '2023-03-10 00:00:00',
             'end_date' => '2023-03-12 00:00:00',
             'coupon_code' => $coupon->code,
+            'return_url' => 'https://certweb.satim.dz/Cert/url%23',
         ];
 
         $this->authenticated()
@@ -483,6 +489,50 @@ class UserTest extends TestCase
             ->assertJson(['message' => trans('exceptions.coupon_code_invalid')]);
 
     }
+
+    public function test_confirm_order() // this test will return always bad request because of the 'order_id' is invalid
+    {
+        $vehicle = Vehicle::factory()->create(['price' => '100000']);
+        $vehicle->update(['status' => Status::PUBLISHED]);
+        $core = Core::first();
+        $core->update(['commission' => 20]);
+        Booking::factory()->count(rand(1, 1000))->create();
+
+        $inputs = [
+            'bookable_type' => $vehicle->getMorphClass(),
+            'bookable_id' => $vehicle->getKey(),
+            'payment_type' => PaymentType::DAHABIA,
+            'start_date' => '2023-03-10 00:00:00',
+            'end_date' => '2023-03-11 00:00:00',
+            'return_url' => 'https://certweb.satim.dz/Cert/url%23',
+        ];
+
+        $response = $this->authenticated()
+            ->json('post', "$this->endpoint/booking", $inputs)
+            ->assertCreated();
+
+
+        // when the order_id the correspondent one of booking
+        $inputs1 = [
+            'order_id' => $response->json()['data']['orderId'],
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/confirm-order/{$response->json()['data']['id']}", $inputs1)
+            ->assertBadRequest();
+
+        // when the order_id the isn't correspondent one of booking
+
+
+        $inputs2 = [
+            'order_id' => uniqid(),
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/confirm-order/{$response->json()['data']['id']}", $inputs2)
+            ->assertForbidden();
+    }
+
 
     public function test_view_booking__case01() // standard case
     {

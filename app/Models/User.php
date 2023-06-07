@@ -3,8 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Enums\ModelType;
 use App\Enums\PaymentType;
+use App\Exceptions\PaymentException;
 use App\Support\ApplyCouponCodeBuilder;
 use App\Traits\UUID;
 use Carbon\Carbon;
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use KMLaravel\GeographicalCalculator\Facade\GeoFacade;
 use Laravel\Sanctum\HasApiTokens;
 use PHPUnit\Exception;
@@ -203,38 +203,65 @@ class User extends Authenticatable implements HasMedia
 
     public function CalculateBookingPrice(array $data): array
     {
-        try {
-            DB::beginTransaction();
-            $has_caution = false;
+        $days = Carbon::parse($data['end_date'])->diffInDays($data['start_date']);
+        $core = Core::first();
+        $commission = $core->commission;
 
-            $days = Carbon::parse($data['end_date'])->diffInDays($data['start_date']);
-            $core = Core::first();
-            $commission = $core->commission;
+        /** @var House|Vehicle $bookable */
+        $bookable = Relation::$morphMap[$data['bookable_type']]::find($data['bookable_id']);
 
-            /** @var House|Vehicle $bookable */
-            $bookable = Relation::$morphMap[$data['bookable_type']]::find($data['bookable_id']);
+        $original_price = $bookable->price * $days;
 
-            $original_price = $bookable->price * $days;
+        $original_price = (new ApplyCouponCodeBuilder(@$data['coupon_code'], $original_price, $data['bookable_type']))->calculate();
 
-            $original_price = (new ApplyCouponCodeBuilder(@$data['coupon_code'], $original_price, $data['bookable_type']))->calculate();
+        [$dahabia_caution, $debit_card_caution] = Booking::retrieveCaution($data['bookable_type'], $core);
 
-            [$dahabia_caution, $debit_card_caution] = Booking::retrieveCaution($data['bookable_type'], $core);
+        $calculated_price = Booking::calculateCommission($original_price, $commission);
+        $caution = ($data['payment_type'] == PaymentType::DAHABIA) ? $dahabia_caution : $debit_card_caution + $original_price;
 
-            $calculated_price = Booking::calculateCommission($original_price, $commission);
-            $caution = ($data['payment_type'] == PaymentType::DAHABIA) ? $dahabia_caution : $debit_card_caution + $original_price;
+        return [
+            'original_price' => $original_price,
+            'calculated_price' => $calculated_price,
+            'commission' => $commission,
+            'caution' => $caution,
+            'seller_id' => $bookable->seller_id,
+        ];
+    }
 
-            DB::commit();
+    public function registerPayment(Booking $booking, string $return_url): array
+    {
+        $satimApi = config('app.satim_api');
+        $response = Http::get("${satimApi}/register.do", [
+            'userName' => config('app.satim_username'),
+            'password' => config('app.satim_password'),
+            'currency' => config('app.satim_currency'),
+            'language' => app()->getLocale(),
+            'amount' => $booking->caution,
+            'orderNumber' => $booking->reference,
+            'returnUrl' => $return_url,
+        ]);
 
-            return [
-                'original_price' => $original_price,
-                'calculated_price' => $calculated_price,
-                'commission' => $commission,
-                'caution' => $caution,
-                'seller_id' => $bookable->seller_id,
-            ];
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            throw $exception;
+        if ($response->json()['errorCode'] != '0') {
+            throw new PaymentException();
         }
+
+        return $response->json();
+    }
+
+    public function confirmRegisteredPayment(string $order_id): array
+    {
+        $satimApi = config('app.satim_api');
+        $response = Http::get("${satimApi}/confirmOrder.do", [
+            'userName' => config('app.satim_username'),
+            'password' => config('app.satim_password'),
+            'language' => app()->getLocale(),
+            'orderId' => $order_id,
+        ]);
+
+        if ($response->json()['ErrorCode'] != '0') {
+            throw new PaymentException($response->json()['actionCodeDescription']);
+        }
+
+        return $response->json();
     }
 }
