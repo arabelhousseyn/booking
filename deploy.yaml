@@ -11,7 +11,7 @@ hosts:
   development:
     hostname: 18.196.212.37
     branch: develop
-    remote_user: root
+    remote_user: ubuntu
     deploy_path: '/var/www/html'
     multiplexing: true
 
