@@ -18,8 +18,6 @@ hosts:
 tasks:
   composer:
     - composer:install
-  cp:
-    - cp:.env.example .env
   deploy:
     - deploy:prepare
     - deploy:vendors
