@@ -29,8 +29,27 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
 
-    - name: Deploy
-      uses: deployphp/action@v1
+    - name: Install deployer
+      run: |
+        curl -LO https://github.com/deployphp/deployer/releases/download/v7.0.0-rc.7/deployer.phar
+        mv deployer.phar /usr/local/bin/dep
+        chmod +x /usr/local/bin/dep
+        # Make sure the @v0.4.1 matches the current version of the
+        # action
+    - name: Setup SSH KEYS
+      uses: webfactory/ssh-agent@v0.4.1
       with:
-          private-key: ${{ secrets.SSH_DEV_PRIVATE_KEY }}
-          dep: deploy development
+        ssh-private-key: ${{ secrets.SSH_DEV_PRIVATE_KEY }}
+
+        # The steps below include a workaround to fake the hosts IP addresses
+        # using Github secrets.
+    - name: Setup SSH KNOWN_HOSTS
+      run: |
+        sudo echo "${{ secrets.SSH_DEV_IP }} ${{ secrets.SSH_DEV_DOMAIN }}" | sudo tee -a /etc/hosts
+        sudo ssh-keyscan -H ${{ secrets.SSH_DEV_DOMAIN }} > $HOME/.ssh/known_hosts
+
+        # Deploy code to development server
+        # using laravel-deployer https://github.com/lorisleiva/laravel-deployer.
+    - name: Deploy
+      run: |
+       dep deploy development
