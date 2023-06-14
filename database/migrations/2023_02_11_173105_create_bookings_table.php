@@ -32,6 +32,7 @@ return new class() extends Migration {
                 ->cascadeOnDelete();
 
             $table->string('satim_order_id')->nullable();
+            $table->string('payment_intent_id')->nullable();
 
             $table->uuidMorphs('bookable');
             $table->string('payment_type');

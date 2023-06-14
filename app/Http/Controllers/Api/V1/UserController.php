@@ -20,6 +20,7 @@ use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UserFavoriteRequest;
 use App\Http\Requests\UserUpdateProfileRequest;
 use App\Http\Resources\AdResource;
+use App\Http\Resources\BookingListResource;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\CouponResource;
 use App\Http\Resources\HouseResource;
@@ -117,6 +118,9 @@ class UserController extends Controller
         /** @var House|Vehicle $bookable */
         $bookable = Relation::$morphMap[$request->validated('bookable_type')]::find($request->validated('bookable_id'));
 
+        $satimPaymentRegistration = [];
+        $stripePayment = [];
+
         $this->authorize('create', [$bookable, auth()->user()]);
 
         try {
@@ -131,12 +135,9 @@ class UserController extends Controller
                 $satimPaymentRegistration = auth()->user()->registerPayment($booking, $request->validated('return_url'));
                 $booking->update(['satim_order_id' => $satimPaymentRegistration['orderId']]);
             } elseif ($request->validated('payment_type') == PaymentType::VISA || $request->validated('payment_type') == PaymentType::MASTER_CARD) {
-                // todo : implement the cashier
+                $stripePayment['stripe_url'] = route('stripe.payment', [auth()->user(), $booking]);
             }
-
-
             DB::commit();
-
         } catch (\Exception $exception) {
             DB::rollBack();
             throw $exception;
@@ -148,7 +149,7 @@ class UserController extends Controller
 
         (new RecipientNotificationDispatcher(trans('bookings.title_new_booking'), trans('bookings.body_new_booking'), $bookable->seller->firebase_registration_token, $booking))->send();
 
-        return BookingResource::make($booking, $satimPaymentRegistration);
+        return BookingResource::make($booking, $satimPaymentRegistration, $stripePayment);
     }
 
     public function viewBooking(Booking $booking): BookingResource
@@ -157,7 +158,7 @@ class UserController extends Controller
 
         $booking->load(['bookable']);
 
-        return BookingResource::make($booking,[]);
+        return BookingResource::make($booking, [],[]);
     }
 
     public function declineBooking(Booking $booking): Response
@@ -183,7 +184,7 @@ class UserController extends Controller
 
         $bookings->loadMissing(['bookable']);
 
-        return BookingResource::collection($bookings);
+        return BookingListResource::collection($bookings);
     }
 
     public function storeFavorite(UserFavoriteRequest $request): Response

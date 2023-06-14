@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookingResource extends JsonResource
 {
-    public function __construct(public Booking $booking, public mixed $satimPaymentRegistration)
+    public function __construct(public Booking $booking, public mixed $satimPaymentRegistration, public mixed $stripePayment)
     {
         parent::__construct($booking);
     }
@@ -17,14 +17,24 @@ class BookingResource extends JsonResource
     public function toArray($request): array
     {
         $satimResponse = [];
+        $stripeResponse = [];
 
         if (!is_array($this->satimPaymentRegistration)) {
             $this->satimPaymentRegistration = [];
         }
 
+        if (!is_array($this->stripePayment)) {
+            $this->stripePayment = [];
+        }
+
         if (filled($this->satimPaymentRegistration)) {
             $satimResponse = $this->satimPaymentRegistration;
         }
+
+        if (filled($this->stripePayment)) {
+            $stripeResponse = $this->stripePayment;
+        }
+
         return [
             'id' => $this->booking->id,
             'bookable_type' => $this->booking->bookable_type,
@@ -43,6 +53,7 @@ class BookingResource extends JsonResource
             'end_date' => $this->booking->end_date,
             'status' => $this->booking->status,
             ...$satimResponse,
+            ...$stripeResponse,
             'created_at' => $this->booking->created_at->toISOString(),
         ];
     }

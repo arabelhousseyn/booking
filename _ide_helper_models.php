@@ -77,6 +77,8 @@ namespace App\Models{
  * @property string $reference
  * @property string $user_id
  * @property string $seller_id
+ * @property string|null $satim_order_id
+ * @property string|null $payment_intent_id
  * @property \BenSampo\Enum\Enum|null $bookable_type
  * @property string $bookable_id
  * @property \BenSampo\Enum\Enum|null $payment_type
@@ -116,10 +118,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereOriginalPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePaymentIntentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePaymentStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePaymentType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereReference($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereRefund($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereSatimOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereSellerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStatus($value)
@@ -423,6 +427,10 @@ namespace App\Models{
  * @property string|null $rib_bank_account
  * @property string|null $dahabia_account
  * @property string $password
+ * @property string|null $stripe_id
+ * @property string|null $pm_type
+ * @property string|null $pm_last_four
+ * @property string|null $trial_ends_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
@@ -439,6 +447,8 @@ namespace App\Models{
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $reviews
  * @property-read int|null $reviews_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Cashier\Subscription> $subscriptions
+ * @property-read int|null $subscriptions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @property-read \App\Models\Admin|null $validatedBy
@@ -462,7 +472,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhoneVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePmLastFour($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePmType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRibBankAccount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereStripeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereTrialEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereValidatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereValidatedBy($value)

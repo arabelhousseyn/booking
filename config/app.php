@@ -40,6 +40,25 @@ return [
 
     'satim_currency' => env('SATIM_CURRENCY', '012'),
 
+
+    /*
+     |--------------------------------------------------------------------------
+     | Stripe
+     |--------------------------------------------------------------------------
+     */
+
+    'stripe_key' => env('STRIPE_KEY', 'pk_test_51NFjCuJK5jkQSg6d7ujvd7FJwGIpuT6WpAbL598jRnv6MjFFEd21lsFoFm5LQmefETjOMxDxhD5MwNzcPWJ7Wp8W00s0cNyl4F'),
+
+    'stripe_secret' => env('STRIPE_SECRET', 'sk_test_51NFjCuJK5jkQSg6doXUCEmQVyGXvU55KRTZqQ3FAdxLTgCAfUctTJTQSrnLfxaJY7lyGLzUHbEoaoNyDL8IEXZID00eclpMn50'),
+
+    'stripe_webhook_secret' => env('STRIPE_WEBHOOK_SECRET', 'whsec_d5f168dc54e0a857fc6da733bd94b2151012822e562abe1593b12b3e6adbdb7e'),
+
+    'cashier_currency' => env('CASHIER_CURRENCY', 'eur'),
+
+    'cashier_currency_locale' => env('CASHIER_CURRENCY_LOCALE', 'fr_FR'),
+
+    'cashier_logger' => env('CASHIER_LOGGER', 'stack'),
+
     /*
     |--------------------------------------------------------------------------
     | latest api version

@@ -82,7 +82,7 @@ class Admin extends Authenticatable implements CanResetPassword
             'userName' => config('app.satim_username'),
             'password' => config('app.satim_password'),
             'orderId' => $booking->satim_order_id,
-            'amount', $amount,
+            'amount' => $amount,
         ]);
 
         if ($response->json()['errorCode'] != '0') {

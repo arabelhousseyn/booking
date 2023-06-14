@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Http;
 use KMLaravel\GeographicalCalculator\Facade\GeoFacade;
+use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use PHPUnit\Exception;
 use Spatie\MediaLibrary\HasMedia;
@@ -25,7 +26,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia, UUID;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia, UUID, Billable;
 
 
     /**

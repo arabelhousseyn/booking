@@ -490,6 +490,48 @@ class UserTest extends TestCase
 
     }
 
+    public function test_store_booking__case03() // with visa card payment
+    {
+        $vehicle = Vehicle::factory()->create(['price' => '100000']);
+        $vehicle->update(['status' => Status::PUBLISHED]);
+        $core = Core::first();
+        $core->update(['commission' => 20]);
+        Booking::factory()->count(rand(1, 1000))->create();
+
+        $inputs = [
+            'bookable_type' => $vehicle->getMorphClass(),
+            'bookable_id' => $vehicle->getKey(),
+            'payment_type' => PaymentType::VISA,
+            'start_date' => '2023-03-10 00:00:00',
+            'end_date' => '2023-03-11 00:00:00',
+        ];
+
+        $this->authenticated()
+            ->json('post', "$this->endpoint/booking", $inputs)
+            ->assertCreated()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'bookable_type',
+                    'bookable_id',
+                    'bookable',
+                    'payment_type',
+                    'original_price',
+                    'calculated_price',
+                    'to_be_paid',
+                    'start_date',
+                    'end_date',
+                    'stripe_url',
+                    'created_at',
+                ],
+            ]);
+
+        $this->assertDatabaseHas('vehicles', [
+            'id' => $vehicle->getKey(),
+            'status' => Status::BOOKED,
+        ]);
+    }
+
     public function test_confirm_order() // this test will return always bad request because of the 'order_id' is invalid
     {
         $vehicle = Vehicle::factory()->create(['price' => '100000']);

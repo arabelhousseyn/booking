@@ -40,6 +40,7 @@ class Booking extends Model implements HasMedia
         'user_id',
         'seller_id',
         'satim_order_id',
+        'payment_intent_id',
         'bookable_type',
         'bookable_id',
         'payment_type',

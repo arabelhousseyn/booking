@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Enums\BookingStatus;
+use App\Enums\PaymentStatus;
 use App\Models\Booking;
 use App\Models\Seller;
 use App\Models\User;

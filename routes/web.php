@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\Auth\Sellers\AuthController as SellerAuthController;
 use App\Http\Controllers\Api\V1\Auth\Users\AuthController as UserAuthController;
+use App\Http\Controllers\Stripe\StripeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {return [];});
+Route::get('/', function () {
+    return [];
+});
 
 require __DIR__.'/dashboard.php';
+
+Route::get('{user}/payment/{booking}', [StripeController::class, 'index'])->name('stripe.payment');
+Route::get('{booking}/return/{clientSecret}', [StripeController::class, 'return'])->name('stripe.return');
 
 
 Route::get('/user-password-reset', function () {

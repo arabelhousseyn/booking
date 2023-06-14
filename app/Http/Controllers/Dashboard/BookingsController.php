@@ -11,7 +11,9 @@ use App\Http\Requests\SetRefundRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
 use App\Models\House;
+use App\Models\User;
 use App\Models\Vehicle;
+use RuntimeException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -105,10 +107,15 @@ class BookingsController extends Controller
     public function setRefund(SetRefundRequest $request, Booking $booking): RedirectResponse
     {
         try {
+            if($request->validated('refund') > $booking->caution)
+            {
+                throw new RuntimeException('Le montant du remboursement ne doit pas être supérieur au montant de la caution');
+            }
             if ($booking->payment_type == PaymentType::DAHABIA) {
                 auth()->user()->satimRefund($booking, $request->validated('refund'));
             } elseif ($booking->payment_type == PaymentType::VISA || $booking->payment_type == PaymentType::MASTER_CARD) {
-
+                $user = User::find($booking->user_id);
+                $user->refund($booking->payment_intent_id, ['amount' => specialFormat(floatval($request->validated('refund')))]);
             }
         } catch (\Exception $exception) {
             Session::put('paymentError', json_encode($exception->getMessage(), true));

@@ -11,6 +11,7 @@ use App\Http\Requests\StoreHouseRequest;
 use App\Http\Requests\StoreVehicleDocumentsRequest;
 use App\Http\Requests\StoreVehicleRequest;
 use App\Http\Requests\TerminateBookingRequest;
+use App\Http\Resources\BookingListResource;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\HouseResource;
 use App\Http\Resources\SellerResource;
@@ -106,7 +107,7 @@ class SellerController extends Controller
 
         $bookings->loadMissing(['bookable']);
 
-        return BookingResource::collection($bookings);
+        return BookingListResource::collection($bookings);
     }
 
     public function viewBooking(Booking $booking): BookingResource
@@ -115,7 +116,7 @@ class SellerController extends Controller
 
         $booking->load(['bookable']);
 
-        return BookingResource::make($booking,[]);
+        return BookingResource::make($booking,[],[]);
     }
 
     public function terminateBooking(TerminateBookingRequest $request, Booking $booking): Response
