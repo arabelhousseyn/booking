@@ -38,12 +38,12 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
 
-
     - name: Deploy to development server
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
       uses: deployphp/action@v1
       with:
         private-key: ${{ secrets.SSH_DEV_PRIVATE_KEY }}
         known-hosts: ${{ secrets.KNOWN_HOSTS }}
-        dep: deploy development
-             npm:run:build
+        dep: |
+          echo "deploy development"
+          echo "npm:run:build"
