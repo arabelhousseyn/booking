@@ -1,6 +1,7 @@
 import:
   - recipe/laravel.php
   - contrib/php-fpm.php
+  - contrib/npm.php
 
 config:
   application: 'booking'
@@ -16,11 +17,6 @@ hosts:
     multiplexing: true
 
 tasks:
-  composer:
-    - composer:install
-  npm:
-    - npm:install
-    - npm:run build
   deploy:
     - deploy:prepare
     - deploy:vendors
@@ -31,6 +27,12 @@ tasks:
     - artisan:migrate
     - artisan:queue:restart
     - deploy:publish
+    - php-fpm:reload
+    - npm:install
+
+  npm:run:build:
+    - cd: "/var/www/html/current"
+    - run: npm run build
 
 after:
   deploy:failed: deploy:unlock
