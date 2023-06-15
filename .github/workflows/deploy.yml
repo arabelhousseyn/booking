@@ -37,6 +37,11 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
+    - name: Tests
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: vendor/bin/phpunit
 
     - name: Deploy to development server
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
