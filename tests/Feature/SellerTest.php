@@ -344,4 +344,5 @@ class SellerTest extends TestCase
             'status' => BookingStatus::ACCEPTED,
         ]);
     }
+
 }
