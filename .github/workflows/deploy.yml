@@ -10,7 +10,7 @@ jobs:
   tests:
 
     runs-on: ubuntu-latest
-
+    if: ${{ github.event_name == 'pull_request' && !github.event.pull_request.merged }}
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
