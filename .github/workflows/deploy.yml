@@ -48,7 +48,4 @@ jobs:
 
 
     - name: build to development server
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
-      uses: deployphp/action@v1
-      with:
-        dep: npm:run:build
+      run: dep npm:run:build
