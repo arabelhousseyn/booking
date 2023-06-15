@@ -45,5 +45,5 @@ jobs:
         private-key: ${{ secrets.SSH_DEV_PRIVATE_KEY }}
         known-hosts: ${{ secrets.KNOWN_HOSTS }}
         run: |
-          echo "deploy development"
-          echo "npm:run:build"
+          echo "dep deploy development"
+          echo "dep npm:run:build"
