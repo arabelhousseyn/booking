@@ -1,13 +1,13 @@
-name: Laravel
+name: booking
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "develop","master"]
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "develop","master" ]
 
 jobs:
-  laravel-tests:
+  tests:
 
     runs-on: ubuntu-latest
 
@@ -20,6 +20,15 @@ jobs:
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Setup Node.js
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: '18'
+        check-latest: true
+    - name: Install NPM dependencies
+      run: npm install
+    - name: Compile assets for production
+      run: npm run production
     - name: Generate key
       run: php artisan key:generate
     - name: Directory Permissions
@@ -29,8 +38,10 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
 
-    - name: Deploy
+    - name: Deploy to development server
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
       uses: deployphp/action@v1
       with:
         private-key: ${{ secrets.SSH_DEV_PRIVATE_KEY }}
+        known-hosts: ${{ secrets.KNOWN_HOSTS }}
         dep: deploy development
