@@ -51,6 +51,4 @@ jobs:
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
       uses: deployphp/action@v1
       with:
-        private-key: ${{ secrets.SSH_DEV_PRIVATE_KEY }}
-        known-hosts: ${{ secrets.KNOWN_HOSTS }}
         dep: npm:run:build
