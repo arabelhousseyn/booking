@@ -50,7 +50,7 @@ jobs:
 
     environment:
       name: development
-      url: https://dev.api.asdi.tesymo.com
+      url: 18.196.212.37
 
     steps:
       - uses: actions/checkout@v3
