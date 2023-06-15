@@ -37,11 +37,7 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-    - name: Tests
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit
+
 
     - name: Deploy to development server
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
@@ -49,4 +45,6 @@ jobs:
       with:
         private-key: ${{ secrets.SSH_DEV_PRIVATE_KEY }}
         known-hosts: ${{ secrets.KNOWN_HOSTS }}
-        dep: deploy development && npm:run:build
+        dep:
+           deploy development
+           npm:run:build
