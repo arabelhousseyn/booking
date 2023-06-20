@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\BookingStatus;
 use App\Enums\GearBox;
 use App\Enums\Motorisation;
+use App\Enums\Status;
 use App\Enums\VehicleDocumentType;
 use App\Models\Booking;
 use App\Models\House;
@@ -110,6 +111,65 @@ class SellerTest extends TestCase
         $this->assertDatabaseCount('vehicle_documents', 2);
     }
 
+    public function test_update_vehicle()
+    {
+        $vehicle = Vehicle::factory()->create();
+
+        $vehicle->update(['status' => Status::PENDING]);
+
+        $inputs = [
+            'title' => $this->faker->title,
+        ];
+
+        $this->authenticated()
+            ->json('put', "$this->endpoint/vehicle/{$vehicle->getKey()}", $inputs)
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'title',
+                    'description',
+                    'places',
+                    'motorisation',
+                    'price',
+                    'gearbox',
+                    'is_full',
+                    'payments_accepted',
+                    'status',
+                    'photo',
+                    'photo_thumb',
+                    'photos',
+                ],
+            ]);
+
+        $this->assertDatabaseHas('vehicles', [
+            'id' => $vehicle->getKey(),
+            'title' => $inputs['title'],
+        ]);
+    }
+
+    public function test_destroy_vehicle_document()
+    {
+        // standard case
+        $vehicle = Vehicle::factory()->create();
+
+        $vehicle->update(['status' => Status::PENDING]);
+
+        $vehicleDocument = VehicleDocument::factory()->create(['vehicle_id' => $vehicle->getKey()]);
+
+        $this->authenticated()
+            ->json('delete', "$this->endpoint/vehicle/{$vehicle->getKey()}/{$vehicleDocument->getKey()}")
+            ->assertNoContent();
+
+        // forbidden case
+
+        $vehicleDocument = VehicleDocument::factory()->create();
+
+        $this->authenticated()
+            ->json('delete', "$this->endpoint/vehicle/{$vehicle->getKey()}/{$vehicleDocument->getKey()}")
+            ->assertForbidden();
+    }
+
     public function test_get_vehicles()
     {
         $vehicle = Vehicle::factory()->count(5)->create(['seller_id' => $this->seller->id]);
@@ -156,6 +216,41 @@ class SellerTest extends TestCase
                     'photos',
                 ],
             ]);
+    }
+
+    public function test_update_house()
+    {
+        $house = House::factory()->create();
+
+        $house->update(['status' => Status::PENDING]);
+
+        $inputs = [
+            'title' => $this->faker->title,
+        ];
+
+        $this->authenticated()
+            ->json('put', "$this->endpoint/house/{$house->getKey()}", $inputs)
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'title',
+                    'description',
+                    'status',
+                    'price',
+                    'rooms',
+                    'has_wifi',
+                    'parking_station',
+                    'photo',
+                    'photo_thumb',
+                    'photos',
+                ],
+            ]);
+
+        $this->assertDatabaseHas('houses', [
+            'id' => $house->getKey(),
+            'title' => $inputs['title'],
+        ]);
     }
 
     public function test_get_houses()

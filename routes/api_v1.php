@@ -6,6 +6,12 @@ use App\Http\Controllers\Api\V1\Auth\Sellers\AuthController as SellerAuthControl
 use App\Http\Controllers\Api\V1\SellerController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\CoreController;
+use App\Http\Controllers\Api\V1\MediaController;
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::delete('media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -95,10 +101,13 @@ Route::prefix('/v1/sellers')->group(function () {
             // vehicle
             Route::post('/vehicle', 'storeVehicle')->name('sellers.vehicle');
             Route::post('/vehicle/{seller}/{vehicle}', 'storeVehicleDocuments')->name('sellers-vehicle-documents')->scopeBindings();
+            Route::put('/vehicle/{vehicle}', 'updateVehicle')->name('sellers.update-vehicle');
+            Route::delete('/vehicle/{vehicle}/{vehicleDocument}', 'destroyVehicleDocument')->name('sellers.destroy-vehicle-document');
             Route::get('/vehicle', 'vehicles')->name('sellers.get-vehicles');
 
             // house
-            Route::post('/house', 'storeHouse')->name('sellers.house');
+            Route::post('/house', 'storeHouse')->name('sellers.store-house');
+            Route::put('/house/{house}', 'updateHouse')->name('sellers.update-house');
             Route::get('/house', 'houses')->name('sellers.get-houses');
         });
     });

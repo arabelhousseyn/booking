@@ -11,14 +11,18 @@ use App\Http\Requests\StoreHouseRequest;
 use App\Http\Requests\StoreVehicleDocumentsRequest;
 use App\Http\Requests\StoreVehicleRequest;
 use App\Http\Requests\TerminateBookingRequest;
+use App\Http\Requests\UpdateHouseRequest;
+use App\Http\Requests\UpdateVehicleRequest;
 use App\Http\Resources\BookingListResource;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\HouseResource;
 use App\Http\Resources\SellerResource;
 use App\Http\Resources\VehicleResource;
 use App\Models\Booking;
+use App\Models\House;
 use App\Models\Seller;
 use App\Models\Vehicle;
+use App\Models\VehicleDocument;
 use App\Traits\PasswordCanBeUpdated;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
@@ -39,6 +43,22 @@ class SellerController extends Controller
         return VehicleResource::make($vehicle);
     }
 
+    public function updateVehicle(UpdateVehicleRequest $request, Vehicle $vehicle): VehicleResource
+    {
+        $this->authorize('update', $vehicle);
+
+        $vehicle->update($request->validated());
+
+        if ($request->validated('photos')) {
+            $vehicle->addMultipleMediaFromRequest(['photos'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('photos');
+                });
+        }
+
+        return VehicleResource::make($vehicle);
+    }
+
     public function storeVehicleDocuments(StoreVehicleDocumentsRequest $request, Seller $seller, Vehicle $vehicle): Response
     {
         $documents = $request->validated('documents');
@@ -47,12 +67,25 @@ class SellerController extends Controller
             foreach ($documents as $document) {
                 $unique = uniqid().'.jpg';
                 $document['document_image']->storeAs('public/documents', $unique);
-                $image = env('APP_URL').'/storage/documents/'.$unique;
+                $image = config('app.url').'/storage/documents/'.$unique;
                 $vehicle->documents()->create(['document_type' => $document['document_type'], 'document_url' => $image, 'expiry_date' => $document['expiry_date']]);
             }
         } catch (\Exception $exception) {
             throw new FileUploadedException();
         }
+
+        return response()->noContent();
+    }
+
+    public function destroyVehicleDocument(Vehicle $vehicle, VehicleDocument $vehicleDocument): Response
+    {
+        if ($vehicle->getKey() != $vehicleDocument->vehicle_id) {
+            abort(403);
+        }
+
+        $this->authorize('update', $vehicle);
+
+        $vehicleDocument->delete();
 
         return response()->noContent();
     }
@@ -72,6 +105,22 @@ class SellerController extends Controller
             ->each(function ($fileAdder) {
                 $fileAdder->toMediaCollection('photos');
             });
+
+        return HouseResource::make($house);
+    }
+
+    public function updateHouse(UpdateHouseRequest $request, House $house): HouseResource
+    {
+        $this->authorize('update', $house);
+
+        $house->update($request->validated());
+
+        if ($request->validated('photos')) {
+            $house->addMultipleMediaFromRequest(['photos'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('photos');
+                });
+        }
 
         return HouseResource::make($house);
     }
@@ -116,7 +165,7 @@ class SellerController extends Controller
 
         $booking->load(['bookable']);
 
-        return BookingResource::make($booking,[],[]);
+        return BookingResource::make($booking, [], []);
     }
 
     public function terminateBooking(TerminateBookingRequest $request, Booking $booking): Response

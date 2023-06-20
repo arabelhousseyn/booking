@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Enums\Status;
+use App\Models\Seller;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -21,8 +22,13 @@ class VehiclePolicy
         //
     }
 
-    public function create(User $user, Vehicle $bookable): bool
+    public function create(User|Seller $user, Vehicle $vehicle): bool
     {
-        return $bookable->status->is(Status::PUBLISHED);
+        return $vehicle->status->is(Status::PUBLISHED);
+    }
+
+    public function update(User|Seller $user, Vehicle $vehicle): bool
+    {
+        return $vehicle->status->is(Status::PENDING);
     }
 }
