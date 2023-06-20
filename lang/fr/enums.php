@@ -96,8 +96,8 @@ return [
     ],
 
     Motorisation::class => [
-        Motorisation::MATZOT => 'Matzot',
-        Motorisation::GASOLINE => 'Gas',
+        Motorisation::GAS => 'Gaz',
+        Motorisation::GASOLINE => 'Essance',
         Motorisation::DIESEL => 'Diesel',
     ],
 

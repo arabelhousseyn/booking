@@ -96,7 +96,7 @@ return [
     ],
 
     Motorisation::class => [
-        Motorisation::MATZOT => 'ماتزوت',
+        Motorisation::GAS => 'غاز',
         Motorisation::GASOLINE => 'الغازولين',
         Motorisation::DIESEL => 'ديزل',
     ],

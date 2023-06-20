@@ -8,11 +8,11 @@ use BenSampo\Enum\Enum;
 /**
  * @method static static DIESEL()
  * @method static static GASOLINE()
- * @method static static MATZOT()
+ * @method static static GAS()
  */
 final class Motorisation extends Enum implements LocalizedEnum
 {
     const DIESEL = 'diesel';
     const GASOLINE = 'gasoline';
-    const MATZOT = 'matzot';
+    const GAS = 'gas';
 }

@@ -26,8 +26,8 @@ class UserListVehicleFilterAndSortTest extends TestCase
 
         $this->vehicles = Vehicle::factory()->count(3)->sequence(
             ['title' => 'a', 'description' => 'a', 'price' => 10 , 'places' => 1, 'motorisation' => Motorisation::DIESEL, 'gearbox' => GearBox::AUTOMATIC, 'is_full' => false],
-            ['title' => 'b', 'description' => 'b', 'price' => 20, 'places' => 2, 'motorisation' => Motorisation::GASOLINE, 'gearbox' => GearBox::MANUAL, 'is_full' => true],
-            ['title' => 'c', 'description' => 'c', 'price' => 30,'places' => 3, 'motorisation' => Motorisation::MATZOT, 'gearbox' => GearBox::AUTOMATIC, 'is_full' => true]
+            ['title' => 'b', 'description' => 'b', 'price' => 20, 'places' => 2, 'motorisation' => Motorisation::GAS, 'gearbox' => GearBox::MANUAL, 'is_full' => true],
+            ['title' => 'c', 'description' => 'c', 'price' => 30,'places' => 3, 'motorisation' => Motorisation::GASOLINE, 'gearbox' => GearBox::AUTOMATIC, 'is_full' => true]
         )->create();
 
         $this->seed(CoreSeeder::class);
@@ -81,8 +81,8 @@ class UserListVehicleFilterAndSortTest extends TestCase
         $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
         $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-vehicles?filter[motorisation]=" . Motorisation::MATZOT)
-            ->assertJsonCount(1, 'data');
+            ->json('get', "$this->endpoint/list-vehicles?filter[motorisation]=" . Motorisation::GAS)
+            ->assertJsonCount(2, 'data');
     }
 
     public function test_gearbox_filter()
