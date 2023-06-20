@@ -32,7 +32,7 @@ class VehicleFactory extends Factory
             'coordinates' => '36.1580,1.3373',
             'price' => $this->faker->randomFloat(8, 1000, 100000),
             'places' => $this->faker->numberBetween(1, 10),
-            'motorisation' => $this->faker->randomElement([Motorisation::DIESEL, Motorisation::GASOLINE, Motorisation::MATZOT]),
+            'motorisation' => $this->faker->randomElement([Motorisation::DIESEL, Motorisation::GASOLINE, Motorisation::GAS]),
             'gearbox' => $this->faker->randomElement([GearBox::AUTOMATIC, GearBox::MANUAL]),
             'is_full' => $this->faker->randomElement([false, true]),
             'payments_accepted' => json_encode($data),

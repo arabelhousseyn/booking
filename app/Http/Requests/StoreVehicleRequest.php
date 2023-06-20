@@ -33,7 +33,7 @@ class StoreVehicleRequest extends FormRequest
             'coordinates' => ['bail', 'required', new Coordinates()],
             'places' => ['bail', 'required', 'integer'],
             'price' => ['bail', 'required', 'numeric'],
-            'motorisation' => ['bail', 'required', Rule::in(Motorisation::MATZOT, Motorisation::GASOLINE, Motorisation::DIESEL)],
+            'motorisation' => ['bail', 'required', Rule::in(Motorisation::GAS, Motorisation::GASOLINE, Motorisation::DIESEL)],
             'gearbox' => ['bail', 'required', Rule::in(GearBox::MANUAL, GearBox::AUTOMATIC)],
             'is_full' => ['bail', 'required', 'boolean'],
             'payments_accepted' => ['bail', 'required', 'json'],
