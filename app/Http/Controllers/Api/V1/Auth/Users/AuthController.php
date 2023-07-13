@@ -129,6 +129,7 @@ class AuthController extends Controller
         return response()->noContent();
     }
 
+
     public function logout(): Response
     {
         Auth::user()->tokens()->delete();
