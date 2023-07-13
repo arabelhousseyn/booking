@@ -16,7 +16,7 @@ class Locale
      */
     public function handle(Request $request, Closure $next)
     {
-        $langs = explode(',', config('app_langs'));
+        $langs = explode(',', config('app.app_langs'));
 
         app()->setLocale(!in_array($request->headers->get('lang'), $langs) ? 'en' : $request->headers->get('lang'));
 
