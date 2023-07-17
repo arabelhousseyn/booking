@@ -82,6 +82,15 @@
                                     <td>{{$user->validatedBy?->full_name}}</td>
                                     <td>{{$user->created_at?->format('Y-m-d H:i:s')}}</td>
                                     <td style="display: flex;flex-direction: row;">
+                                        @if(!$user->is_validated)
+                                            <form action="{{route('dashboard.users.validate',$user->id)}}" method="post">
+                                                @method('put')
+                                                @csrf
+                                                <button type="submit" id="validate-user" value="{{$user->id}}"
+                                                        class="btn btn-success"><i class="fa fa-check"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                         <a href="{{route('dashboard.users.edit',$user->id)}}" class="btn btn-success"><i
                                                 class="fa fa-edit"></i></a>
                                         <form action="{{route('dashboard.users.destroy',$user->id)}}" method="post">
@@ -116,13 +125,21 @@
                 'searching': true,
                 'ordering': true,
                 'sorting': false,
-                'order': [[11, 'desc']],
+                'order': [[12, 'desc']],
                 'info': true,
                 'autoWidth': false
             })
 
             $('#delete-user').click(function (e){
                 let response = confirm('Voulez vous supprimer ?')
+                if(!response)
+                {
+                    e.preventDefault()
+                }
+            })
+
+            $('#validate-user').click(function (e){
+                let response = confirm('Voulez vous valider ?')
                 if(!response)
                 {
                     e.preventDefault()
