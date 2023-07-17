@@ -8,6 +8,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Models\UserDocument;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
@@ -71,6 +72,15 @@ class UserController extends Controller
     public function document(UserHandleDocumentRequest $request, User $user, UserDocument $document): RedirectResponse
     {
         $document->update($request->validated());
+
+        Session::put('created','Opération effectué');
+
+        return redirect()->route('dashboard.users.index');
+    }
+
+    public function validation(User $user): RedirectResponse
+    {
+        $user->update(['validated_at' => Carbon::now(),'validated_by' => auth()->id()]);
 
         Session::put('created','Opération effectué');
 

@@ -441,6 +441,7 @@ namespace App\Models{
  * @property-read int|null $favorites_count
  * @property-read string|null $avatar
  * @property-read string|null $avatar_thumb
+ * @property-read bool $is_validated
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications

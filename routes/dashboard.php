@@ -52,6 +52,7 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/{user}/{document}/users', [UserController::class, 'document'])->name('dashboard.users.documents')->scopeBindings();
         Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('dashboard.users.edit');
         Route::put('/users/{user}/update', [UserController::class, 'update'])->name('dashboard.users.update');
+        Route::put('/users/{user}/validate', [UserController::class, 'validation'])->name('dashboard.users.validate');
         Route::delete('/users/{user}/destroy', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
 
 
