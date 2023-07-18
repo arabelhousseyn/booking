@@ -133,7 +133,10 @@
                 'sorting': false,
                 'order': [[9, 'desc']],
                 'info': true,
-                'autoWidth': false
+                'scrollResize': true,
+                'scrollX': true,
+                'scrollY': true,
+                'scrollCollapse': true,
             })
 
             $('#delete-house').click(function (e){

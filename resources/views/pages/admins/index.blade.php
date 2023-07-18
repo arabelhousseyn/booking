@@ -59,7 +59,8 @@
                                         <form action="{{route('dashboard.admins.destroy',$admin->id)}}" method="post">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" id="delete-admin" value="{{$admin->id}}" class="btn btn-danger"><i class="fa fa-minus"></i>
+                                            <button type="submit" id="delete-admin" value="{{$admin->id}}"
+                                                    class="btn btn-danger"><i class="fa fa-minus"></i>
                                             </button>
                                         </form>
                                     </td>
@@ -89,13 +90,15 @@
                 'sorting': false,
                 'order': [[4, 'desc']],
                 'info': true,
-                'autoWidth': false
+                'scrollResize': true,
+                'scrollX': true,
+                'scrollY': true,
+                'scrollCollapse': true,
             })
 
-            $('#delete-admin').click(function (e){
+            $('#delete-admin').click(function (e) {
                 let response = confirm('Voulez vous supprimer ?')
-                if(!response)
-                {
+                if (!response) {
                     e.preventDefault()
                 }
             })

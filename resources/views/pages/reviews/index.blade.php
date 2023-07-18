@@ -81,7 +81,6 @@
                 'sorting': false,
                 'order': [[4, 'desc']],
                 'info': true,
-                'autoWidth': false
             })
         })
     </script>
