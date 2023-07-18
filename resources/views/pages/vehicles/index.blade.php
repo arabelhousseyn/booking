@@ -153,7 +153,10 @@
                 'sorting': false,
                 'order': [[12, 'desc']],
                 'info': true,
-                'autoWidth': false
+                'scrollResize': true,
+                'scrollX': true,
+                'scrollY': true,
+                'scrollCollapse': true,
             })
 
             $('#delete-vehicle').click(function (e){

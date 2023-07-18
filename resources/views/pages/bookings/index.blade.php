@@ -186,7 +186,10 @@
                 'sorting': false,
                 'order': [[17, 'asc']],
                 'info': true,
-                'autoWidth': false
+                'scrollResize': true,
+                'scrollX': true,
+                'scrollY': true,
+                'scrollCollapse': true,
             })
 
             $('#delete-booking').click(function (e) {

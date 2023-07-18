@@ -98,7 +98,10 @@
                 'sorting': false,
                 'order': [[10, 'desc']],
                 'info': true,
-                'autoWidth': false
+                'scrollResize': true,
+                'scrollX': true,
+                'scrollY': true,
+                'scrollCollapse': true,
             })
 
             $('#delete-coupon').click(function (e){
