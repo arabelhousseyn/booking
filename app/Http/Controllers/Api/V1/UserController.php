@@ -51,7 +51,7 @@ class UserController extends Controller
 
     public function listVehicles(CoordinatesRequest $request): JsonResource
     {
-        $coordinates = (auth()->check()) ? User::find(auth()->id())->coordinates : $request->validated('coordinates');
+        $coordinates = User::coordinates($request->validated('coordinates'));
 
         $vehicles = QueryBuilder::for(User::nearByVehicles($coordinates))
             ->defaultSort('price')
@@ -84,7 +84,7 @@ class UserController extends Controller
 
     public function listHouses(CoordinatesRequest $request): JsonResource
     {
-        $coordinates = (auth()->check()) ? User::find(auth()->id())->coordinates : $request->validated('coordinates');
+        $coordinates = User::coordinates($request->validated('coordinates'));
 
         $houses = QueryBuilder::for(User::nearByHouses($coordinates))
             ->defaultSort('price')
@@ -158,7 +158,7 @@ class UserController extends Controller
 
         $booking->load(['bookable']);
 
-        return BookingResource::make($booking, [],[]);
+        return BookingResource::make($booking, [], []);
     }
 
     public function declineBooking(Booking $booking): Response
