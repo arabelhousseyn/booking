@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\PaymentType;
+use App\Exceptions\CoordinatesException;
 use App\Exceptions\PaymentException;
 use App\Support\ApplyCouponCodeBuilder;
 use App\Traits\UUID;
@@ -269,5 +270,18 @@ class User extends Authenticatable implements HasMedia
         }
 
         return $response->json();
+    }
+
+    public static function coordinates($coordinates): string
+    {
+        if (filled($coordinates)) {
+            return $coordinates;
+        } else {
+            if (auth()->check()) {
+                return User::find(auth()->id())->coordinates;
+            }
+        }
+
+        throw new CoordinatesException();
     }
 }
