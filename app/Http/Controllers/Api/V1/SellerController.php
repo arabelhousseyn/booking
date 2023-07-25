@@ -37,7 +37,7 @@ class SellerController extends Controller
 
         $vehicle->addMultipleMediaFromRequest(['photos'])
             ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('photos');
+                $fileAdder->toMediaCollection('vehicle');
             });
 
         return VehicleResource::make($vehicle);
@@ -52,7 +52,7 @@ class SellerController extends Controller
         if ($request->validated('photos')) {
             $vehicle->addMultipleMediaFromRequest(['photos'])
                 ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('photos');
+                    $fileAdder->toMediaCollection('vehicle');
                 });
         }
 
@@ -103,7 +103,7 @@ class SellerController extends Controller
 
         $house->addMultipleMediaFromRequest(['photos'])
             ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('photos');
+                $fileAdder->toMediaCollection('house');
             });
 
         return HouseResource::make($house);
@@ -118,7 +118,7 @@ class SellerController extends Controller
         if ($request->validated('photos')) {
             $house->addMultipleMediaFromRequest(['photos'])
                 ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('photos');
+                    $fileAdder->toMediaCollection('house');
                 });
         }
 

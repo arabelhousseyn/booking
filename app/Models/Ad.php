@@ -39,7 +39,7 @@ class Ad extends Model implements HasMedia
 
     public function getPhotosAttribute(): array
     {
-        return $this->getMedia('photos')->map(fn ($image) => env('APP_URL')."$image->original_url")->toArray();
+        return $this->getMedia('ads')->map(fn ($image) => "$image->original_url")->toArray();
     }
 
     /**
@@ -52,7 +52,7 @@ class Ad extends Model implements HasMedia
      */
 
     /**
-     * Defining media collections for the User model.
+     * Defining media collections for the Ad model.
      * https://spatie.be/docs/laravel-medialibrary/v9/working-with-media-collections/defining-media-collections
      */
     public function registerMediaCollections(): void

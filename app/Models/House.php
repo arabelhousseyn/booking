@@ -92,17 +92,17 @@ class House extends Model implements HasMedia
 
     public function getPhotosAttribute(): array
     {
-        return $this->getMedia('photos')->map(fn ($image) => "$image->original_url")->toArray();
+        return $this->getMedia('house')->map(fn ($image) => "$image->original_url")->toArray();
     }
 
     public function getPhotoAttribute(): ?string
     {
-        return $this->getFirstMedia('photos')?->getFullUrl();
+        return $this->getFirstMedia('house')?->getFullUrl();
     }
 
     public function getPhotoThumbAttribute(): ?string
     {
-        return $this->getFirstMedia('photos')?->getFullUrl('thumb');
+        return $this->getFirstMedia('house')?->getFullUrl('thumb');
     }
 
     /**
@@ -110,7 +110,7 @@ class House extends Model implements HasMedia
      */
 
     /**
-     * Defining media collections for the User model.
+     * Defining media collections for the House model.
      * https://spatie.be/docs/laravel-medialibrary/v9/working-with-media-collections/defining-media-collections
      */
     public function registerMediaCollections(): void
