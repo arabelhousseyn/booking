@@ -29,6 +29,7 @@ return [
         Permissions::CAN_MANAGE_BOOKINGS => 'يمكن إدارة الحجوزات',
         Permissions::CAN_MANAGE_PROMO_CODES => 'يمكن إدارة الرموز الترويجية',
         Permissions::CAN_MANAGE_REVIEWS => 'يمكنه إدارة المراجعات',
+        Permissions::CAN_MANAGE_ADS => 'يمكنه إدارة الإعلانات',
         Permissions::CAN_MANAGE_SETTINGS => 'يمكن إدارة الإعدادات',
         Permissions::CAN_MANAGE_SETTINGS__GENERAL => 'يمكن أن يدير العام',
         Permissions::CAN_MANAGE_SETTINGS__RECLAMATIONS => 'يمكن إدارة عمليات الاستصلاح',

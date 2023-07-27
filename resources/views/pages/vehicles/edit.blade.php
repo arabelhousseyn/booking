@@ -59,7 +59,7 @@
                             <div class="form-group">
                                 <label for="places">Motorisation</label>
                                 <select class="form-control" id="places" name="motorisation">
-                                    <option value="{{\App\Enums\Motorisation::MATZOT}}" @selected(\App\Enums\Motorisation::MATZOT == $vehicle->motorisation)>{{\App\Enums\Motorisation::MATZOT()->description}}</option>
+                                    <option value="{{\App\Enums\Motorisation::GAS}}" @selected(\App\Enums\Motorisation::GAS == $vehicle->motorisation)>{{\App\Enums\Motorisation::MATZOT()->description}}</option>
                                     <option value="{{\App\Enums\Motorisation::DIESEL}}" @selected(\App\Enums\Motorisation::DIESEL == $vehicle->motorisation)>{{\App\Enums\Motorisation::DIESEL()->description}}</option>
                                     <option value="{{\App\Enums\Motorisation::GASOLINE}}" @selected(\App\Enums\Motorisation::GASOLINE == $vehicle->motorisation)>{{\App\Enums\Motorisation::GASOLINE()->description}}</option>
                                 </select>

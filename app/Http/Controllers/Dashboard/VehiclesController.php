@@ -15,7 +15,7 @@ class VehiclesController extends Controller
 {
     public function index(): View
     {
-        $vehicles = Vehicle::with(['reviews', 'seller'])->paginate();
+        $vehicles = Vehicle::with(['reviews', 'seller'])->oldest()->paginate();
 
         return view('pages.vehicles.index', compact('vehicles'));
     }
@@ -76,5 +76,10 @@ class VehiclesController extends Controller
         Session::put('created', 'Opération effectué');
 
         return redirect()->route('dashboard.vehicles.index');
+    }
+
+    public function photos(Vehicle $vehicle): View
+    {
+        return view('pages.vehicles.photo', compact('vehicle'));
     }
 }

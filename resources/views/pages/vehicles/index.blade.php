@@ -43,6 +43,7 @@
                                 <th>Boîte de vitesses</th>
                                 <th>Est rempli</th>
                                 <th>Paiements acceptés</th>
+                                <th>Photos</th>
                                 <th>Documents</th>
                                 <th>Notation</th>
                                 <th>Statu</th>
@@ -84,6 +85,9 @@
                                                 @endif
                                             </li>
                                         </ul>
+                                    </td>
+                                    <td>
+                                        <a href="{{route('dashboard.vehicles.photos',$vehicle->id)}}" class="btn btn-success"><i class="fa fa-photo"></i></a>
                                     </td>
                                     <td>
                                         <a href="{{route('dashboard.vehicles.show',$vehicle->id)}}" class="btn btn-success"><i class="fa fa-file"></i></a>
@@ -151,7 +155,7 @@
                 'searching': true,
                 'ordering': true,
                 'sorting': false,
-                'order': [[12, 'desc']],
+                'order': [[13, 'asc']],
                 'info': true,
                 'scrollResize': true,
                 'scrollX': true,
