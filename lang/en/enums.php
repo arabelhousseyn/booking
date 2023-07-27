@@ -29,6 +29,7 @@ return [
         Permissions::CAN_MANAGE_BOOKINGS => 'Can manage bookings',
         Permissions::CAN_MANAGE_PROMO_CODES => 'Can manage promo codes',
         Permissions::CAN_MANAGE_REVIEWS => 'Can manage reviews',
+        Permissions::CAN_MANAGE_ADS => 'Can manage ads',
         Permissions::CAN_MANAGE_SETTINGS => 'Can manage settings',
         Permissions::CAN_MANAGE_SETTINGS__GENERAL => 'Can manage general',
         Permissions::CAN_MANAGE_SETTINGS__RECLAMATIONS => 'Can manage reclamations',

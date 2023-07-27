@@ -37,10 +37,11 @@ class Ad extends Model implements HasMedia
      * accessors and mutators
      */
 
-    public function getPhotosAttribute(): array
+    public function getPhotoAttribute(): string
     {
-        return $this->getMedia('ads')->map(fn ($image) => "$image->original_url")->toArray();
+        return $this->getFirstMedia('ads')?->getFullUrl('medium');
     }
+
 
     /**
      * relationships
@@ -59,6 +60,13 @@ class Ad extends Model implements HasMedia
     {
         $this->addMediaCollection('ads')
             ->singleFile()
-            ->useDisk('public');
+            ->useDisk('public')
+            ->registerMediaConversions(function (Media $media) {
+                {
+                    $this->addMediaConversion('medium')
+                        ->width(300)
+                        ->height(250);
+                }
+            });
     }
 }

@@ -117,7 +117,7 @@ class House extends Model implements HasMedia
     {
         $this->addMediaCollection('house')
             ->singleFile()
-            ->useDisk('photos')
+            ->useDisk('public')
             ->registerMediaConversions(function (Media $media) {
                 {
                     $this->addMediaConversion('thumb')

@@ -13,6 +13,7 @@ use App\Http\Controllers\Dashboard\CouponsController;
 use App\Http\Controllers\Dashboard\VehiclesController;
 use App\Http\Controllers\Dashboard\HousesController;
 use App\Http\Controllers\Dashboard\BookingsController;
+use App\Http\Controllers\Dashboard\AdController;
 
 Route::prefix('dashboard')->group(function () {
 
@@ -80,6 +81,7 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/vehicles/{vehicle}/decline', [VehiclesController::class, 'decline'])->name('dashboard.vehicles.decline');
         Route::post('/vehicles/{vehicle}/publish', [VehiclesController::class, 'publish'])->name('dashboard.vehicles.publish');
         Route::get('/vehicles/{vehicle}/show', [VehiclesController::class, 'show'])->name('dashboard.vehicles.show');
+        Route::get('/vehicles/{vehicle}/photos', [VehiclesController::class, 'photos'])->name('dashboard.vehicles.photos');
         Route::get('/vehicles/{vehicle}/edit', [VehiclesController::class, 'edit'])->name('dashboard.vehicles.edit');
         Route::put('/vehicles/{vehicle}/update', [VehiclesController::class, 'update'])->name('dashboard.vehicles.update');
         Route::delete('/vehicles/{vehicle}/destroy', [VehiclesController::class, 'destroy'])->name('dashboard.vehicles.destroy');
@@ -94,9 +96,19 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/houses/{house}/decline', [HousesController::class, 'decline'])->name('dashboard.houses.decline');
         Route::post('/houses/{house}/publish', [HousesController::class, 'publish'])->name('dashboard.houses.publish');
         Route::get('/houses/{house}/show', [HousesController::class, 'show'])->name('dashboard.houses.show');
+        Route::get('/houses/{house}/photos', [HousesController::class, 'photos'])->name('dashboard.houses.photos');
         Route::get('/houses/{house}/edit', [HousesController::class, 'edit'])->name('dashboard.houses.edit');
         Route::put('/houses/{house}/update', [HousesController::class, 'update'])->name('dashboard.houses.update');
         Route::delete('/houses/{house}/destroy', [HousesController::class, 'destroy'])->name('dashboard.houses.destroy');
+
+        // ads
+        Route::resource('/ads/', AdController::class)->names([
+            'index' => 'dashboard.ads.index',
+            'create' => 'dashboard.ads.create',
+            'store' => 'dashboard.ads.store',
+        ]);
+
+        Route::delete('/ads/{ad}/destroy', [AdController::class, 'destroy'])->name('dashboard.ads.destroy');
 
         // bookings
         Route::resource('/bookings/', BookingsController::class)->names([

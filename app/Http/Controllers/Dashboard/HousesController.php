@@ -15,7 +15,7 @@ class HousesController extends Controller
 {
     public function index(): View
     {
-        $houses = House::with(['seller', 'reviews'])->paginate();
+        $houses = House::with(['seller', 'reviews'])->oldest()->paginate();
 
         return view('pages.houses.index', compact('houses'));
     }
@@ -44,7 +44,7 @@ class HousesController extends Controller
     {
         $house->update($request->validated());
 
-        Session::put('created','Opération effectué');
+        Session::put('created', 'Opération effectué');
 
         return redirect()->route('dashboard.houses.index');
     }
@@ -53,7 +53,7 @@ class HousesController extends Controller
     {
         $house->delete();
 
-        Session::put('created','Opération effectué');
+        Session::put('created', 'Opération effectué');
 
         return redirect()->route('dashboard.houses.index');
     }
@@ -62,7 +62,7 @@ class HousesController extends Controller
     {
         $house->update(['status' => Status::PUBLISHED]);
 
-        Session::put('created','Opération effectué');
+        Session::put('created', 'Opération effectué');
 
         return redirect()->route('dashboard.houses.index');
     }
@@ -71,8 +71,13 @@ class HousesController extends Controller
     {
         $house->update(['status' => Status::DECLINED]);
 
-        Session::put('created','Opération effectué');
+        Session::put('created', 'Opération effectué');
 
         return redirect()->route('dashboard.houses.index');
+    }
+
+    public function photos(House $house): View
+    {
+        return view('pages.houses.photo', compact('house'));
     }
 }

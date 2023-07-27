@@ -29,6 +29,7 @@ return [
         Permissions::CAN_MANAGE_BOOKINGS => 'Peut gérer les réservations',
         Permissions::CAN_MANAGE_PROMO_CODES => 'Peut gérer les codes promotionnels',
         Permissions::CAN_MANAGE_REVIEWS => 'Peut gérer les avis',
+        Permissions::CAN_MANAGE_ADS => 'Peut gérer les publicités',
         Permissions::CAN_MANAGE_SETTINGS => 'Peut gérer les paramètres',
         Permissions::CAN_MANAGE_SETTINGS__GENERAL => 'Peut gérer le général',
         Permissions::CAN_MANAGE_SETTINGS__RECLAMATIONS => 'Peut gérer les réclamations',

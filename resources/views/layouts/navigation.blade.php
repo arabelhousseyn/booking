@@ -155,6 +155,11 @@
                 </li>
             @endif
 
+            @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_ADS))
+                <li><a href="{{route('dashboard.ads.index')}}"><i class="fa fa-bullhorn"></i> <span>Publicités</span></a>
+                </li>
+            @endif
+
             @if($permissions->contains(\App\Enums\Permissions::CAN_MANAGE_SETTINGS))
                 <li class="treeview">
                     <a href="#">

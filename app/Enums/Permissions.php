@@ -16,6 +16,7 @@ use BenSampo\Enum\Enum;
  * @method static static CAN_MANAGE_BOOKINGS()
  * @method static static CAN_MANAGE_PROMO_CODES()
  * @method static static CAN_MANAGE_REVIEWS()
+ * @method static static CAN_MANAGE_ADS()
  * @method static static CAN_MANAGE_SETTINGS()
  * @method static static CAN_MANAGE_SETTINGS__GENERAL()
  * @method static static CAN_MANAGE_SETTINGS__RECLAMATIONS()
@@ -40,6 +41,8 @@ final class Permissions extends Enum implements LocalizedEnum
     const CAN_MANAGE_PROMO_CODES = 'can_manage_promo_codes';
 
     const CAN_MANAGE_REVIEWS = 'can_manage_reviews';
+
+    const CAN_MANAGE_ADS = 'can_manage_ads';
 
     const CAN_MANAGE_SETTINGS = 'can_manage_settings';
     const CAN_MANAGE_SETTINGS__GENERAL = 'can_manage_settings__general';

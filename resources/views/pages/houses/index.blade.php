@@ -42,6 +42,7 @@
                                 <th>A le wifi</th>
                                 <th>Parking</th>
                                 <th>Notation</th>
+                                <th>Photos</th>
                                 <th>Statu</th>
                                 <th>Date de creation</th>
                                 <th>Actions</th>
@@ -76,6 +77,9 @@
                                                 <i class="fa fa-star rating-color"></i>
                                             @endfor
                                         </div>
+                                    </td>
+                                    <td>
+                                        <a href="{{route('dashboard.houses.photos',$house->id)}}" class="btn btn-success"><i class="fa fa-photo"></i></a>
                                     </td>
                                     <td>{{\App\Enums\Status::fromValue($house->status)->description}}</td>
                                     <td>{{$house->created_at->format('Y-m-d H:i:s')}}</td>
@@ -131,7 +135,7 @@
                 'searching': true,
                 'ordering': true,
                 'sorting': false,
-                'order': [[9, 'desc']],
+                'order': [[10, 'asc']],
                 'info': true,
                 'scrollResize': true,
                 'scrollX': true,
