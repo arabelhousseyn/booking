@@ -22,6 +22,7 @@ return new class() extends Migration {
             $table->string('phone_verified_at')->nullable();
             $table->string('country_code');
             $table->string('otp')->nullable();
+            $table->string('signup_step')->default('1');
             $table->boolean('can_rent_house')->default(true);
             $table->boolean('can_rent_vehicle')->default(false);
             $table->string('coordinates')->nullable();
