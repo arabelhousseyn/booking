@@ -202,14 +202,23 @@ class UserTest extends TestCase
 
     public function test_list_vehicles__case01() // same point between the user and the vehicles
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-vehicles")
+            ->json('get', "$this->endpoint/list-vehicles", $input)
             ->assertOk()
             ->assertJsonCount(15, 'data');
     }
 
     public function test_list_vehicles__case02() // test less than the KM of core
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         Vehicle::query()->delete();
         Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
         Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
@@ -218,13 +227,18 @@ class UserTest extends TestCase
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-vehicles")
+            ->json('get', "$this->endpoint/list-vehicles", $input)
             ->assertOk()
             ->assertJsonCount(3, 'data');
     }
 
     public function test_list_vehicles__case03() // test greater than the KM of core
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         Vehicle::query()->delete();
         Vehicle::factory()->create(['coordinates' => '36.7538,3.0588']);
         Vehicle::factory()->create(['coordinates' => '36.7538,3.0588']);
@@ -233,21 +247,31 @@ class UserTest extends TestCase
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-vehicles")
+            ->json('get', "$this->endpoint/list-vehicles", $input)
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
 
     public function test_list_houses__case01() // same point between the user and the houses
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses")
+            ->json('get', "$this->endpoint/list-houses", $input)
             ->assertOk()
             ->assertJsonCount(15, 'data');
     }
 
     public function test_list_houses__case02() // test less than the KM of core
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         House::query()->delete();
         House::factory()->create(['coordinates' => '36.5081,1.3078']);
         House::factory()->create(['coordinates' => '36.5081,1.3078']);
@@ -256,13 +280,18 @@ class UserTest extends TestCase
         House::query()->update(['status' => Status::PUBLISHED]);
 
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses")
+            ->json('get', "$this->endpoint/list-houses", $input)
             ->assertOk()
             ->assertJsonCount(3, 'data');
     }
 
     public function test_list_house__case03() // test greater than the KM of core
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         House::query()->delete();
         House::factory()->create(['coordinates' => '36.7538,3.0588']);
         House::factory()->create(['coordinates' => '36.7538,3.0588']);
@@ -271,7 +300,7 @@ class UserTest extends TestCase
         House::query()->update(['status' => Status::PUBLISHED]);
 
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses")
+            ->json('get', "$this->endpoint/list-houses", $input)
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
@@ -282,6 +311,8 @@ class UserTest extends TestCase
     {
         $inputs = [
             'coordinates' => '36.1580,1.3373',
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
         ];
         $this->authenticated()
             ->json('get', "$this->endpoint/guest-list-vehicles", $inputs)
@@ -293,6 +324,8 @@ class UserTest extends TestCase
     {
         $inputs = [
             'coordinates' => '36.1580,1.3373',
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
         ];
 
         Vehicle::query()->delete();
@@ -312,6 +345,8 @@ class UserTest extends TestCase
     {
         $inputs = [
             'coordinates' => '36.1580,1.3373',
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
         ];
 
         Vehicle::query()->delete();
@@ -331,6 +366,8 @@ class UserTest extends TestCase
     {
         $inputs = [
             'coordinates' => '36.1580,1.3373',
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
         ];
 
         $this->authenticated()
@@ -343,6 +380,8 @@ class UserTest extends TestCase
     {
         $inputs = [
             'coordinates' => '36.1580,1.3373',
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
         ];
 
         House::query()->delete();
@@ -362,6 +401,8 @@ class UserTest extends TestCase
     {
         $inputs = [
             'coordinates' => '36.1580,1.3373',
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
         ];
 
         House::query()->delete();
@@ -661,6 +702,7 @@ class UserTest extends TestCase
         $this->authenticated()
             ->json('get', "$this->endpoint/bookings")
             ->assertOk()
+            ->dump()
             ->assertJsonCount(4, 'data')
             ->assertJsonStructure([
                 'data' => [

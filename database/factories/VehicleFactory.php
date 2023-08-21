@@ -8,6 +8,7 @@ use App\Enums\Status;
 use App\Models\Seller;
 use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Vehicle>
@@ -36,6 +37,8 @@ class VehicleFactory extends Factory
             'gearbox' => $this->faker->randomElement([GearBox::AUTOMATIC, GearBox::MANUAL]),
             'is_full' => $this->faker->randomElement([false, true]),
             'payments_accepted' => json_encode($data),
+            'availability_start_date' => $start_date = Carbon::now()->format('Y-m-d H:i'),
+            'availability_end_date' => Carbon::parse($start_date)->modify('+ 2 days'),
         ];
     }
 

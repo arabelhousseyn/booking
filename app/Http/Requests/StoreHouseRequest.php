@@ -34,6 +34,8 @@ class StoreHouseRequest extends FormRequest
             'parking_station' => ['bail', 'required', 'boolean'],
             'photos' => ['bail', 'required', 'array'],
             'photos.*' => ['bail', 'required', 'image', 'mimes:jpg,jpeg,png'],
+            'availability_start_date' => ['bail', 'required', 'date', 'date_format:Y-m-d', 'before:availability_end_date'],
+            'availability_end_date' => ['bail', 'required', 'date', 'date_format:Y-m-d', 'after:availability_start_date'],
         ];
     }
 }

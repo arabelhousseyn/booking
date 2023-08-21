@@ -114,6 +114,21 @@ class Booking extends Model implements HasMedia
         return $this->getMedia('end')->map(fn ($image) => "$image->original_url");
     }
 
+    public function getOriginalPriceAttribute(): float
+    {
+        return round($this->attributes['original_price'], 2);
+    }
+
+    public function getCalculatedPriceAttribute(): float
+    {
+        return round($this->attributes['calculated_price'], 2);
+    }
+
+    public function getCautionAttribute(): float
+    {
+        return round($this->attributes['caution'], 2);
+    }
+
     /**
      * functions
      */

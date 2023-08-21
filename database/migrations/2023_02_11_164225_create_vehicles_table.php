@@ -31,6 +31,8 @@ return new class() extends Migration {
             $table->string('gearbox');
             $table->boolean('is_full');
             $table->json('payments_accepted');
+            $table->dateTime('availability_start_date');
+            $table->dateTime('availability_end_date');
             $table->string('status');
 
             $table->timestamps();

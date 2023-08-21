@@ -35,61 +35,91 @@ class UserListHouseFilterAndSortTest extends TestCase
 
     public function test_title_filter()
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         $this->houses[0]->update(['status' => Status::PUBLISHED]);
         $this->houses[1]->update(['status' => Status::PUBLISHED]);
         $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?filter[title]=a")
+            ->json('get', "$this->endpoint/list-houses?filter[title]=a", $input)
             ->assertJsonCount(1, 'data');
     }
 
     public function test_description_filter()
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         $this->houses[0]->update(['status' => Status::PUBLISHED]);
         $this->houses[1]->update(['status' => Status::PUBLISHED]);
         $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?filter[description]=a")
+            ->json('get', "$this->endpoint/list-houses?filter[description]=a", $input)
             ->assertJsonCount(1, 'data');
     }
 
     public function test_price_filter()
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         $this->houses[0]->update(['status' => Status::PUBLISHED]);
         $this->houses[1]->update(['status' => Status::PUBLISHED]);
         $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?filter[price]=10,20")
+            ->json('get', "$this->endpoint/list-houses?filter[price]=10,20", $input)
             ->assertJsonCount(2, 'data');
     }
 
     public function test_rooms_filter()
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         $this->houses[0]->update(['status' => Status::PUBLISHED]);
         $this->houses[1]->update(['status' => Status::PUBLISHED]);
         $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?filter[rooms]=1")
+            ->json('get', "$this->endpoint/list-houses?filter[rooms]=1", $input)
             ->assertJsonCount(1, 'data');
     }
 
     public function test_has_wifi_filter()
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         $this->houses[0]->update(['status' => Status::PUBLISHED]);
         $this->houses[1]->update(['status' => Status::PUBLISHED]);
         $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?filter[has_wifi]=true")
+            ->json('get', "$this->endpoint/list-houses?filter[has_wifi]=true", $input)
             ->assertJsonCount(2, 'data');
     }
 
     public function test_parking_station_filter()
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         $this->houses[0]->update(['status' => Status::PUBLISHED]);
         $this->houses[1]->update(['status' => Status::PUBLISHED]);
         $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?filter[parking_station]=true")
+            ->json('get', "$this->endpoint/list-houses?filter[parking_station]=true", $input)
             ->assertJsonCount(2, 'data');
     }
 
@@ -97,65 +127,85 @@ class UserListHouseFilterAndSortTest extends TestCase
 
     public function test_title_sort()
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         $this->houses[0]->update(['status' => Status::PUBLISHED]);
         $this->houses[1]->update(['status' => Status::PUBLISHED]);
         $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?sort=title")
+            ->json('get', "$this->endpoint/list-houses?sort=title", $input)
             ->assertJsonCount(3, 'data')
-            ->assertJson(['data' => [['id' => $this->houses[0]->id],['id' => $this->houses[1]->id],['id' => $this->houses[2]->id]]]);
+            ->assertJson(['data' => [['id' => $this->houses[0]->id], ['id' => $this->houses[1]->id], ['id' => $this->houses[2]->id]]]);
 
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?sort=-title")
+            ->json('get', "$this->endpoint/list-houses?sort=-title", $input)
             ->assertJsonCount(3, 'data')
-            ->assertJson(['data' => [['id' => $this->houses[2]->id],['id' => $this->houses[1]->id],['id' => $this->houses[0]->id]]]);
+            ->assertJson(['data' => [['id' => $this->houses[2]->id], ['id' => $this->houses[1]->id], ['id' => $this->houses[0]->id]]]);
     }
 
     public function test_description_sort()
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         $this->houses[0]->update(['status' => Status::PUBLISHED]);
         $this->houses[1]->update(['status' => Status::PUBLISHED]);
         $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?sort=description")
+            ->json('get', "$this->endpoint/list-houses?sort=description", $input)
             ->assertJsonCount(3, 'data')
-            ->assertJson(['data' => [['id' => $this->houses[0]->id],['id' => $this->houses[1]->id],['id' => $this->houses[2]->id]]]);
+            ->assertJson(['data' => [['id' => $this->houses[0]->id], ['id' => $this->houses[1]->id], ['id' => $this->houses[2]->id]]]);
 
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?sort=-description")
+            ->json('get', "$this->endpoint/list-houses?sort=-description", $input)
             ->assertJsonCount(3, 'data')
-            ->assertJson(['data' => [['id' => $this->houses[2]->id],['id' => $this->houses[1]->id],['id' => $this->houses[0]->id]]]);
+            ->assertJson(['data' => [['id' => $this->houses[2]->id], ['id' => $this->houses[1]->id], ['id' => $this->houses[0]->id]]]);
     }
 
     public function test_price_sort()
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         $this->houses[0]->update(['status' => Status::PUBLISHED]);
         $this->houses[1]->update(['status' => Status::PUBLISHED]);
         $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?sort=price")
+            ->json('get', "$this->endpoint/list-houses?sort=price", $input)
             ->assertJsonCount(3, 'data')
-            ->assertJson(['data' => [['id' => $this->houses[0]->id],['id' => $this->houses[1]->id],['id' => $this->houses[2]->id]]]);
+            ->assertJson(['data' => [['id' => $this->houses[0]->id], ['id' => $this->houses[1]->id], ['id' => $this->houses[2]->id]]]);
 
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?sort=-price")
+            ->json('get', "$this->endpoint/list-houses?sort=-price", $input)
             ->assertJsonCount(3, 'data')
-            ->assertJson(['data' => [['id' => $this->houses[2]->id],['id' => $this->houses[1]->id],['id' => $this->houses[0]->id]]]);
+            ->assertJson(['data' => [['id' => $this->houses[2]->id], ['id' => $this->houses[1]->id], ['id' => $this->houses[0]->id]]]);
     }
 
     public function test_rooms_sort()
     {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
         $this->houses[0]->update(['status' => Status::PUBLISHED]);
         $this->houses[1]->update(['status' => Status::PUBLISHED]);
         $this->houses[2]->update(['status' => Status::PUBLISHED]);
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?sort=rooms")
+            ->json('get', "$this->endpoint/list-houses?sort=rooms", $input)
             ->assertJsonCount(3, 'data')
-            ->assertJson(['data' => [['id' => $this->houses[0]->id],['id' => $this->houses[1]->id],['id' => $this->houses[2]->id]]]);
+            ->assertJson(['data' => [['id' => $this->houses[0]->id], ['id' => $this->houses[1]->id], ['id' => $this->houses[2]->id]]]);
 
         $this->authenticated()
-            ->json('get', "$this->endpoint/list-houses?sort=-rooms")
+            ->json('get', "$this->endpoint/list-houses?sort=-rooms", $input)
             ->assertJsonCount(3, 'data')
-            ->assertJson(['data' => [['id' => $this->houses[2]->id],['id' => $this->houses[1]->id],['id' => $this->houses[0]->id]]]);
+            ->assertJson(['data' => [['id' => $this->houses[2]->id], ['id' => $this->houses[1]->id], ['id' => $this->houses[0]->id]]]);
     }
 }

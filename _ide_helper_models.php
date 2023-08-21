@@ -363,6 +363,7 @@ namespace App\Models{
  * @property string|null $phone_verified_at
  * @property string $country_code
  * @property string|null $otp
+ * @property string $signup_step
  * @property string $password
  * @property string|null $firebase_registration_token
  * @property string|null $rib_bank_account
@@ -400,6 +401,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Seller wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller wherePhoneVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereRibBankAccount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Seller whereSignupStep($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Seller whereUpdatedAt($value)
  */
 	class Seller extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
@@ -418,6 +420,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $phone_verified_at
  * @property string $country_code
  * @property string|null $otp
+ * @property string $signup_step
  * @property bool $can_rent_house
  * @property bool $can_rent_vehicle
  * @property string|null $coordinates
@@ -476,6 +479,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePmLastFour($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePmType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRibBankAccount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereSignupStep($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereStripeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTrialEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)

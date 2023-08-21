@@ -214,6 +214,7 @@ class User extends Authenticatable implements HasMedia
         $days = Carbon::parse($data['end_date'])->diffInDays($data['start_date']);
         $core = Core::first();
         $commission = $core->commission;
+        $caution = 0;
 
         /** @var House|Vehicle $bookable */
         $bookable = Relation::$morphMap[$data['bookable_type']]::find($data['bookable_id']);
@@ -225,7 +226,9 @@ class User extends Authenticatable implements HasMedia
         [$dahabia_caution, $debit_card_caution] = Booking::retrieveCaution($data['bookable_type'], $core);
 
         $calculated_price = Booking::calculateCommission($original_price, $commission);
-        $caution = ($data['payment_type'] == PaymentType::DAHABIA) ? $dahabia_caution : $debit_card_caution + $original_price;
+        if (array_key_exists('payment_type', $data)) {
+            $caution = ($data['payment_type'] == PaymentType::DAHABIA) ? $dahabia_caution : $debit_card_caution + $original_price;
+        }
 
         return [
             'original_price' => $original_price,
@@ -284,5 +287,10 @@ class User extends Authenticatable implements HasMedia
         }
 
         throw new CoordinatesException();
+    }
+
+    public static function calculatePrice(array $data): float
+    {
+        return (new User)->CalculateBookingPrice($data)['calculated_price'];
     }
 }

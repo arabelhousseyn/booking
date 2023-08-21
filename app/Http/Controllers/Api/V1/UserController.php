@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingPaymentStatusRequest;
 use App\Http\Requests\BookingRequest;
 use App\Http\Requests\ConfirmSatimRegistredOrderRequest;
-use App\Http\Requests\CoordinatesRequest;
+use App\Http\Requests\GetPropertyRequest;
 use App\Http\Requests\GetReasonsRequest;
 use App\Http\Requests\StoreBookingStateRequest;
 use App\Http\Requests\StoreReviewRequest;
@@ -49,7 +49,7 @@ class UserController extends Controller
 {
     use PasswordCanBeUpdated;
 
-    public function listVehicles(CoordinatesRequest $request): JsonResource
+    public function listVehicles(GetPropertyRequest $request): JsonResource
     {
         $coordinates = User::coordinates($request->validated('coordinates'));
 
@@ -63,6 +63,8 @@ class UserController extends Controller
                 'motorisation',
                 'gearbox',
                 'is_full',
+                'availability_start_date',
+                'availability_end_date',
                 'status',
             ])
             ->allowedSorts(
@@ -73,6 +75,8 @@ class UserController extends Controller
                 'motorisation',
                 'gearbox',
                 'is_full',
+                'availability_start_date',
+                'availability_end_date',
                 'status',
             )
             ->whereNot('status', Status::PENDING)
@@ -82,7 +86,7 @@ class UserController extends Controller
         return VehicleResource::collection($vehicles);
     }
 
-    public function listHouses(CoordinatesRequest $request): JsonResource
+    public function listHouses(GetPropertyRequest $request): JsonResource
     {
         $coordinates = User::coordinates($request->validated('coordinates'));
 
@@ -95,6 +99,8 @@ class UserController extends Controller
                 'rooms',
                 'has_wifi',
                 'parking_station',
+                'availability_start_date',
+                'availability_end_date',
                 'status',
             ])
             ->allowedSorts(
@@ -104,6 +110,8 @@ class UserController extends Controller
                 'rooms',
                 'has_wifi',
                 'parking_station',
+                'availability_start_date',
+                'availability_end_date',
                 'status',
             )
             ->whereNot('status', Status::PENDING)
