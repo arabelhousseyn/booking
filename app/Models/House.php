@@ -40,6 +40,8 @@ class House extends Model implements HasMedia
         'rooms',
         'has_wifi',
         'parking_station',
+        'availability_start_date',
+        'availability_end_date',
         'status',
     ];
 
@@ -103,6 +105,11 @@ class House extends Model implements HasMedia
     public function getPhotoThumbAttribute(): ?string
     {
         return $this->getFirstMedia('house')?->getFullUrl('thumb');
+    }
+
+    public function getPriceAttribute(): float
+    {
+        return round($this->attributes['price'], 2);
     }
 
     /**

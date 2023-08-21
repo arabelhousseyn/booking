@@ -34,6 +34,8 @@ class UpdateHouseRequest extends FormRequest
             'parking_station' => ['bail', 'sometimes', 'boolean'],
             'photos' => ['bail', 'sometimes', 'array'],
             'photos.*' => ['bail', 'required', 'image', 'mimes:jpg,jpeg,png'],
+            'availability_start_date' => ['bail', 'sometimes', 'date', 'date_format:Y-m-d', 'before:availability_end_date'],
+            'availability_end_date' => ['bail', 'sometimes', 'date', 'date_format:Y-m-d', 'after:availability_start_date'],
         ];
     }
 }

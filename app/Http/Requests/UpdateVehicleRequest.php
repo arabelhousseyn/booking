@@ -39,6 +39,8 @@ class UpdateVehicleRequest extends FormRequest
             'payments_accepted' => ['bail', 'sometimes', 'json'],
             'photos' => ['bail', 'sometimes', 'array'],
             'photos.*' => ['bail', 'required', 'image', 'mimes:jpg,jpeg,png'],
+            'availability_start_date' => ['bail', 'sometimes', 'date', 'date_format:Y-m-d H:i', 'before:availability_end_date'],
+            'availability_end_date' => ['bail', 'sometimes', 'date', 'date_format:Y-m-d H:i', 'after:availability_start_date'],
         ];
     }
 }

@@ -39,6 +39,8 @@ class StoreVehicleRequest extends FormRequest
             'payments_accepted' => ['bail', 'required', 'json'],
             'photos' => ['bail', 'required', 'array'],
             'photos.*' => ['bail', 'required', 'image', 'mimes:jpg,jpeg,png'],
+            'availability_start_date' => ['bail', 'required', 'date', 'date_format:Y-m-d H:i', 'before:availability_end_date'],
+            'availability_end_date' => ['bail', 'required', 'date', 'date_format:Y-m-d H:i', 'after:availability_start_date'],
         ];
     }
 }

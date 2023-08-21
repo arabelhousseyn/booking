@@ -45,6 +45,8 @@ class Vehicle extends Model implements HasMedia
         'gearbox',
         'is_full',
         'payments_accepted',
+        'availability_start_date',
+        'availability_end_date',
         'status',
     ];
 
@@ -105,6 +107,11 @@ class Vehicle extends Model implements HasMedia
     public function getPhotoThumbAttribute(): ?string
     {
         return $this->getFirstMedia('vehicle')?->getFullUrl('thumb');
+    }
+
+    public function getPriceAttribute(): float
+    {
+        return round($this->attributes['price'], 2);
     }
 
 

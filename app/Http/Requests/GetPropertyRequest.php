@@ -6,7 +6,7 @@ use App\Rules\Coordinates;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CoordinatesRequest extends FormRequest
+class GetPropertyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,6 +27,8 @@ class CoordinatesRequest extends FormRequest
     {
         return [
             'coordinates' => ['bail', 'nullable', Rule::requiredIf(!auth()->check()), new Coordinates()],
+            'start_date' => ['bail', 'required', 'date'],
+            'end_date' => ['bail', 'required', 'date', 'after:start_date'],
         ];
     }
 }

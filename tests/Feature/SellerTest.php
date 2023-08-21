@@ -55,6 +55,8 @@ class SellerTest extends TestCase
                 UploadedFile::fake()->image('image1.png'),
                 UploadedFile::fake()->image('image2.png'),
             ],
+            'availability_start_date' => '2023-08-21 08:00',
+            'availability_end_date' => '2023-08-22 09:00',
         ];
 
         $this->authenticated()
@@ -196,6 +198,8 @@ class SellerTest extends TestCase
                 UploadedFile::fake()->image('image1.png'),
                 UploadedFile::fake()->image('image2.png'),
             ],
+            'availability_start_date' => '2023-08-21',
+            'availability_end_date' => '2023-08-22',
         ];
 
         $this->authenticated()

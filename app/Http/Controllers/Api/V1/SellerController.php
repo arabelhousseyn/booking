@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Enums\BookingStatus;
+use App\Enums\Status;
 use App\Events\BookingTerminated;
 use App\Exceptions\FileUploadedException;
 use App\Http\Controllers\Controller;
@@ -24,6 +25,7 @@ use App\Models\Seller;
 use App\Models\Vehicle;
 use App\Models\VehicleDocument;
 use App\Traits\PasswordCanBeUpdated;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
@@ -173,6 +175,10 @@ class SellerController extends Controller
         $this->authorize('view', [$booking, auth()->user()]);
 
         $booking->update(['note' => $request->validated('note'), 'status' => BookingStatus::COMPLETED]);
+
+        $bookable = Relation::$morphMap[$booking->bookable_type->value]::find($booking->bookable_id);
+
+        $bookable->update(['status' => Status::PUBLISHED]);
 
         if (filled($request->validated('images'))) {
             $booking->addMultipleMediaFromRequest(['images'])

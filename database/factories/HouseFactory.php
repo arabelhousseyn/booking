@@ -7,6 +7,7 @@ use App\Models\House;
 use App\Models\Seller;
 use Closure;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\House>
@@ -29,6 +30,8 @@ class HouseFactory extends Factory
             'rooms' => $this->faker->numberBetween(1, 10),
             'has_wifi' => $this->faker->randomElement([false, true]),
             'parking_station' => $this->faker->randomElement([false, true]),
+            'availability_start_date' => $start_date = Carbon::now()->format('Y-m-d'),
+            'availability_end_date' => Carbon::parse($start_date)->modify('+ 2 days'),
             'status' => Status::BOOKED,
         ];
     }

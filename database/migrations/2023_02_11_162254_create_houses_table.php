@@ -29,6 +29,8 @@ return new class() extends Migration {
             $table->integer('rooms');
             $table->boolean('has_wifi');
             $table->boolean('parking_station');
+            $table->date('availability_start_date');
+            $table->date('availability_end_date');
             $table->string('status');
 
             $table->timestamps();
