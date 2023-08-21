@@ -25,6 +25,7 @@ class UserResource extends JsonResource
             'country_code' => $this->country_code,
             'can_rent_house' => $this->can_rent_house,
             'can_rent_vehicle' => $this->can_rent_vehicle,
+            'signup_step' => $this->signup_step,
             'avatar' => $this->avatar,
             'token' => $this->token,
         ];

@@ -24,6 +24,7 @@ class SellerResource extends JsonResource
             'phone' => $this->phone,
             'country_code' => $this->country_code,
             'avatar' => $this->avatar,
+            'signup_step' => $this->signup_step,
             'token' => $this->token,
         ];
     }

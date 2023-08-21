@@ -71,7 +71,7 @@ class AuthController extends Controller
         }
 
         if ($user->otp == $request->validated('otp')) {
-            $user->update(['otp' => null, 'phone_verified_at' => now()]);
+            $user->update(['otp' => null, 'phone_verified_at' => now(), 'signup_step' => '2']);
             return response()->noContent();
         }
 

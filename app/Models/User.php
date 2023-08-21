@@ -43,6 +43,7 @@ class User extends Authenticatable implements HasMedia
         'phone_verified_at',
         'country_code',
         'otp',
+        'signup_step',
         'can_rent_house',
         'can_rent_vehicle',
         'coordinates',

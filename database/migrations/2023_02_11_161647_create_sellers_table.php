@@ -22,6 +22,7 @@ return new class() extends Migration {
             $table->string('phone_verified_at')->nullable();
             $table->string('country_code');
             $table->string('otp')->nullable();
+            $table->string('signup_step')->default('1');
             $table->string('password');
 
             $table->firebaseToken();
