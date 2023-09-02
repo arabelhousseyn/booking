@@ -81,6 +81,8 @@ class UserController extends Controller
             )
             ->whereNot('status', Status::PENDING)
             ->whereNot('status', Status::DECLINED)
+            ->where('availability_start_date', '>=', $request->validated('start_date'))
+            ->where('availability_end_date', '<=', $request->validated('end_date'))
             ->paginate();
 
         return VehicleResource::collection($vehicles);
@@ -116,6 +118,8 @@ class UserController extends Controller
             )
             ->whereNot('status', Status::PENDING)
             ->whereNot('status', Status::DECLINED)
+            ->where('availability_start_date', '>=', $request->validated('start_date'))
+            ->where('availability_end_date', '<=', $request->validated('end_date'))
             ->paginate();
 
         return HouseResource::collection($houses);

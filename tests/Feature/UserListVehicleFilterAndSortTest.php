@@ -28,7 +28,7 @@ class UserListVehicleFilterAndSortTest extends TestCase
             ['title' => 'a', 'description' => 'a', 'price' => 10, 'places' => 1, 'motorisation' => Motorisation::DIESEL, 'gearbox' => GearBox::AUTOMATIC, 'is_full' => false],
             ['title' => 'b', 'description' => 'b', 'price' => 20, 'places' => 2, 'motorisation' => Motorisation::GAS, 'gearbox' => GearBox::MANUAL, 'is_full' => true],
             ['title' => 'c', 'description' => 'c', 'price' => 30, 'places' => 3, 'motorisation' => Motorisation::GASOLINE, 'gearbox' => GearBox::AUTOMATIC, 'is_full' => true]
-        )->create();
+        )->create(['availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
 
         $this->seed(CoreSeeder::class);
     }
