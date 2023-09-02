@@ -44,10 +44,10 @@ class UserTest extends TestCase
     {
         parent::setUp();
 
-        $this->vehicle = Vehicle::factory()->create();
-        $this->house = House::factory()->create();
-        $this->vehicles = Vehicle::factory()->count(10)->has(Review::factory(), 'reviews')->create();
-        $this->houses = House::factory()->count(10)->has(Review::factory(), 'reviews')->create();
+        $this->vehicle = Vehicle::factory()->create(['availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        $this->house = House::factory()->create(['availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        $this->vehicles = Vehicle::factory()->count(10)->has(Review::factory(), 'reviews')->create(['availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        $this->houses = House::factory()->count(10)->has(Review::factory(), 'reviews')->create(['availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
 
         House::query()->update(['status' => Status::PUBLISHED]);
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
@@ -209,7 +209,7 @@ class UserTest extends TestCase
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles", $input)
             ->assertOk()
-            ->assertJsonCount(15, 'data');
+            ->assertJsonCount(11, 'data');
     }
 
     public function test_list_vehicles__case02() // test less than the KM of core
@@ -220,9 +220,9 @@ class UserTest extends TestCase
         ];
 
         Vehicle::query()->delete();
-        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
-        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
-        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
 
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
@@ -240,16 +240,16 @@ class UserTest extends TestCase
         ];
 
         Vehicle::query()->delete();
-        Vehicle::factory()->create(['coordinates' => '36.7538,3.0588']);
-        Vehicle::factory()->create(['coordinates' => '36.7538,3.0588']);
-        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
 
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
         $this->authenticated()
             ->json('get', "$this->endpoint/list-vehicles", $input)
             ->assertOk()
-            ->assertJsonCount(1, 'data');
+            ->assertJsonCount(3, 'data');
     }
 
     public function test_list_houses__case01() // same point between the user and the houses
@@ -262,7 +262,7 @@ class UserTest extends TestCase
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses", $input)
             ->assertOk()
-            ->assertJsonCount(15, 'data');
+            ->assertJsonCount(11, 'data');
     }
 
     public function test_list_houses__case02() // test less than the KM of core
@@ -273,9 +273,9 @@ class UserTest extends TestCase
         ];
 
         House::query()->delete();
-        House::factory()->create(['coordinates' => '36.5081,1.3078']);
-        House::factory()->create(['coordinates' => '36.5081,1.3078']);
-        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
 
         House::query()->update(['status' => Status::PUBLISHED]);
 
@@ -293,16 +293,16 @@ class UserTest extends TestCase
         ];
 
         House::query()->delete();
-        House::factory()->create(['coordinates' => '36.7538,3.0588']);
-        House::factory()->create(['coordinates' => '36.7538,3.0588']);
-        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
 
         House::query()->update(['status' => Status::PUBLISHED]);
 
         $this->authenticated()
             ->json('get', "$this->endpoint/list-houses", $input)
             ->assertOk()
-            ->assertJsonCount(1, 'data');
+            ->assertJsonCount(3, 'data');
     }
 
     /*************** without auth **************/
@@ -317,7 +317,7 @@ class UserTest extends TestCase
         $this->authenticated()
             ->json('get', "$this->endpoint/guest-list-vehicles", $inputs)
             ->assertOk()
-            ->assertJsonCount(15, 'data');
+            ->assertJsonCount(11, 'data');
     }
 
     public function test_list_vehicles_without_auth_case02() // test less than the KM of core
@@ -329,9 +329,9 @@ class UserTest extends TestCase
         ];
 
         Vehicle::query()->delete();
-        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
-        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
-        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
 
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
@@ -350,16 +350,16 @@ class UserTest extends TestCase
         ];
 
         Vehicle::query()->delete();
-        Vehicle::factory()->create(['coordinates' => '36.7538,3.0588']);
-        Vehicle::factory()->create(['coordinates' => '36.7538,3.0588']);
-        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        Vehicle::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
 
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
         $this->authenticated()
             ->json('get', "$this->endpoint/guest-list-vehicles", $inputs)
             ->assertOk()
-            ->assertJsonCount(1, 'data');
+            ->assertJsonCount(3, 'data');
     }
 
     public function test_list_houses_without_auth_case01() // same point between the sent coordinates and the houses
@@ -373,7 +373,7 @@ class UserTest extends TestCase
         $this->authenticated()
             ->json('get', "$this->endpoint/guest-list-houses", $inputs)
             ->assertOk()
-            ->assertJsonCount(15, 'data');
+            ->assertJsonCount(11, 'data');
     }
 
     public function test_list_houses_without_auth_case02() // test less than the KM of core
@@ -385,9 +385,9 @@ class UserTest extends TestCase
         ];
 
         House::query()->delete();
-        House::factory()->create(['coordinates' => '36.5081,1.3078']);
-        House::factory()->create(['coordinates' => '36.5081,1.3078']);
-        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        House::factory()->create(['coordinates' => '36.5081,1.3078', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
 
         House::query()->update(['status' => Status::PUBLISHED]);
 
@@ -406,9 +406,10 @@ class UserTest extends TestCase
         ];
 
         House::query()->delete();
-        House::factory()->create(['coordinates' => '36.7538,3.0588']);
-        House::factory()->create(['coordinates' => '36.7538,3.0588']);
-        House::factory()->create(['coordinates' => '36.5081,1.3078']);
+
+        House::factory()->create(['coordinates' => '36.7538,3.0588', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        House::factory()->create(['coordinates' => '36.7538,3.0588', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
+        House::factory()->create(['coordinates' => '36.1580,1.3373', 'availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
 
         House::query()->update(['status' => Status::PUBLISHED]);
 

@@ -26,7 +26,7 @@ class UserListHouseFilterAndSortTest extends TestCase
             ['title' => 'a', 'description' => 'a', 'price' => 10, 'rooms' => 1, 'has_wifi' => false, 'parking_station' => false],
             ['title' => 'b', 'description' => 'b', 'price' => 20, 'rooms' => 2, 'has_wifi' => true, 'parking_station' => true],
             ['title' => 'c', 'description' => 'c', 'price' => 30, 'rooms' => 3, 'has_wifi' => true, 'parking_station' => true]
-        )->create();
+        )->create(['availability_start_date' => '2023-08-21', 'availability_end_date' => '2023-08-22']);
 
         $this->seed(CoreSeeder::class);
     }
