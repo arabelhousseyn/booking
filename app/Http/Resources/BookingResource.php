@@ -45,6 +45,7 @@ class BookingResource extends JsonResource
                     ModelType::HOUSE => HouseResource::make($this->booking->bookable),
                 };
             }),
+            'seller' => $this->whenLoaded('seller', SellerResource::make($this->seller)),
             'payment_type' => $this->booking->payment_type,
             'original_price' => $this->booking->original_price,
             'calculated_price' => $this->booking->calculated_price,

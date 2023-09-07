@@ -172,7 +172,7 @@ class User extends Authenticatable implements HasMedia
             }
         }
 
-        return Vehicle::query()->whereIn('id', $nearVehicleIds)->with('reviews');
+        return Vehicle::query()->whereIn('id', $nearVehicleIds)->with('seller')->with('reviews');
     }
 
     public static function nearByHouses(string $coordinates): Builder
@@ -194,7 +194,7 @@ class User extends Authenticatable implements HasMedia
             }
         }
 
-        return House::query()->whereIn('id', $nearHouseIds)->with('reviews');
+        return House::query()->whereIn('id', $nearHouseIds)->with('seller')->with('reviews');
     }
 
     private static function calculateDistance(string $location1, string $location2): array
