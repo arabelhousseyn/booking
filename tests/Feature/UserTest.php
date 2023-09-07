@@ -703,7 +703,6 @@ class UserTest extends TestCase
         $this->authenticated()
             ->json('get', "$this->endpoint/bookings")
             ->assertOk()
-            ->dump()
             ->assertJsonCount(4, 'data')
             ->assertJsonStructure([
                 'data' => [

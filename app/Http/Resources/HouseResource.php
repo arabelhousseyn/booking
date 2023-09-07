@@ -42,6 +42,7 @@ class HouseResource extends JsonResource
             'availability_end_date' => $this->availability_end_date,
             'status' => $this->status,
             'photo' => $this->photo,
+            'seller' => $this->whenLoaded('seller', SellerResource::make($this->seller)),
             'photo_thumb' => $this->photo_thumb,
             'photos' => $this->photos,
             'avg_rating' => $this->reviews()->avg('rating'),

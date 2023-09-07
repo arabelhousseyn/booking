@@ -38,6 +38,7 @@ class VehicleResource extends JsonResource
             'coordinates' => $this->coordinates,
             'photo' => $this->photo,
             'photo_thumb' => $this->photo_thumb,
+            'seller' => $this->whenLoaded('seller', SellerResource::make($this->seller)),
             'photos' => $this->photos,
             'avg_rating' => $this->reviews()->avg('rating'),
             'created_at' => $this->created_at?->toISOString(),
