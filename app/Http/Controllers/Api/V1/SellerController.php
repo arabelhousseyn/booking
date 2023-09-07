@@ -94,7 +94,7 @@ class SellerController extends Controller
 
     public function vehicles(): JsonResource
     {
-        $vehicles = auth()->user()->vehicles()->get();
+        $vehicles = auth()->user()->vehicles()->with('seller')->get();
 
         return VehicleResource::collection($vehicles);
     }
@@ -129,7 +129,7 @@ class SellerController extends Controller
 
     public function houses(): JsonResource
     {
-        $houses = auth()->user()->houses()->get();
+        $houses = auth()->user()->houses()->with('seller')->get();
 
         return HouseResource::collection($houses);
     }
@@ -156,7 +156,7 @@ class SellerController extends Controller
     {
         $bookings = auth()->user()->bookings()->get();
 
-        $bookings->loadMissing(['bookable']);
+        $bookings->loadMissing(['bookable.seller']);
 
         return BookingListResource::collection($bookings);
     }
