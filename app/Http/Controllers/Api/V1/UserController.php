@@ -37,12 +37,14 @@ use App\Models\House;
 use App\Models\Reason;
 use App\Models\User;
 use App\Models\Vehicle;
+use App\Support\Filters\MinMaxPriceFilter;
 use App\Support\RecipientNotificationDispatcher;
 use App\Traits\PasswordCanBeUpdated;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
@@ -66,6 +68,7 @@ class UserController extends Controller
                 'availability_start_date',
                 'availability_end_date',
                 'status',
+                AllowedFilter::custom('custom_price', new MinMaxPriceFilter)
             ])
             ->allowedSorts(
                 'title',
@@ -104,6 +107,7 @@ class UserController extends Controller
                 'availability_start_date',
                 'availability_end_date',
                 'status',
+                AllowedFilter::custom('custom_price', new MinMaxPriceFilter)
             ])
             ->allowedSorts(
                 'title',
