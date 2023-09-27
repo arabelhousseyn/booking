@@ -80,6 +80,21 @@ class UserListVehicleFilterAndSortTest extends TestCase
             ->assertJsonCount(2, 'data');
     }
 
+    public function test_custom_price_filter()
+    {
+        $input = [
+            'start_date' => '2023-08-21',
+            'end_date' => '2023-08-22',
+        ];
+
+        $this->vehicles[0]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[1]->update(['status' => Status::PUBLISHED]);
+        $this->vehicles[2]->update(['status' => Status::PUBLISHED]);
+        $this->authenticated()
+            ->json('get', "$this->endpoint/list-vehicles?filter[custom_price]=10,30", $input)
+            ->assertJsonCount(3, 'data');
+    }
+
     public function test_places_filter()
     {
         $input = [
