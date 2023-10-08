@@ -121,6 +121,7 @@ class AuthController extends Controller
                 $document['document_image']->storeAs('public/documents', $unique);
                 $image = env('APP_URL').'/storage/documents/'.$unique;
                 $user->documents()->create(['document_type' => $document['document_type'], 'document_url' => $image]);
+                $user->update(['signup_step' => '3']);
             }
         } catch (\Exception $exception) {
             throw new FileUploadedException();

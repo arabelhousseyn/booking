@@ -247,7 +247,7 @@ class User extends Authenticatable implements HasMedia
             'password' => config('app.satim_password'),
             'currency' => config('app.satim_currency'),
             'language' => app()->getLocale(),
-            'amount' => $booking->caution,
+            'amount' => specialFormat($booking->caution),
             'orderNumber' => $booking->reference,
             'returnUrl' => $return_url,
         ]);
