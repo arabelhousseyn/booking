@@ -46,6 +46,7 @@ class HouseResource extends JsonResource
             'photo_thumb' => $this->photo_thumb,
             'photos' => $this->photos,
             'avg_rating' => $this->reviews()->avg('rating'),
+            'is_favorite' => auth()->user()?->favorites()->where('favorable_type', '=', $this->getMorphClass())->where('favorable_id', '=', $this->getKey())->exists(),
             'created_at' => $this->created_at?->toISOString(),
         ];
     }
