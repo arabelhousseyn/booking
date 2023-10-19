@@ -314,8 +314,7 @@ class UserTest extends TestCase
             'start_date' => '2023-08-21',
             'end_date' => '2023-08-22',
         ];
-        $this->authenticated()
-            ->json('get', "$this->endpoint/guest-list-vehicles", $inputs)
+        $this->json('get', "$this->endpoint/guest-list-vehicles", $inputs)
             ->assertOk()
             ->assertJsonCount(11, 'data');
     }
@@ -335,8 +334,7 @@ class UserTest extends TestCase
 
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->authenticated()
-            ->json('get', "$this->endpoint/guest-list-vehicles", $inputs)
+        $this->json('get', "$this->endpoint/guest-list-vehicles", $inputs)
             ->assertOk()
             ->assertJsonCount(3, 'data');
     }
@@ -356,8 +354,7 @@ class UserTest extends TestCase
 
         Vehicle::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->authenticated()
-            ->json('get', "$this->endpoint/guest-list-vehicles", $inputs)
+        $this->json('get', "$this->endpoint/guest-list-vehicles", $inputs)
             ->assertOk()
             ->assertJsonCount(3, 'data');
     }
@@ -370,8 +367,7 @@ class UserTest extends TestCase
             'end_date' => '2023-08-22',
         ];
 
-        $this->authenticated()
-            ->json('get', "$this->endpoint/guest-list-houses", $inputs)
+        $this->json('get', "$this->endpoint/guest-list-houses", $inputs)
             ->assertOk()
             ->assertJsonCount(11, 'data');
     }
@@ -391,8 +387,7 @@ class UserTest extends TestCase
 
         House::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->authenticated()
-            ->json('get', "$this->endpoint/guest-list-houses", $inputs)
+        $this->json('get', "$this->endpoint/guest-list-houses", $inputs)
             ->assertOk()
             ->assertJsonCount(3, 'data');
     }
@@ -413,8 +408,7 @@ class UserTest extends TestCase
 
         House::query()->update(['status' => Status::PUBLISHED]);
 
-        $this->authenticated()
-            ->json('get', "$this->endpoint/guest-list-houses", $inputs)
+        $this->json('get', "$this->endpoint/guest-list-houses", $inputs)
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
