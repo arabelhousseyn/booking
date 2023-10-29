@@ -29,6 +29,17 @@ class HouseResource extends JsonResource
             $price = $this->price;
         }
 
+        $favorite = [];
+
+        if(auth()->user()?->getMorphClass() == User::class)
+        {
+            $favorite = [
+                'is_favorite' => auth()->user()?->favorites()?->where('favorable_type', '=', $this->getMorphClass())->where('favorable_id', '=', $this->getKey())->exists(),
+                'favorite_id' => auth()->user()?->favorites()?->where('favorable_type', '=', $this->getMorphClass())->where('favorable_id', '=', $this->getKey())->exists() ?
+                    auth()->user()?->favorites()->where('favorable_type', '=', $this->getMorphClass())->where('favorable_id', '=', $this->getKey())->first()->id : null,
+            ];
+        }
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -46,9 +57,7 @@ class HouseResource extends JsonResource
             'photo_thumb' => $this->photo_thumb,
             'photos' => $this->photos,
             'avg_rating' => $this->reviews()->avg('rating'),
-            'is_favorite' => auth()->user()?->favorites()->where('favorable_type', '=', $this->getMorphClass())->where('favorable_id', '=', $this->getKey())->exists(),
-            'favorite_id' => auth()->user()?->favorites()->where('favorable_type', '=', $this->getMorphClass())->where('favorable_id', '=', $this->getKey())->exists() ?
-                auth()->user()?->favorites()->where('favorable_type', '=', $this->getMorphClass())->where('favorable_id', '=', $this->getKey())->id : null,
+            ...$favorite,
             'created_at' => $this->created_at?->toISOString(),
         ];
     }
