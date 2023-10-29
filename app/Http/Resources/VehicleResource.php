@@ -22,6 +22,7 @@ class VehicleResource extends JsonResource
         } else {
             $price = $this->price;
         }
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -42,6 +43,8 @@ class VehicleResource extends JsonResource
             'photos' => $this->photos,
             'avg_rating' => $this->reviews()->avg('rating'),
             'is_favorite' => auth()->user()?->favorites()->where('favorable_type', '=', $this->getMorphClass())->where('favorable_id', '=', $this->getKey())->exists(),
+            'favorite_id' => auth()->user()?->favorites()->where('favorable_type', '=', $this->getMorphClass())->where('favorable_id', '=', $this->getKey())->exists() ?
+                auth()->user()?->favorites()->where('favorable_type', '=', $this->getMorphClass())->where('favorable_id', '=', $this->getKey())->id : null,
             'created_at' => $this->created_at?->toISOString(),
         ];
     }
