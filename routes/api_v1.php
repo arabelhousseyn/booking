@@ -33,8 +33,8 @@ Route::prefix('/v1/users')->group(function () {
     Route::get('/guest-list-vehicles', [UserController::class, 'listVehicles'])->name('users.list-vehicles');
     Route::get('/guest-list-houses', [UserController::class, 'listHouses'])->name('users.list-houses');
 
-    Route::get('{vehicle}/show-vehicle', [UserController::class, 'showVehicle'])->name('users.show-vehicle');
-    Route::get('{house}/show-house', [UserController::class, 'showHouse'])->name('users.show-house');
+    Route::get('{vehicle}/guest-show-vehicle', [UserController::class, 'showVehicle'])->name('users.show-vehicle');
+    Route::get('{house}/guest-show-house', [UserController::class, 'showHouse'])->name('users.show-house');
 
 
     Route::middleware('auth:sanctum')->group(function () {
@@ -65,6 +65,8 @@ Route::prefix('/v1/users')->group(function () {
             Route::get('/coupons', 'coupons')->name('users.coupons');
             Route::get('/list-vehicles', 'listVehicles')->name('users.list-vehicles');
             Route::get('/list-houses', 'listHouses')->name('users.list-houses');
+            Route::get('{vehicle}/show-vehicle', 'showVehicle');
+            Route::get('{house}/show-house', 'showHouse');
             Route::get('/ads', 'ads')->name('users.ads');
         });
     });
