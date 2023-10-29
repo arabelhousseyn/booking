@@ -33,6 +33,9 @@ Route::prefix('/v1/users')->group(function () {
     Route::get('/guest-list-vehicles', [UserController::class, 'listVehicles'])->name('users.list-vehicles');
     Route::get('/guest-list-houses', [UserController::class, 'listHouses'])->name('users.list-houses');
 
+    Route::get('{vehicle}/show-vehicle', [UserController::class, 'showVehicle'])->name('users.show-vehicle');
+    Route::get('{house}/show-house', [UserController::class, 'showHouse'])->name('users.show-house');
+
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [UserAuthController::class, 'logout'])->name('users.logout');

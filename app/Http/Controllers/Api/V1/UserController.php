@@ -129,6 +129,20 @@ class UserController extends Controller
         return HouseResource::collection($houses);
     }
 
+    public function showVehicle(Vehicle $vehicle): VehicleResource
+    {
+        $vehicle->load(['seller', 'reviews']);
+
+        return VehicleResource::make($vehicle);
+    }
+
+    public function showHouse(House $house): HouseResource
+    {
+        $house->load(['seller', 'reviews']);
+
+        return HouseResource::make($house);
+    }
+
     public function storeBooking(BookingRequest $request): BookingResource
     {
         /** @var House|Vehicle $bookable */

@@ -252,6 +252,20 @@ class UserTest extends TestCase
             ->assertJsonCount(3, 'data');
     }
 
+    public function test_show_vehicle()
+    {
+        $this->authenticated()
+            ->json('get', "$this->endpoint/" . $this->vehicle->id ."/show-vehicle")
+            ->assertOk();
+    }
+
+    public function test_show_house()
+    {
+        $this->authenticated()
+            ->json('get', "$this->endpoint/" . $this->house->id ."/show-house")
+            ->assertOk();
+    }
+
     public function test_list_houses__case01() // same point between the user and the houses
     {
         $input = [
