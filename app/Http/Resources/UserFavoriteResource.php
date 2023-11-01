@@ -19,8 +19,8 @@ class UserFavoriteResource extends JsonResource
             'favorable' => $this->whenLoaded('favorable',function (){
                 return match ($this->favorable_type->value)
                 {
-                    ModelType::VEHICLE => VehicleResource::make($this->favorable),
-                    ModelType::HOUSE => HouseResource::make($this->favorable),
+                    ModelType::VEHICLE => VehicleResource::make($this->favorable->load('seller')),
+                    ModelType::HOUSE => HouseResource::make($this->favorable->load('seller')),
                 };
             })
         ];
