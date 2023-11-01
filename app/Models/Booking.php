@@ -137,7 +137,8 @@ class Booking extends Model implements HasMedia
     {
         $current_year = Carbon::now()->format('Y');
         $bookingNumber = Booking::whereYear('created_at', $current_year)->count() + 1;
-        return "$current_year-B-$bookingNumber";
+        $uniqid = uniqid();
+        return "$current_year-B-$bookingNumber/$uniqid";
     }
 
     public function notifyCancellation(Collection $admins): void
