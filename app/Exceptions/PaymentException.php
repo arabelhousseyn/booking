@@ -14,7 +14,7 @@ class PaymentException extends Exception
 
     public function report(): bool
     {
-        return false;
+        return true;
     }
 
     public function render($request): JsonResponse
