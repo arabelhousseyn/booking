@@ -40,6 +40,7 @@ class VehicleResource extends JsonResource
             'places' => $this->places,
             'motorisation' => $this->motorisation,
             'price' => $price,
+            'is_uploaded_documents' => $this->is_uploaded_documents,
             'gearbox' => $this->gearbox,
             'is_full' => $this->is_full,
             'payments_accepted' => $this->payments_accepted,
