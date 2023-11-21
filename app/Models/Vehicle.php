@@ -114,6 +114,11 @@ class Vehicle extends Model implements HasMedia
         return round($this->attributes['price'], 2);
     }
 
+    public function getIsUploadedDocumentsAttribute(): bool
+    {
+        return filled($this->documents()->get());
+    }
+
 
     /**
      * functions

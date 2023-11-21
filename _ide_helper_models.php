@@ -267,6 +267,8 @@ namespace App\Models{
  * @property int $rooms
  * @property bool $has_wifi
  * @property bool $parking_station
+ * @property string $availability_start_date
+ * @property string $availability_end_date
  * @property \BenSampo\Enum\Enum|null $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -284,6 +286,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|House newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|House newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|House query()
+ * @method static \Illuminate\Database\Eloquent\Builder|House whereAvailabilityEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|House whereAvailabilityStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|House whereCoordinates($value)
  * @method static \Illuminate\Database\Eloquent\Builder|House whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|House whereDescription($value)
@@ -531,6 +535,8 @@ namespace App\Models{
  * @property \BenSampo\Enum\Enum|null $gearbox
  * @property int $is_full
  * @property array $payments_accepted
+ * @property string $availability_start_date
+ * @property string $availability_end_date
  * @property \BenSampo\Enum\Enum|null $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -538,6 +544,7 @@ namespace App\Models{
  * @property-read int|null $bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\VehicleDocument> $documents
  * @property-read int|null $documents_count
+ * @property-read bool $is_uploaded_documents
  * @property-read string|null $photo
  * @property-read string|null $photo_thumb
  * @property-read array $photos
@@ -550,6 +557,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereAvailabilityEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereAvailabilityStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereCoordinates($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vehicle whereDescription($value)
