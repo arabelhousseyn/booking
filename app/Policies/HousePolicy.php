@@ -29,6 +29,6 @@ class HousePolicy
 
     public function update(User|Seller $user, House $house): bool
     {
-        return $house->status->is(Status::PENDING);
+        return $house->status->is([Status::PENDING, Status::PUBLISHED]);
     }
 }
