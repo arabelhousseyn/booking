@@ -29,6 +29,6 @@ class VehiclePolicy
 
     public function update(User|Seller $user, Vehicle $vehicle): bool
     {
-        return $vehicle->status->is([Status::PENDING, Status::PUBLISHED]);
+        return $vehicle->status->is(Status::PENDING) || $vehicle->status->is(Status::PUBLISHED);
     }
 }

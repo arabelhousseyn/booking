@@ -156,7 +156,7 @@ class SellerController extends Controller
     {
         $bookings = auth()->user()->bookings()->get();
 
-        $bookings->loadMissing(['bookable.seller']);
+        $bookings->loadMissing(['bookable.seller', 'user']);
 
         return BookingListResource::collection($bookings);
     }
@@ -165,7 +165,7 @@ class SellerController extends Controller
     {
         $this->authorize('view', [$booking, auth()->user()]);
 
-        $booking->load(['bookable']);
+        $booking->load(['bookable', 'user']);
 
         return BookingResource::make($booking, [], []);
     }
