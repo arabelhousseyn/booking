@@ -212,7 +212,7 @@ class UserController extends Controller
     {
         $bookings = auth()->user()->bookings()->get();
 
-        $bookings->loadMissing(['bookable.seller']);
+        $bookings->loadMissing(['bookable.seller', 'user']);
 
         return BookingListResource::collection($bookings);
     }
