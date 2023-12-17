@@ -32,12 +32,36 @@
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu">
                                 @foreach($notifications as $notification)
-                                    <li>
-                                        <a href="#">
-                                            {{\App\Enums\Notifications::fromValue($notification->type)->description}} N
-                                            : {{$notification->data['data']['reference']}}
-                                        </a>
-                                    </li>
+                                    @if($notification->data['data']['type'] == 'booking')
+                                        <li>
+                                            <a href="#">
+                                                {{\App\Enums\Notifications::fromValue($notification->type)->description}} N
+                                                : {{$notification->data['data']['reference']}}
+                                            </a>
+                                        </li>
+                                    @elseif($notification->data['data']['type'] == 'house' || $notification->data['data']['type'] == 'vehicle')
+                                        <li>
+                                            <a href="#">
+                                                {{\App\Enums\Notifications::fromValue($notification->type)->description}}
+                                                : {{$notification->data['data']['title']}}
+                                            </a>
+                                        </li>
+                                    @elseif($notification->data['data']['type'] == 'seller_dispute' || $notification->data['data']['type'] == 'user_dispute')
+                                        <li>
+                                            <a href="#">
+                                                <p>contestataire: {{$notification->data['reporter']['first_name']}} {{$notification->data['reporter']['last_name']}}</p>
+                                                {{\App\Enums\Notifications::fromValue($notification->type)->description}} N
+                                                : {{$notification->data['data']['reference']}} / {{$notification->data['dispute']}}
+                                            </a>
+                                        </li>
+                                    @elseif($notification->data['data']['type'] == 'new_seller' || $notification->data['data']['type'] == 'new_user')
+                                        <li>
+                                            <a href="#">
+                                                {{\App\Enums\Notifications::fromValue($notification->type)->description}}
+                                                : {{$notification->data['data']['first_name']}} {{$notification->data['data']['last_name']}}
+                                            </a>
+                                        </li>
+                                    @endif
                                 @endforeach
                             </ul>
                         </li>
@@ -199,12 +223,16 @@
 
     <script>
         let bookingPage = {!! json_encode(route('dashboard.bookings.index')) !!};
+        let housePage = {!! json_encode(route('dashboard.houses.index')) !!};
+        let vehiclePage = {!! json_encode(route('dashboard.vehicles.index')) !!};
+        let sellerPage = {!! json_encode(route('dashboard.sellers.index')) !!};
+        let userPage = {!! json_encode(route('dashboard.users.index')) !!};
         let notificationSoundUrl = {!! json_encode(asset('assets/notification.mp3')) !!};
 
         // ask for notification permission
         Notification.requestPermission();
 
-        var pusher = new Pusher('7d51e47c74d0f8bbc479', {
+        var pusher = new Pusher('10a28b22911cdafb7485', {
             cluster: "eu",
             encrypted: true,
         });
@@ -249,6 +277,125 @@
 
                 notification.onclick = (event) => {
                     window.open(bookingPage)
+                }
+            }
+        });
+
+        channel.bind('new_house', function (data) {
+            if (Notification.permission === 'granted') {
+                let notification = new Notification(`Nouvelle maison ajouter: ` + data.data.title);
+
+                let sound = new Audio();
+                sound.src = notificationSoundUrl;
+                sound.play();
+
+                Swal.fire({
+                    title: 'Nouvelle maison ajouter',
+                    text: 'Nouvelle maison ajouter: ' + data.data.title,
+                    icon: 'success',
+                    confirmButtonText: 'Ok!'
+                })
+
+                notification.onclick = (event) => {
+                    window.open(housePage);
+                }
+            }
+        });
+
+        channel.bind('new_vehicle', function (data) {
+            if (Notification.permission === 'granted') {
+                let notification = new Notification(`Nouvelle voiture ajouter: ` + data.data.title);
+
+                let sound = new Audio();
+                sound.src = notificationSoundUrl;
+                sound.play();
+
+                Swal.fire({
+                    title: 'Nouvelle voiture ajouter',
+                    text: 'Nouvelle voiture ajouter: ' + data.data.title,
+                    icon: 'success',
+                    confirmButtonText: 'Ok!'
+                })
+
+                notification.onclick = (event) => {
+                    window.open(housePage);
+                }
+            }
+        });
+
+        channel.bind('seller_dispute', function (data) {
+            if (Notification.permission === 'granted') {
+                let notification = new Notification(`Nouveau litige: ` + data.data.reference);
+
+                let sound = new Audio();
+                sound.src = notificationSoundUrl;
+                sound.play();
+
+                Swal.fire({
+                    title: 'Nouveau litige',
+                    text: 'Nouveau litige: ' + data.data.reference,
+                    icon: 'success',
+                    confirmButtonText: 'Ok!'
+                });
+            }
+        });
+
+        channel.bind('user_dispute', function (data) {
+            if (Notification.permission === 'granted') {
+                let notification = new Notification(`Nouveau litige: ` + data.data.reference);
+
+                let sound = new Audio();
+                sound.src = notificationSoundUrl;
+                sound.play();
+
+                Swal.fire({
+                    title: 'Nouveau litige',
+                    text: 'Nouveau litige: ' + data.data.reference,
+                    icon: 'success',
+                    confirmButtonText: 'Ok!'
+                });
+            }
+        });
+
+        channel.bind('new_seller', function (data) {
+            console.log('new_seller');
+            if (Notification.permission === 'granted') {
+                let notification = new Notification(`Nouveau vendeur: ` + data.data.first_name + ' ' + data.data.last_name);
+
+                let sound = new Audio();
+                sound.src = notificationSoundUrl;
+                sound.play();
+
+                Swal.fire({
+                    title: 'Nouveau vendeur',
+                    text: 'Nouveau vendeur: ' + data.data.first_name + ' ' + data.data.last_name,
+                    icon: 'success',
+                    confirmButtonText: 'Ok!'
+                })
+
+                notification.onclick = (event) => {
+                    window.open(sellerPage);
+                }
+            }
+        });
+
+        channel.bind('new_user', function (data) {
+            if (Notification.permission === 'granted') {
+                let notification = new Notification(`Nouveau utilisateur: ` + data.data.first_name + ' ' + data.data.last_name);
+
+                let sound = new Audio();
+                sound.src = notificationSoundUrl;
+                sound.play();
+
+                Swal.fire({
+                    title: 'Nouveau utilisateur',
+                    text: 'Nouveau utilisateur: ' + data.data.first_name + ' ' + data.data.last_name,
+                    icon: 'success',
+                    confirmButtonText: 'Ok!'
+                })
+
+                notification.onclick = (event) => {
+                    window.open(userPage);
                 }
             }
         });

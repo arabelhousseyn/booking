@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Auth\Users;
 
+use App\Events\SignupUser;
 use App\Exceptions\FileUploadedException;
 use App\Exceptions\OtpValidatedException;
 use App\Exceptions\SessionExpiredException;
@@ -17,6 +18,7 @@ use App\Http\Requests\UserSignupRequest;
 use App\Http\Resources\UserResource;
 use App\Mail\PasswordChanged;
 use App\Mail\PasswordReset;
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -126,6 +128,10 @@ class AuthController extends Controller
         } catch (\Exception $exception) {
             throw new FileUploadedException();
         }
+
+        $admins = Admin::all();
+        $user->notifySignup($admins);
+        event(new SignupUser($user->toArray()));
 
         return response()->noContent();
     }

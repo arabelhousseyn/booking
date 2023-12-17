@@ -117,6 +117,9 @@
                                                 </button>
                                             </form>
 
+                                            <a href="{{route('dashboard.bookings.edit',$booking->id)}}" class="btn btn-success"><i
+                                                    class="fa fa-edit"></i></a>
+
                                             <form action="{{route('dashboard.bookings.destroy',$booking->id)}}"
                                                   method="post">
                                                 @method('DELETE')

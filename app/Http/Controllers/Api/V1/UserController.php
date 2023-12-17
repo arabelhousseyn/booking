@@ -9,10 +9,12 @@ use App\Enums\PaymentType;
 use App\Enums\ReasonTypes;
 use App\Enums\Status;
 use App\Events\BookingDeclined;
+use App\Events\UserDispute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingPaymentStatusRequest;
 use App\Http\Requests\BookingRequest;
 use App\Http\Requests\ConfirmSatimRegistredOrderRequest;
+use App\Http\Requests\DisputeRequest;
 use App\Http\Requests\GetPropertyRequest;
 use App\Http\Requests\GetReasonsRequest;
 use App\Http\Requests\StoreBookingStateRequest;
@@ -312,6 +314,16 @@ class UserController extends Controller
         auth()->user()->confirmRegisteredPayment($request->validated('order_id'));
 
         $booking->update(['payment_status' => PaymentStatus::PAID]);
+
+        return response()->noContent();
+    }
+
+    public function openDispute(DisputeRequest $request, Booking $booking)
+    {
+        event(new UserDispute($request->input('note'), auth()->user(), $booking->toArray()));
+
+        $admins  = Admin::all();
+        $booking->notifyUserDispute($admins, $request->input('note'), auth()->user(), $booking);
 
         return response()->noContent();
     }

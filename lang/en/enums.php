@@ -122,5 +122,11 @@ return [
     Notifications::class => [
         Notifications::BOOKING_DECLINED => 'Booking declined',
         Notifications::BOOKING_TERMINATED => 'Booking terminated',
+        Notifications::NEW_HOUSE => 'New house',
+        Notifications::NEW_VEHICLE => 'New vehicle',
+        Notifications::SELLER_DISPUTE => 'Seller dispute',
+        Notifications::USER_DISPUTE => 'User dispute',
+        Notifications::SIGNUP_SELLER => 'Signup seller',
+        Notifications::SIGNUP_USER => 'Signup user',
     ],
 ];

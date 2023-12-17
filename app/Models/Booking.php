@@ -7,6 +7,9 @@ use App\Enums\ModelType;
 use App\Enums\PaymentStatus;
 use App\Enums\PaymentType;
 use App\Notifications\BookingDeclined;
+use App\Notifications\BookingTerminated;
+use App\Notifications\SellerDispute;
+use App\Notifications\UserDispute;
 use App\Traits\UUID;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -145,6 +148,27 @@ class Booking extends Model implements HasMedia
     {
         $admins->each(function (Admin $admin) {
             $admin->notify(new BookingDeclined($this));
+        });
+    }
+
+    public function notifyTermination(Collection $admins): void
+    {
+        $admins->each(function (Admin $admin) {
+            $admin->notify(new BookingTerminated($this));
+        });
+    }
+
+    public function notifySellerDispute(Collection $admins, string $dispute, mixed $reporter, self $booking): void
+    {
+        $admins->each(function (Admin $admin) use ($dispute, $reporter, $booking) {
+            $admin->notify(new SellerDispute($dispute, $reporter, $booking));
+        });
+    }
+
+    public function notifyUserDispute(Collection $admins, string $dispute, mixed $reporter, self $booking): void
+    {
+        $admins->each(function (Admin $admin) use ($dispute, $reporter, $booking) {
+            $admin->notify(new UserDispute($dispute, $reporter, $booking));
         });
     }
 

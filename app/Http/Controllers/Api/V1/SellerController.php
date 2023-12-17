@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Api\V1;
 use App\Enums\BookingStatus;
 use App\Enums\Status;
 use App\Events\BookingTerminated;
+use App\Events\NewHouse;
+use App\Events\NewVehicle;
+use App\Events\SellerDispute;
 use App\Exceptions\FileUploadedException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DisputeRequest;
 use App\Http\Requests\SellerUpdateProfileRequest;
 use App\Http\Requests\StoreHouseRequest;
 use App\Http\Requests\StoreVehicleDocumentsRequest;
@@ -19,6 +23,7 @@ use App\Http\Resources\BookingResource;
 use App\Http\Resources\HouseResource;
 use App\Http\Resources\SellerResource;
 use App\Http\Resources\VehicleResource;
+use App\Models\Admin;
 use App\Models\Booking;
 use App\Models\House;
 use App\Models\Seller;
@@ -41,6 +46,11 @@ class SellerController extends Controller
             ->each(function ($fileAdder) {
                 $fileAdder->toMediaCollection('vehicle');
             });
+
+        event(new NewVehicle($vehicle));
+
+        $admins  = Admin::all();
+        auth()->user()->notifyVehicle($admins, $vehicle);
 
         return VehicleResource::make($vehicle);
     }
@@ -107,6 +117,11 @@ class SellerController extends Controller
             ->each(function ($fileAdder) {
                 $fileAdder->toMediaCollection('house');
             });
+
+        event(new NewHouse($house));
+
+        $admins  = Admin::all();
+        auth()->user()->notifyHouse($admins, $house);
 
         return HouseResource::make($house);
     }
@@ -187,7 +202,19 @@ class SellerController extends Controller
                 });
         }
 
+        $admins  = Admin::all();
+        $booking->notifyTermination($admins);
         event(new BookingTerminated($booking->toArray()));
+
+        return response()->noContent();
+    }
+
+    public function openDispute(DisputeRequest $request, Booking $booking): Response
+    {
+        event(new SellerDispute($request->input('note'), auth()->user(), $booking->toArray()));
+
+        $admins  = Admin::all();
+        $booking->notifySellerDispute($admins, $request->input('note'), auth()->user(), $booking);
 
         return response()->noContent();
     }

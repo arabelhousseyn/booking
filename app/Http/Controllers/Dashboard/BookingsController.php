@@ -60,7 +60,13 @@ class BookingsController extends Controller
     {
         $status = ['status' => BookingStatus::ACCEPTED];
 
-        $booking->update(array_merge($request->validated(), $status));
+        if ($booking->bookable_type == ModelType::VEHICLE) {
+            $property = Vehicle::where('id', '=', $request->input('bookable_id'))->first();
+        } elseif ($booking->bookable_type == ModelType::HOUSE) {
+            $property = House::where('id', '=', $request->input('bookable_id'))->first();
+        }
+
+        $booking->update(array_merge($request->validated(), $status, ['seller_id' => $property->seller()->first()->id]));
 
         Session::put('created', 'Opération effectué');
 

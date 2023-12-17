@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use App\Notifications\NewHouse;
+use App\Notifications\NewVehicle;
+use App\Notifications\SignupSeller;
 use App\Traits\UUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -108,5 +112,26 @@ class Seller extends Authenticatable implements HasMedia
                         ->height(80);
                 }
             });
+    }
+
+    public function notifySignup(Collection $admins): void
+    {
+        $admins->each(function (Admin $admin) {
+            $admin->notify(new SignupSeller($this));
+        });
+    }
+
+    public function notifyHouse(Collection $admins, House $house): void
+    {
+        $admins->each(function (Admin $admin) use($house) {
+            $admin->notify(new NewHouse($house));
+        });
+    }
+
+    public function notifyVehicle(Collection $admins, Vehicle $vehicle): void
+    {
+        $admins->each(function (Admin $admin) use($vehicle) {
+            $admin->notify(new NewVehicle($vehicle));
+        });
     }
 }

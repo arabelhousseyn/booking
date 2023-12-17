@@ -42,6 +42,7 @@ Route::prefix('/v1/users')->group(function () {
 
 
         Route::controller(UserController::class)->group(function () {
+            Route::post('/open-dispute/{booking}', 'openDispute')->name('sellers.open-dispute');
             // favorites
             Route::post('/store-favorite', 'storeFavorite')->name('users.store-favorites');
             Route::get('/favorites', 'getFavorites')->name('users.get-favorites');
@@ -96,6 +97,7 @@ Route::prefix('/v1/sellers')->group(function () {
             Route::get('/booking/{booking}', 'viewBooking')->name('users.view-booking');
             Route::get('/bookings', 'bookings')->name('sellers.bookings');
             Route::post('/terminate-booking/{booking}', 'terminateBooking')->name('sellers.terminate-booking');
+            Route::post('/open-dispute/{booking}', 'openDispute')->name('sellers.open-dispute');
 
             //profile
             Route::post('/profile', 'updateProfile')->name('sellers-update-profile');
