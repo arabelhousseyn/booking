@@ -47,7 +47,7 @@ class SellerController extends Controller
                 $fileAdder->toMediaCollection('vehicle');
             });
 
-        event(new NewVehicle($vehicle));
+        event(new NewVehicle($vehicle->toArray()));
 
         $admins  = Admin::all();
         auth()->user()->notifyVehicle($admins, $vehicle);
@@ -118,7 +118,7 @@ class SellerController extends Controller
                 $fileAdder->toMediaCollection('house');
             });
 
-        event(new NewHouse($house));
+        event(new NewHouse($house->toArray()));
 
         $admins  = Admin::all();
         auth()->user()->notifyHouse($admins, $house);
