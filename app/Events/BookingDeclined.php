@@ -25,6 +25,7 @@ class BookingDeclined implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
+        $this->booking['type'] = 'booking';
         return [
             'data' => $this->booking,
         ];

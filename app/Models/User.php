@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Enums\PaymentType;
 use App\Exceptions\CoordinatesException;
 use App\Exceptions\PaymentException;
+use App\Notifications\SignupUser;
 use App\Support\ApplyCouponCodeBuilder;
 use App\Traits\UUID;
 use Carbon\Carbon;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use KMLaravel\GeographicalCalculator\Facade\GeoFacade;
@@ -295,5 +297,12 @@ class User extends Authenticatable implements HasMedia
     public static function calculatePrice(array $data): float
     {
         return (new User)->CalculateBookingPrice($data)['calculated_price'];
+    }
+
+    public function notifySignup(Collection $admins): void
+    {
+        $admins->each(function (Admin $admin) {
+            $admin->notify(new SignupUser($this));
+        });
     }
 }

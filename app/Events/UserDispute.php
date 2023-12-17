@@ -7,32 +7,46 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class BookingTerminated implements ShouldBroadcast
+class UserDispute implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public array $booking)
+    /**
+     * Create a new event instance.
+     *
+     * @return void
+     */
+    public function __construct(public string $dispute, public mixed $reporter, public array $booking)
     {
+        //
     }
 
-    public function broadcastOn(): Channel
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return \Illuminate\Broadcasting\Channel|array
+     */
+    public function broadcastOn(): Channel|array
     {
         return new Channel('booking');
     }
 
     public function broadcastWith(): array
     {
-        $this->booking['type'] = 'booking';
+        $this->booking['type'] = 'user_dispute';
         return [
             'data' => $this->booking,
+            'dispute' => $this->dispute,
+            'reporter' => $this->reporter->toArray(),
         ];
     }
 
     public function broadcastAs(): string
     {
-        return 'terminated_booking';
+        return 'user_dispute';
     }
 }

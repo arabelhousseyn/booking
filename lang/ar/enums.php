@@ -122,5 +122,11 @@ return [
     Notifications::class => [
         Notifications::BOOKING_DECLINED => 'رفض الحجز',
         Notifications::BOOKING_TERMINATED => 'تم إنهاء الحجز',
+        Notifications::NEW_HOUSE => 'منزل جديد',
+        Notifications::NEW_VEHICLE => 'مركبة جديدة',
+        Notifications::SELLER_DISPUTE => 'نزاع البائع',
+        Notifications::USER_DISPUTE => 'نزاع المستخدم',
+        Notifications::SIGNUP_SELLER => 'الاشتراك بائع',
+        Notifications::SIGNUP_USER => 'تسجيل المستخدم',
     ],
 ];

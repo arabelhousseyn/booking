@@ -122,5 +122,11 @@ return [
     Notifications::class => [
         Notifications::BOOKING_DECLINED => 'Réservation refusée',
         Notifications::BOOKING_TERMINATED => 'Réservation terminée',
+        Notifications::NEW_HOUSE => 'Nouvelle maison',
+        Notifications::NEW_VEHICLE => 'Nouvelle voiture',
+        Notifications::SELLER_DISPUTE => 'Litige du vendeur',
+        Notifications::USER_DISPUTE => 'Litige  d\'utilisateurs',
+        Notifications::SIGNUP_SELLER => 'Vendeur inscrit',
+        Notifications::SIGNUP_USER => 'Utilisateur inscrit',
     ],
 ];

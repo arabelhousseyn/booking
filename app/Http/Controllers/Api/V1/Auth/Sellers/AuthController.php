@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Auth\Sellers;
 
+use App\Events\SignupSeller;
 use App\Exceptions\LoginException;
 use App\Exceptions\OtpValidatedException;
 use App\Exceptions\SessionExpiredException;
@@ -15,6 +16,7 @@ use App\Http\Requests\SellerSignupRequest;
 use App\Http\Resources\SellerResource;
 use App\Mail\PasswordChanged;
 use App\Mail\PasswordReset;
+use App\Models\Admin;
 use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Http\Response;
@@ -72,6 +74,11 @@ class AuthController extends Controller
         if ($seller->otp == $request->validated('otp')) {
             $seller->update(['otp' => null, 'phone_verified_at' => now()]);
             $seller->update(['signup_step' => '2']);
+
+            $admins = Admin::all();
+            $seller->notifySignup($admins);
+            event(new SignupSeller($seller->toArray()));
+
             return response()->noContent();
         }
 

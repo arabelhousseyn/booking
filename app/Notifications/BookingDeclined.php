@@ -32,6 +32,7 @@ class BookingDeclined extends Notification
 
     public function toArray($notifiable): array
     {
+        $this->booking->type = 'booking';
         return [
             'data' => $this->booking,
         ];
