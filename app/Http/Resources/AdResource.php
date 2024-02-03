@@ -18,7 +18,7 @@ class AdResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'photos' => $this->photos,
+            'photo' => $this->photo,
         ];
     }
 }
