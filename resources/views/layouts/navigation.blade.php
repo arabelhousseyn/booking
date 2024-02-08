@@ -48,6 +48,7 @@
                                         </li>
                                     @elseif($notification->data['data']['type'] == 'seller_dispute' || $notification->data['data']['type'] == 'user_dispute')
                                         <li>
+                                            <img src="{{$notification->data['image']}}">
                                             <a href="#">
                                                 <p>contestataire: {{$notification->data['reporter']['first_name']}} {{$notification->data['reporter']['last_name']}}</p>
                                                 {{\App\Enums\Notifications::fromValue($notification->type)->description}} N
