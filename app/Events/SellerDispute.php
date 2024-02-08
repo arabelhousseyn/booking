@@ -20,7 +20,7 @@ class SellerDispute implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(public string $dispute, public mixed $reporter, public array $booking)
+    public function __construct(public string $dispute, public string $image, public mixed $reporter, public array $booking)
     {
         //
     }
@@ -42,6 +42,7 @@ class SellerDispute implements ShouldBroadcast
             'data' => $this->booking,
             'dispute' => $this->dispute,
             'reporter' => $this->reporter->toArray(),
+            'image' => $this->image
         ];
     }
 

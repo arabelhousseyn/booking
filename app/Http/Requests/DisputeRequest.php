@@ -25,6 +25,7 @@ class DisputeRequest extends FormRequest
     {
         return [
             'note' => ['required'],
+            'image' => ['required', 'file']
         ];
     }
 }

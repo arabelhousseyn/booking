@@ -320,7 +320,11 @@ class UserController extends Controller
 
     public function openDispute(DisputeRequest $request, Booking $booking)
     {
-        event(new UserDispute($request->input('note'), auth()->user(), $booking->toArray()));
+        $uniqid = uniqid();
+        $image = $request->file('image')->storeAs('dispute', $uniqid . '.jpg');
+        $image = config('app.url') . $image;
+
+        event(new UserDispute($request->input('note'), $image, auth()->user(), $booking->toArray()));
 
         $admins  = Admin::all();
         $booking->notifyUserDispute($admins, $request->input('note'), auth()->user(), $booking);
