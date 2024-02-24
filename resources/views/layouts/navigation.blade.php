@@ -48,7 +48,7 @@
                                         </li>
                                     @elseif($notification->data['data']['type'] == 'seller_dispute' || $notification->data['data']['type'] == 'user_dispute')
                                         <li>
-                                            @if($notification->data['image'])
+                                            @if(@$notification->data['image'])
                                                 <img src="{{$notification->data['image']}}">
                                             @endif
                                             <a href="#">
