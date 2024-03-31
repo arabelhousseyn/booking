@@ -302,9 +302,12 @@ class UserController extends Controller
 
     public function bookingPaymentStatus(BookingPaymentStatusRequest $request, Booking $booking): Response
     {
+        /** @var House|Vehicle $bookable */
+        $bookable = Relation::$morphMap[$booking->bookable_type]::find($booking->bookable_id);
+
         $booking->update($request->validated());
 
-        $booking->update(['status' => Status::BOOKED]);
+        $bookable->update(['status' => Status::BOOKED]);
 
         return response()->noContent();
     }
