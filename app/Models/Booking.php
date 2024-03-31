@@ -58,6 +58,7 @@ class Booking extends Model implements HasMedia
         'note',
         'status',
         'payment_status',
+        'payment_details'
     ];
 
 
