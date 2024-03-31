@@ -55,6 +55,7 @@ class BookingResource extends JsonResource
             'end_date' => $this->booking->end_date,
             'status' => $this->booking->status,
             'payment_status' => $this->booking->payment_status,
+            'payment_details' => $this->booking->payment_details,
             ...$satimResponse,
             ...$stripeResponse,
             'created_at' => $this->booking->created_at->toISOString(),
