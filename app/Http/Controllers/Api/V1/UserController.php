@@ -166,16 +166,16 @@ class UserController extends Controller
             if ($request->validated('payment_type') == PaymentType::DAHABIA) {
                 $satimPaymentRegistration = auth()->user()->registerPayment($booking, $request->validated('return_url'));
                 $booking->update(['satim_order_id' => $satimPaymentRegistration['orderId']]);
+                $booking->update(['payment_details' => $satimPaymentRegistration]);
             } elseif ($request->validated('payment_type') == PaymentType::VISA || $request->validated('payment_type') == PaymentType::MASTER_CARD) {
                 $stripePayment['stripe_url'] = route('stripe.payment', [auth()->user(), $booking]);
+                $booking->update(['payment_details' => $stripePayment]);
             }
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
             throw $exception;
         }
-
-        $bookable->update(['status' => Status::BOOKED]);
 
         $booking->load(['bookable']);
 
@@ -303,6 +303,8 @@ class UserController extends Controller
     public function bookingPaymentStatus(BookingPaymentStatusRequest $request, Booking $booking): Response
     {
         $booking->update($request->validated());
+
+        $booking->update(['status' => Status::BOOKED]);
 
         return response()->noContent();
     }
