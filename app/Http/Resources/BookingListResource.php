@@ -29,6 +29,8 @@ class BookingListResource extends JsonResource
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'status' => $this->status,
+            'payment_status' => $this->payment_status,
+            'payment_details' => $this->payment_details,
             'created_at' => $this->created_at->toISOString(),
         ];
     }
