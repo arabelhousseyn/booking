@@ -78,6 +78,7 @@ class Booking extends Model implements HasMedia
         'payment_status' => PaymentStatus::class,
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'payment_details' => 'array'
     ];
 
     /**
