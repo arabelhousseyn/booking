@@ -35,7 +35,6 @@ class BookingRequest extends FormRequest
             'bookable_type' => ['bail', 'required', Rule::in([ModelType::HOUSE, ModelType::VEHICLE])],
             'bookable_id' => [
                 'bail', 'required', 'uuid', 'poly_exists:bookable_type',
-                Rule::unique('bookings')->where('user_id', auth()->id())->where('seller_id', $bookable->seller_id)->where('bookable_type', $this->input('bookable_type')),
             ],
             'payment_type' => ['bail', 'required', Rule::in(PaymentType::DAHABIA, PaymentType::MASTER_CARD, PaymentType::VISA)],
             'start_date' => ['bail', 'required', 'date', 'date_format:Y-m-d H:i:s'],
