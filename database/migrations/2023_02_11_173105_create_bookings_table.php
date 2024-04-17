@@ -48,7 +48,6 @@ return new class() extends Migration {
             $table->string('status');
             $table->string('payment_status');
 
-            $table->unique(['user_id', 'seller_id', 'bookable_type', 'bookable_id']);
             $table->timestamps();
         });
     }
